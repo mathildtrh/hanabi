@@ -11,6 +11,8 @@ class AI:
 
 
 class Cheater(AI):
+    
+
     """
     This player can see his own cards!
 
