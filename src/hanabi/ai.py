@@ -31,7 +31,7 @@ class Cheater(AI):
                      enumerate(game.current_hand.cards)
                      if game.piles[card.color]+1 == card.number ]
 
-        if playable:
+        if playable: #<=> playable n'est pas vide
             # sort by ascending number, then newest
             playable.sort(key=lambda p: (p[1], -p[0]))
             print ('Cheater would play:', "p%d"%playable[0][0], end=' ')
@@ -122,22 +122,34 @@ class Cheater(AI):
         return act
 
 
+
+    
 class Random(AI):
+    """
+    This AI plays randomly, which is dumb, 
+    but still tries not to make the game fail too much (ie does not play a card that it knows won't fit).
+
+    Algorithm : 
+        * if 0 < blue_coins <= 8 pick randomly between play, discard or clue.
+            * if play is chosen, pick randomly between the unclued cards and other cards that won't make the game fail (ie : +1 red_coin)
+            * if clue is chosen, give clue on a random card among the ones unclued.
+            * if discard is chosen, discard any card in hand
+        * if blue_coins == 0 pick randomly between play or discard.
+    
 
     """
-    This player will play randomly
-    try to not lose but won't try to win
-    Algorithm:
-     (randomly choose one of actions below)
-     * choose from the cards which don't belong to cards not playable
-     * discard
-     * give a clue
-    """
 
-    def play(self):
+     def play(self):
+        "Return a random action."
         game = self.game
-        action = random.randint(1,3) # 1 play, 2 discard, 3 clue
+        
+                #if blue coins are not restrictive, choose randomly
+        if (game.blue_coins>0) and (game.blue_coins<=8):
+            action = random.randint(1,3) # 1 = play; 2 = discard ; 3 = clue
 
+        else:#no more blue coins
+            action = random.randint(1,2)
+            
         while action==1:
             "play one card"
             # not play the card that not match the pile now
@@ -168,10 +180,32 @@ class Random(AI):
                     print ('Random would play:', "p%d"%(k+1), end=' ')
                     return "p%d"%(k+1)
                     break
-             
 
-        while action==2:
-            pass
+              
+        while action == 2:
+            to_discard = random.randint(1, 5)
+            return ("d%d"%to_discard)
 
-        while action==3:
-            pass
+        while action == 3:
+            unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
+            
+            if unclued :
+                number_card = random.randint(1,len(unclued))
+                random_card = unclued[number_card-1].card
+                
+                if random_card.color_clue :
+                    clue = "c%d"%random_card.number
+                elif random_card.number_clue :
+                    clue = "c%s"%random_card.color
+                else :
+                    piece = random.randint(1,2)
+                    if piece == 1 :
+                        clue = "c%d"%random_card.number
+                    else :
+                        clue = "c%s"%random_card.color
+                print("Random would clue: ", clue)
+                return
+
+            else action = random.randint(1,3)
+
+
