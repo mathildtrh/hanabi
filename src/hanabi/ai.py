@@ -121,6 +121,15 @@ class Cheater(AI):
 class Random(AI):
     """
     This AI plays randomly, which is dumb, 
-    but still tries not to make the game fail too much (ie does not play a card that it knows won't fit)
+    but still tries not to make the game fail too much (ie does not play a card that it knows won't fit).
+
+    Algorithm : 
+        * if 0 < blue_coins <= 8 pick randomly between play, discard or clue.
+            * if play is chosen, pick randomly between the unclued cards and other cards that won't make the game fail (ie : +1 red_coin)
+            * if clue is chosen, give clue on a random card among the ones unclued.
+            * if discard is chosen, discard any card in hand
+        * if blue_coins == 0 pick randomly between play or discard.
+    
 
     """
+
