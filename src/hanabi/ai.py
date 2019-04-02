@@ -166,7 +166,9 @@ class Random(AI):
                         if (k+1,game.current_hand.cards[k]) in not_playable:
                             k = k + 1 
                     print ('Random would play:', "p%d"%(k+1), end=' ')
-                    return "p%d"%(k+1)   
+                    return "p%d"%(k+1)
+                    break
+             
 
         while action==2:
             pass
