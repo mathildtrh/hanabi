@@ -2,6 +2,8 @@
 Artificial Intelligence to play Hanabi.
 """
 
+import random
+
 class AI:
     """
     AI base class: some basic functions, game analysis.
@@ -11,6 +13,7 @@ class AI:
 
 
 class Cheater(AI):
+
     """
     This player can see his own cards!
 
@@ -120,13 +123,6 @@ class Cheater(AI):
 
 
 
-
-
-
-
-
-
-
     
 class Random(AI):
     """
@@ -153,6 +149,37 @@ class Random(AI):
 
         else:#no more blue coins
             action = random.randint(1,2)
+            
+        while action==1:
+            "play one card"
+            # not play the card that not match the pile now
+            # select randomly from unknown cards or the matched cards
+            not_playable = [ (i+1, card.number) for (i,card) in
+                     enumerate(game.current_hand.cards)
+                     if card.number_clue==True and game.piles[card.color]+1 != card.number ]
+    
+            num_not_playable = len(not_playable)
+            if num_not_playable==5:
+                # cannot play, so do action 2 or 3
+                action = random.randint(2,3)
+                break
+            else:
+                """
+                # find card playable
+                playable = [ (i+1, card.number) for (i,card) in
+                            enumerate(game.current_hand.cards)
+                            if card.number_clue==True and game.piles[card.color]+1 == card.number ]
+                """
+                # play randomly a card
+                card_to_play = random.randint(1, 5-num_not_playable)
+                k = 0
+                for j in range(0, card_to_play):
+                        k = k + 1
+                        if (k+1,game.current_hand.cards[k]) in not_playable:
+                            k = k + 1 
+                    print ('Random would play:', "p%d"%(k+1), end=' ')
+                    return "p%d"%(k+1)
+                    break
 
               
         while action == 2:
