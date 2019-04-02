@@ -28,7 +28,7 @@ class Cheater(AI):
                      enumerate(game.current_hand.cards)
                      if game.piles[card.color]+1 == card.number ]
 
-        if playable:
+        if playable: #<=> playable n'est pas vide
             # sort by ascending number, then newest
             playable.sort(key=lambda p: (p[1], -p[0]))
             print ('Cheater would play:', "p%d"%playable[0][0], end=' ')
@@ -118,6 +118,16 @@ class Cheater(AI):
         print('Cheater is doomed and must discard:', act, myprecious)
         return act
 
+
+
+
+
+
+
+
+
+
+    
 class Random(AI):
     """
     This AI plays randomly, which is dumb, 
@@ -132,4 +142,27 @@ class Random(AI):
     
 
     """
+     def play(self):
+        "Return a random action."
+        game = self.game
 
+        #if blue coins are not restrictive, choose randomly
+        if (game.blue_coins>0) and (game.blue_coins<=8):
+            action = random.randint(1,3) # 1 = play; 2 = discard ; 3 = clue
+            if action == 1:
+                return()
+            elif action == 2:
+                to_discard = random.randint(1, 5)
+                return ("d%d"%to_discard)
+            elif action == 3:
+                return()
+            else:
+                return()
+
+        else:#no more blue coins
+            action = random.randint(1,2)
+            if action == 1:
+                return()
+            elif action == 2:
+                to_discard = random.randint(1, 5)
+                return ("d%d"%to_discard)
