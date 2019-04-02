@@ -118,3 +118,9 @@ class Cheater(AI):
         print('Cheater is doomed and must discard:', act, myprecious)
         return act
 
+class Random(AI):
+    """
+    This AI plays randomly, which is dumb, 
+    but still tries not to make the game fail too much (ie does not play a card that it knows won't fit)
+
+    """
