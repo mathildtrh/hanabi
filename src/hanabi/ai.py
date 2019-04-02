@@ -132,4 +132,38 @@ class Random(AI):
     
 
     """
+    
+    def play(self):
+        "Return a random action"
+        game = self.game
+        action = random.randint(1,3) #1 : play, 2 : discard, 3 : clue
+
+        while action == 3:
+            unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
+            
+            if unclued :
+                number_card = random.randint(1,len(unclued))
+                random_card = unclued[number_card-1].card
+                
+                if random_card.color_clue :
+                    clue = "c%d"%random_card.number
+                elif random_card.number_clue :
+                    clue = "c%s"%random_card.color
+                else :
+                    piece = random.randint(1,2)
+                    if piece == 1 :
+                        clue = "c%d"%random_card.number
+                    else :
+                        clue = "c%s"%random_card.color
+                print("Random would clue: ", clue)
+                return
+
+            else action = random.randint(1,3)
+
+                    
+
+
+
+
+
 
