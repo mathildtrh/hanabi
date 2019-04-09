@@ -47,6 +47,10 @@ class GameTest(unittest.TestCase):
         for i in range (3):
             self.assertEqual(len(game.hands[i],5))
         self.assertEqual(len(game.discard_pile), 0)
+        game=hanabi.Game(4)
+        for i in range (4):
+            self.assertEqual(len(game.hands[i],4))
+
 
 
 
