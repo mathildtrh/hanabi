@@ -162,7 +162,7 @@ class Random(AI):
             if num_not_playable==5:
                 # cannot play, so do action 2 or 3
                 action = random.randint(2,3)
-                break
+                
             else:
                 """
                 # find card playable
@@ -179,13 +179,13 @@ class Random(AI):
                             k = k + 1 
                     print ('Random would play:', "p%d"%(k+1), end=' ')
                     return "p%d"%(k+1)
-                break
+              
 
               
         while action == 2:
             to_discard = random.randint(1, 5)
             return ("d%d"%to_discard)
-            break
+
 
         while action == 3:
             unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
@@ -208,6 +208,6 @@ class Random(AI):
                 return
 
             else action = random.randint(1,3)
-            break
+       
 
 
