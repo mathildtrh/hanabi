@@ -2,6 +2,8 @@
 Artificial Intelligence to play Hanabi.
 """
 
+import random
+
 class AI:
     """
     AI base class: some basic functions, game analysis.
@@ -11,6 +13,7 @@ class AI:
 
 
 class Cheater(AI):
+
     """
     This player can see his own cards!
 
@@ -28,7 +31,7 @@ class Cheater(AI):
                      enumerate(game.current_hand.cards)
                      if game.piles[card.color]+1 == card.number ]
 
-        if playable:
+        if playable: #<=> playable n'est pas vide
             # sort by ascending number, then newest
             playable.sort(key=lambda p: (p[1], -p[0]))
             print ('Cheater would play:', "p%d"%playable[0][0], end=' ')
@@ -118,6 +121,7 @@ class Cheater(AI):
         print('Cheater is doomed and must discard:', act, myprecious)
         return act
 
+
 class Random(AI):
     """
     This AI plays randomly, which is dumb, 
@@ -132,13 +136,58 @@ class Random(AI):
     
 
     """
-    
-    def play(self):
-        "Return a random action"
+
+     def play(self):
+        "Return a random action."
         game = self.game
-        action = random.randint(1,3) #1 : play, 2 : discard, 3 : clue
+        
+                #if blue coins are not restrictive, choose randomly
+        if (game.blue_coins>0) and (game.blue_coins<=8):
+            action = random.randint(1,3) # 1 = play; 2 = discard ; 3 = clue
+
+        else:#no more blue coins
+            action = random.randint(1,2)
+            
+        while action==1:
+            "play one card"
+            # not play the card that not match the pile now
+            # select randomly from unknown cards or the matched cards
+            not_playable = [ (i+1, card.number) for (i,card) in
+                     enumerate(game.current_hand.cards)
+                     if card.number_clue==True and game.piles[card.color]+1 != card.number ]
+    
+            num_not_playable = len(not_playable)
+            if num_not_playable==5:
+                # cannot play, so do action 2 or 3
+                action = random.randint(2,3)
+                break
+            else:
+                """
+                # find card playable
+                playable = [ (i+1, card.number) for (i,card) in
+                            enumerate(game.current_hand.cards)
+                            if card.number_clue==True and game.piles[card.color]+1 == card.number ]
+                """
+                # play randomly a card
+                card_to_play = random.randint(1, 5-num_not_playable)
+                k = 0
+                for j in range(0, card_to_play):
+                        k = k + 1
+                        if (k+1,game.current_hand.cards[k]) in not_playable:
+                            k = k + 1 
+                    print ('Random would play:', "p%d"%(k+1), end=' ')
+                    return "p%d"%(k+1)
+                    break
+
+              
+        while action == 2:
+            "discard one card"
+            to_discard = random.randint(1, 5)
+            print('Random would discard:',"%d"%(to_discard), end=' ')
+            return ("d%d"%to_discard)
 
         while action == 3:
+            "clue one card that has not been clued yet"
             unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
             
             if unclued :
@@ -159,11 +208,5 @@ class Random(AI):
                 return
 
             else action = random.randint(1,3)
-
-                    
-
-
-
-
 
 
