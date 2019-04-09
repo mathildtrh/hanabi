@@ -2,6 +2,8 @@
 Artificial Intelligence to play Hanabi.
 """
 
+import random
+
 class AI:
     """
     AI base class: some basic functions, game analysis.
@@ -11,6 +13,7 @@ class AI:
 
 
 class Cheater(AI):
+
     """
     This player can see his own cards!
 
@@ -28,7 +31,7 @@ class Cheater(AI):
                      enumerate(game.current_hand.cards)
                      if game.piles[card.color]+1 == card.number ]
 
-        if playable:
+        if playable: #<=> playable n'est pas vide
             # sort by ascending number, then newest
             playable.sort(key=lambda p: (p[1], -p[0]))
             print ('Cheater would play:', "p%d"%playable[0][0], end=' ')
@@ -118,6 +121,7 @@ class Cheater(AI):
         print('Cheater is doomed and must discard:', act, myprecious)
         return act
 
+
 class Random(AI):
     """
     This AI plays randomly, which is dumb, 
@@ -132,8 +136,13 @@ class Random(AI):
     
 
     """
+<<<<<<< HEAD
     
          def play(self):
+=======
+
+     def play(self):
+>>>>>>> f2418eade045c4e18283f7386f183e19391ed314
         "Return a random action."
         game = self.game
         
@@ -204,11 +213,5 @@ class Random(AI):
                 return
 
             else action = random.randint(1,3)
-
-                    
-
-
-
-
 
 
