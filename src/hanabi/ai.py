@@ -122,8 +122,6 @@ class Cheater(AI):
         return act
 
 
-
-    
 class Random(AI):
     """
     This AI plays randomly, which is dumb, 
@@ -138,8 +136,13 @@ class Random(AI):
     
 
     """
+<<<<<<< HEAD
+    
+         def play(self):
+=======
 
      def play(self):
+>>>>>>> f2418eade045c4e18283f7386f183e19391ed314
         "Return a random action."
         game = self.game
         
