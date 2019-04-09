@@ -38,6 +38,17 @@ class GameTest(unittest.TestCase):
         self.predefined_game = hanabi.Game()
         # ...
 
+    def test_init(self):
+        #start a game
+        game=hanabi.Game(3)
+        self.assertEqual(len(game.hands),3)
+        for i in range (3):
+            self.assertEqual(len(game.hands[i],5))
+        self.assertEqual(len(game.discard_pile), 0)
+        
+        
+    
+
 
     # lines 193, 227
     def test_A1(self):
