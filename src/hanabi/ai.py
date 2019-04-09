@@ -183,10 +183,13 @@ class Random(AI):
 
               
         while action == 2:
+            "discard one card"
             to_discard = random.randint(1, 5)
+            print('Random would discard:',"%d"%(to_discard), end=' ')
             return ("d%d"%to_discard)
 
         while action == 3:
+            "clue one card that has not been clued yet"
             unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
             
             if unclued :
