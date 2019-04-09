@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-#attention à bien faire un "make module"
-
-import hanabi
-import hanabi.my-new_random_ai as new_ai
-
-game = hanabi.Game(2) #2 players
-
-ai = new_ai.random(game)
-
-ai.play()
-
-#pour jouer juste un tour
-game.turn(["conseil"])
-
-
-#pour jouer toute une partie d'un coup
-game.run()
-=======
-
 # bien faire un "make module"
 
 import hanabi
@@ -43,6 +23,3 @@ game.turn(['c1', 'c2', 'p2'])  # ... ou toute une serie
 game.ai = ai
 game.run()
 
-
-
->>>>>>> ce575cf159cbddcdd9e9d8ecdd848d238959ef26
