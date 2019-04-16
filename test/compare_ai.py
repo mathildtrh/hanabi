@@ -1,27 +1,33 @@
 # ce petit bout de code est fait pour comparer les performances de 2 ou plusieurs IA
 
-# on cherche à connaitre :
+# on cherche a connaitre :
 #score maxi 
 #score mini
 #score moyen
-#fréquence du score parfait
-#fréquence de défaite
-#raisons des défaites
+#frequence du score parfait
+#frequence de defaite
+#raisons des defaites
 
+# si on veut enlever les affichages des jeux pendant cette execution il faut redefinir print dans deck.py
+#def print(*args, **kwargs):
+#    pass
 
 import hanabi
 import hanabi.ai
 
-# attention il faut bien importer toutes les IA qu'on veut comparer si elles sont dans des fichiers différents
+# attention il faut bien importer toutes les IA qu on veut comparer si elles sont dans des fichiers differents
 
 def compare (list_of_ai):
     
     stats = [[0, 25, 0, 0, 0]*len(list_of_ai)] #max_score, min_score, moy_score, freq_25, freq_defeat
-    i = 0
+    
     for ai in list_of_ai:
+        i = 0
         for j in range (1000):
+            print("Game numero", j, " avec IA numero",i)
             game = hanabi.Game(2)  # 2 players
-            game.ai = ai
+            game.ai = hanabi.ai.Cheater(game)
+            ai.game = game
             game.run()
             
             if game.score > stats[i][0]:
@@ -35,5 +41,5 @@ def compare (list_of_ai):
                 stats [i][4] += 1
         i += 1
     
-    return ()
+    return (stats)
 
