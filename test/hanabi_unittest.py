@@ -40,6 +40,7 @@ class GameTest(unittest.TestCase):
         # ...
 
     def test_init(self):
+
         game=hanabi.Game(3)
         self.assertEqual(len(game.hands),3)
         for i in range (3):
@@ -69,6 +70,18 @@ class GameTest(unittest.TestCase):
 
         # self.predefined_game.load("game2.py")
         # self.assertEqual(self.predifined_game.cards, game1.cards[5:])
+
+        #start a game _ essai de Camille
+        #game=hanabi.Game(2)
+        #self.assertEqual(len(game.hands),2)
+        #game=hanabi.Game(3)
+        #self.assertEqual(len(game.hands),3)
+        #for i in range (3):
+        #    self.assertEqual(len(game.hands[i],5))
+        #self.assertEqual(len(game.discard_pile), 0)
+        #game=hanabi.Game(4)
+        #for i in range (4):
+        #    self.assertEqual(len(game.hands[i],4))
 
     # lines 193, 227
     def test_A1(self):
