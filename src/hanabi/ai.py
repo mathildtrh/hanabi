@@ -206,8 +206,8 @@ class Random(AI):
                 print("Random would clue: ", clue)
 
                 return
-
-            else action = random.randint(1,3)
+            else : 
+                action = random.randint(1,3)
        
 
 
