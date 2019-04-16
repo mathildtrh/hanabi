@@ -8,7 +8,7 @@ class AI:
     """
     AI base class: some basic functions, game analysis.
     """
-    def __init__(self, game):
+    def __init__(self, game=None):
         self.game = game
 
 
