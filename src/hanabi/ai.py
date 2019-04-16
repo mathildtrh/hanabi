@@ -173,12 +173,11 @@ class Random(AI):
                 card_to_play = random.randint(1, 5-num_not_playable)
                 k = 0
                 for j in range(0, card_to_play):
-
-                        k = k + 1
-                        if (k+1,game.current_hand.cards[k]) in not_playable:
-                            k = k + 1 
-                    print ('Random would play:', "p%d"%(k+1), end=' ')
-                    return "p%d"%(k+1)
+                    k = k + 1
+                    if (k+1,game.current_hand.cards[k]) in not_playable:
+                        k = k + 1 
+                print ('Random would play:', "p%d"%(k+1), end=' ')
+                return "p%d"%(k+1)
               
 
               
