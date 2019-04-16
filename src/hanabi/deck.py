@@ -155,7 +155,7 @@ class Game:
             '>': self.command,  # cheat-code !
             '?': (lambda x: print(ai.Cheater(self).play()))
         }
-        self.reset()
+        self.reset(players, multi)
 
     def reset(self, players=2, multi=False, cards=None):
         "Reset this game."
@@ -196,7 +196,8 @@ class Game:
         If _choice is not None, play it instead of asking.
 
         Note:
-        If provided, _choice can be:
+
+          If provided, _choice can be:
            - None: the human will be prompted
            - a (str), which is played
            - an AI object (we will play what its function play() suggests)
