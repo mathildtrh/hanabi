@@ -21,5 +21,6 @@ game.turn(['c1', 'c2', 'p2'])  # ... ou toute une serie
 
 # pour jouer toute une partie
 game.ai = ai
+
 game.run()
 
