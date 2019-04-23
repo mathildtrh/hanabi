@@ -4,28 +4,14 @@ Artificial Intelligence to play Hanabi.
 
 import random
 
-import itertools
-
-
 class AI:
     """
     AI base class: some basic functions, game analysis.
     """
-    def __init__(self, game=None):
+    def __init__(self, game):
         self.game = game
 
-    @property
-    def other_hands(self):
-        "The list of other players' hands."
-        return self.game.hands[1:]
 
-    @property
-    def other_players_cards(self):
-        "All of other players's cards, concatenated in a single list."
-        #return sum([x.cards for x in self.other_hands], [])
-        return list(itertools.chain.from_iterable([hand.cards for hand in self.other_hands]))
-
-        
 class Cheater(AI):
 
     """
@@ -70,9 +56,8 @@ class Cheater(AI):
             return "d%d"%discardable[0]
 
         ## 2nd type of discard: I have a card, and my partner too
-        
         discardable2 = [ i+1 for (i,card) in enumerate(game.current_hand.cards)
-                         if card in self.other_players_cards
+                         if card in game.hands[game.other_player].cards
                        ]
         if discardable2 and (game.blue_coins<8):
             print ('Cheater would discard2:', "d%d"%discardable2[0], discardable2)
@@ -81,7 +66,7 @@ class Cheater(AI):
 
         ## Look at precious cards in other hand, to clue them
         precious = [ card for card in
-                     self.other_players_cards
+                     game.hands[game.other_player].cards
                      if (1+game.discard_pile.cards.count(card))
                          == game.deck.card_count[card.number]
                    ]
@@ -96,7 +81,6 @@ class Cheater(AI):
                     break
                 if p.color_clue is False:
                     clue = "c%s"%p.color
-                    clue = clue[:2]   # quick fix, with 3+ players, can't clue cRed anymore, only cR
                     break
                 # this one was tricky:
                 # don't want to give twice the same clue
@@ -154,7 +138,6 @@ class Random(AI):
     """
 
     def play(self):
-      
         "Return a random action."
         game = self.game
         
@@ -177,7 +160,7 @@ class Random(AI):
             if num_not_playable==5:
                 # cannot play, so do action 2 or 3
                 action = random.randint(2,3)
-
+                break
             else:
                 """
                 # find card playable
@@ -192,17 +175,19 @@ class Random(AI):
                     k = k + 1
                     if (k+1,game.current_hand.cards[k]) in not_playable:
                         k = k + 1 
-                print ('Random would play:', "p%d"%(k+1), end=' ')
-                return "p%d"%(k+1)
-              
+                    print ('Random would play:', "p%d"%(k+1), end=' ')
+                    return "p%d"%(k+1)
+                    break
 
               
         while action == 2:
+            "discard one card"
             to_discard = random.randint(1, 5)
+            print('Random would discard:',"%d"%(to_discard), end=' ')
             return ("d%d"%to_discard)
 
-
         while action == 3:
+            "clue one card that has not been clued yet"
             unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
             
             if unclued :
@@ -220,12 +205,7 @@ class Random(AI):
                     else :
                         clue = "c%s"%random_card.color
                 print("Random would clue: ", clue)
-
-                return
-            else : 
-                action = random.randint(1,3)
-       
+                return          
+            action = random.randint(1,3)
 
 
-
-## blablabla

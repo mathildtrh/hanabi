@@ -1,0 +1,48 @@
+D'après pdf Hanabi_final.pdf
+
+D'après hat guessing strategy :
+
+Stratégie 1 : Recommendation strategy
+    (stratégie à 5 joueurs donc 4 cartes dans chaque main)
+    * Chaque indice correspond à une action : 
+            0. jouer carte 1 // indice de rang sur la carte 1
+            1. jouer carte 2 // indice de rang sur la carte 2
+            2. jouer carte 3 // indice de rang sur la carte 3
+            3. jouer carte 4 // indice de rang sur la carte 4
+            4. se débarasser carte 1 // indice de couleur sur la carte 1
+            5. se débarasser carte 2 // indice de couleur sur la carte 2
+            6. se débarasser carte 3 // indice de couleur sur la carte 3
+            7. se débarasser carte 4 // indice de couleur sur la carte 4
+    
+    * Playable ; Dead ; Indispensable
+
+    * Priorités des indices à donner : 
+        1. Faire jouer une Playable de rang 5 (d'index 1 2 3 4 minimal)
+        2. Faire jouer une playable de rang minimal (d'index minimal si litige)
+        3. Faire se débarasser d'une Dead avec index min.
+        4. Faire se débarasser d'une carte non Indispensable avec le rang le plus haut (index min si litige)
+        5. Faire se débarasser de la carte 1 de la main. (indice n°4)
+
+    Chaque main est associée à un nombre de 0 à 7 suivant l'ordre de priorité ci-dessus.
+
+    Le joueur voulant faire la recommandation donne l'indice correspondant à la somme des indices pour chaque joueur modulo 8.
+    /!\ chaque recommandation concerne l'instant présent et n'est plus valable une fois qu'une action a été faite.
+
+    * Solution pour y remédier (ordre de priorité):
+        1. Si le dernier indice reçu était de jouer une carte et qu'aucune carte n'a été jouée depuis le dernier indice, jouer la carte indiquée.
+        2. Si une carte a été jouée et que les joueurs ont fait moins de 2 erreurs, jouer la carte.
+        3. Si les joueurs ont des jetons d'indice, donner un indice.
+        4. Si l'indice était de se débarasser d'une carte, se débarasser de la carte.
+        5. Se débarasser de la carte n°1
+
+    squelette de l'algo :
+        Si premier joueur : donner indice
+        Sinon : déterminer quelle recommandation nous a été donnée
+        Suivre : ordre de priorité des actions (boucle)
+            quand il faut donner un indice, compute les actions à jouer pour chaque main.
+
+Stratégie 2 : Information strategy :
+    Pour chaque carte dans sa main ; faire une table des possibilités
+
+    Chaque indice correspond à une information sur 1 carte dans la main de chaque joueur.
+    
