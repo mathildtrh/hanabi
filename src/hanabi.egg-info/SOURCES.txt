@@ -1,7 +1,10 @@
 setup.py
 hanabi/__init__.py
 hanabi/ai.py
+hanabi/ai_recommandation_strategy.py
+hanabi/ai_stra_info.py
 hanabi/ascii_art.py
+hanabi/brouillon.py
 hanabi/deck.py
 hanabi/hanabi
 hanabi/test_deck.py
