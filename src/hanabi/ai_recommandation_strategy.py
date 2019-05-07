@@ -1,13 +1,9 @@
 """
 Artificial Intelligence to play Hanabi.
 """
+import itertools
 
-class AI:
-    """
-    AI base class: some basic functions, game analysis.
-    """
-    def __init__(self, game):
-        self.game = game
+from hanabi.ai import AI
 
 
 class Recom_Strategist(AI):
@@ -55,7 +51,7 @@ class Recom_Strategist(AI):
         } #key = color of the hand // value = action
         how_to_play_reversed = {v:k for k,v in how_to_play.items()} #key = action // value = color of the hand
 
-        playable = [ (i+1, card.number) for (i,card) in
+        playable = [ card for card in
                      enumerate(game.current_hand.cards)
                      if game.piles[card.color]+1 == card.number ]
         discardable = [ i+1 for (i,card) in
@@ -79,7 +75,7 @@ class Recom_Strategist(AI):
 
         
         # if the latest clue was to play a card AND if no card was played, then play the recommended card
-        if latest_clue < play_limit and !game_changed :
+        if latest_clue < play_limit and not game_changed :
             act = how_to_play[latest_clue]
             game_changed = True
             return act, latest_clue, game_changed
@@ -112,129 +108,125 @@ class Recom_Strategist(AI):
     def give_a_clue(self, nb_players, playable, discardable, precious): #returns an int
         
         #the code we use varies with the number of players, this is why we use a switch structure
-                switch (nb_players)
-            case 2:
-                how_to_clue = {
-                    "c1" : 0,
-                    "c2" : 1,
-                    "c3" : 2,
-                    "c4" : 3,
-                    "c5" : 4,
-                    "cr" : 5,
-                    "cb" : 6,
-                    "cg" : 7,
-                    "cy" : 8,
-                    "cw" : 9
-                }
+        if nb_players == 2: 
+            how_to_clue = {
+                "c1" : 0,
+                "c2" : 1,
+                "c3" : 2,
+                "c4" : 3,
+                "c5" : 4,
+                "cr" : 5,
+                "cb" : 6,
+                "cg" : 7,
+                "cy" : 8,
+                "cw" : 9
+            }
+        elif nb_players == 3: #demands an extension of the way of giving clues : the 3rd char should be the number of the player who receives the clue
+            how_to_clue = {
+                "c1A" : 0,
+                "c2A" : 2,
+                "c3A" : 3,
+                "c4A" : 3,
+                "c5A" : 3,
+                "c1B" : 1,
+                "c2B" : 4,
+                "c3B" : 4,
+                "c4B" : 4,
+                "c5B" : 4,
+                "crA" : 5,
+                "cbA" : 7,
+                "cgA" : 8,
+                "cyA" : 8,
+                "cwA" : 8,
+                "crB" : 6,
+                "cbB" : 9,
+                "cgB" : 9,
+                "cyB" : 9,
+                "cwB" : 9 }
+        elif nb_players == 4:
+            how_to_clue = {
+                "c1A" : 0,
+                "c2A" : 1,
+                "c3A" : 1,
+                "c4A" : 1,
+                "c5A" : 1,
+                "c1B" : 2,
+                "c2B" : 2,
+                "c3B" : 2,
+                "c4B" : 2,
+                "c5B" : 2,
+                "c1C" : 3,
+                "c2C" : 3,
+                "c3C" : 3,
+                "c4C" : 3,
+                "c5C" : 3,
+                "crA" : 5,
+                "cbA" : 6,
+                "cgA" : 6,
+                "cyA" : 6,
+                "cwA" : 6,
+                "crB" : 7,
+                "cbB" : 7,
+                "cgB" : 7,
+                "cyB" : 7,
+                "cwB" : 7,
+                "crC" : 8,
+                "cbC" : 8,
+                "cgC" : 8,
+                "cyC" : 8,
+                "cwC" : 8 }
+        elif nb_players == 5:
+            how_to_clue = {
+                "c1A" : 0,
+                "c2A" : 0,
+                "c3A" : 0,
+                "c4A" : 0,
+                "c5A" : 0,
+                "c1B" : 1,
+                "c2B" : 1,
+                "c3B" : 1,
+                "c4B" : 1,
+                "c5B" : 1,
+                "c1C" : 2,
+                "c2C" : 2,
+                "c3C" : 2,
+                "c4C" : 2,
+                "c5C" : 2,
+                "c1D" : 3,
+                "c2D" : 3,
+                "c3D" : 3,
+                "c4D" : 3,
+                "c5D" : 3,
+                "crA" : 5,
+                "cbA" : 5,
+                "cgA" : 5,
+                "cyA" : 5,
+                "cwA" : 5,
+                "crB" : 6,
+                "cbB" : 6,
+                "cgB" : 6,
+                "cyB" : 6,
+                "cwB" : 6,
+                "crC" : 7,
+                "cbC" : 7,
+                "cgC" : 7,
+                "cyC" : 7,
+                "cwC" : 7,
+                "crD" : 8,
+                "cbD" : 8,
+                "cgD" : 8,
+                "cyD" : 8,
+                "cwD" : 8 }
+        else :
+            pass #la vérification a déjà été faite en principe
 
-            case 3: #demands an extension of the way of giving clues : the 3rd char should be the number of the player who receives the clue
-                how_to_clue = {
-                    "c1A" = 0,
-                    "c2A" = 2,
-                    "c3A" = 3,
-                    "c4A" = 3,
-                    "c5A" = 3,
-                    "c1B" = 1,
-                    "c2B" = 4,
-                    "c3B" = 4,
-                    "c4B" = 4,
-                    "c5B" = 4,
-                    "crA" = 5,
-                    "cbA" = 7,
-                    "cgA" = 8,
-                    "cyA" = 8,
-                    "cwA" = 8,
-                    "crB" = 6,
-                    "cbB" = 9,
-                    "cgB" = 9,
-                    "cyB" = 9,
-                    "cwB" = 9 }
+        sum = 0
+        for hand in game.hands:
+            color = how_to_clue[value_hand(hand, playable, discardable, precious)]
+            sum = sum + color
+        clue = sum%10
 
-            case 4:
-                 how_to_clue = {
-                    "c1A" = 0,
-                    "c2A" = 1,
-                    "c3A" = 1,
-                    "c4A" = 1,
-                    "c5A" = 1,
-                    "c1B" = 2,
-                    "c2B" = 2,
-                    "c3B" = 2,
-                    "c4B" = 2,
-                    "c5B" = 2,
-                    "c1C" = 3,
-                    "c2C" = 3,
-                    "c3C" = 3,
-                    "c4C" = 3,
-                    "c5C" = 3,
-                    "crA" = 5,
-                    "cbA" = 6,
-                    "cgA" = 6,
-                    "cyA" = 6,
-                    "cwA" = 6,
-                    "crB" = 7,
-                    "cbB" = 7,
-                    "cgB" = 7,
-                    "cyB" = 7,
-                    "cwB" = 7,
-                    "crC" = 8,
-                    "cbC" = 8,
-                    "cgC" = 8,
-                    "cyC" = 8,
-                    "cwC" = 8 }
-
-            case 5:
-                how_to_clue = {
-                    "c1A" = 0,
-                    "c2A" = 0,
-                    "c3A" = 0,
-                    "c4A" = 0,
-                    "c5A" = 0,
-                    "c1B" = 1,
-                    "c2B" = 1,
-                    "c3B" = 1,
-                    "c4B" = 1,
-                    "c5B" = 1,
-                    "c1C" = 2,
-                    "c2C" = 2,
-                    "c3C" = 2,
-                    "c4C" = 2,
-                    "c5C" = 2,
-                    "c1D" = 3,
-                    "c2D" = 3,
-                    "c3D" = 3,
-                    "c4D" = 3,
-                    "c5D" = 3,
-                    "crA" = 5,
-                    "cbA" = 5,
-                    "cgA" = 5,
-                    "cyA" = 5,
-                    "cwA" = 5,
-                    "crB" = 6,
-                    "cbB" = 6,
-                    "cgB" = 6,
-                    "cyB" = 6,
-                    "cwB" = 6,
-                    "crC" = 7,
-                    "cbC" = 7,
-                    "cgC" = 7,
-                    "cyC" = 7,
-                    "cwC" = 7,
-                    "crD" = 8,
-                    "cbD" = 8,
-                    "cgD" = 8,
-                    "cyD" = 8,
-                    "cwD" = 8 }
-                
-            #how to setup a default reaction? raise exception?
-
-            sum = 0
-            for hand in game.hands:
-                color = how_to_clue[value_hand(hand, playable, discardable, precious)]
-                sum = sum + color
-            clue = sum%10
-
-            return clue
+        return clue
 
 
 

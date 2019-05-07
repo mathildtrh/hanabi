@@ -192,7 +192,7 @@ class Random(AI):
                     k = k + 1
                     if (k+1,game.current_hand.cards[k]) in not_playable:
                         k = k + 1 
-                print ('Random would play:', "p%d"%(k+1), end=' ')
+                print ('Random would play:', "p%d"%(k+1))
                 return "p%d"%(k+1)
               
 
@@ -207,7 +207,7 @@ class Random(AI):
             
             if unclued :
                 number_card = random.randint(1,len(unclued))
-                random_card = unclued[number_card-1].card
+                random_card = unclued[number_card-1] #.card supprimé car pas besoin
                 
                 if random_card.color_clue :
                     clue = "c%d"%random_card.number
