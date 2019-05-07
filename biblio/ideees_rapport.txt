@@ -1,0 +1,7 @@
+Idées de plan pour le rapport
+
+chronologique : 
+    1) Prise en main de git hub
+    2) prise en main du module et de la programmation orientée objet
+    3) étude des stratégies possibles et de leur spécificités
+    4) élaboration des unittests puis des IA utilisant ces stratégies
