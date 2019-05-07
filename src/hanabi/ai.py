@@ -25,7 +25,7 @@ class AI:
         #return sum([x.cards for x in self.other_hands], [])
         return list(itertools.chain.from_iterable([hand.cards for hand in self.other_hands]))
 
-        
+
 class Cheater(AI):
 
     """
@@ -70,7 +70,7 @@ class Cheater(AI):
             return "d%d"%discardable[0]
 
         ## 2nd type of discard: I have a card, and my partner too
-        
+
         discardable2 = [ i+1 for (i,card) in enumerate(game.current_hand.cards)
                          if card in self.other_players_cards
                        ]
@@ -140,75 +140,54 @@ class Cheater(AI):
 
 class Random(AI):
     """
-    This AI plays randomly, which is dumb, 
-    but still tries not to make the game fail too much (ie does not play a card that it knows won't fit).
+    This AI plays randomly, which is dumb, it doesn't even try to avoid KABOOM... but it doesn't try to discard if there is already 8 blue coins nor to give a clue if there isn't any blue coins left
 
-    Algorithm : 
+    Algorithm :
         * if 0 < blue_coins <= 8 pick randomly between play, discard or clue.
             * if play is chosen, pick randomly between the unclued cards and other cards that won't make the game fail (ie : +1 red_coin)
             * if clue is chosen, give clue on a random card among the ones unclued.
             * if discard is chosen, discard any card in hand
+        * if blue_coins == 8 pick randomly between play or clue
         * if blue_coins == 0 pick randomly between play or discard.
-    
-
     """
 
     def play(self):
-      
+
         "Return a random action."
         game = self.game
-        
+
                 #if blue coins are not restrictive, choose randomly
-        if (game.blue_coins>0) and (game.blue_coins<=8):
-            action = random.randint(1,3) # 1 = play; 2 = discard ; 3 = clue
+        if (game.blue_coins>0):
+            if (game.blue_coins<=8):
+                action = random.randint(1,3) # 1 = play; 2 = discard ; 3 = clue
+            else :#8 blue coins
+                action = (2*random.randint(1,3)+1)%4 #trick pour ne jamais tomber sur 2
 
         else:#no more blue coins
             action = random.randint(1,2)
-            
+
         while action==1:
-            "play one card"
-            # not play the card that not match the pile now
-            # select randomly from unknown cards or the matched cards
-            not_playable = [ (i+1, card.number) for (i,card) in
-                     enumerate(game.current_hand.cards)
-                     if card.number_clue==True and game.piles[card.color]+1 != card.number ]
-    
-            num_not_playable = len(not_playable)
-            if num_not_playable==5:
-                # cannot play, so do action 2 or 3
-                action = random.randint(2,3)
+            "play a random card in its hand"
 
-            else:
-                """
-                # find card playable
-                playable = [ (i+1, card.number) for (i,card) in
-                            enumerate(game.current_hand.cards)
-                            if card.number_clue==True and game.piles[card.color]+1 == card.number ]
-                """
-                # play randomly a card
-                card_to_play = random.randint(1, 5-num_not_playable)
-                k = 0
-                for j in range(0, card_to_play):
-                    k = k + 1
-                    if (k+1,game.current_hand.cards[k]) in not_playable:
-                        k = k + 1 
-                print ('Random would play:', "p%d"%(k+1))
-                return "p%d"%(k+1)
-              
+            index = random.randint(1,5)
+            return "p%d"%index
 
-              
         while action == 2:
+            print ('Random would like to discard a card')
             to_discard = random.randint(1, 5)
             return ("d%d"%to_discard)
 
 
         while action == 3:
+            print ('Random would like to give a clue to ...', end='')
+            p = str(random.randint(1, len(game.players)-1))
+            print('%s'%p) #attention donne le numero du joueur et non son nom, à corriger
             unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
-            
+
             if unclued :
                 number_card = random.randint(1,len(unclued))
                 random_card = unclued[number_card-1] #.card supprimé car pas besoin
-                
+
                 if random_card.color_clue :
                     clue = "c%d"%random_card.number
                 elif random_card.number_clue :
@@ -219,13 +198,9 @@ class Random(AI):
                         clue = "c%d"%random_card.number
                     else :
                         clue = "c%s"%random_card.color
+                clue = clue[:2]+p #un peu sale mais pas mieux pour l'instant
                 print("Random would clue: ", clue)
 
-                return
-            else : 
+                return clue
+            else :
                 action = random.randint(1,3)
-       
-
-
-
-## blablabla
