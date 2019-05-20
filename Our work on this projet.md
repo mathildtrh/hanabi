@@ -1,4 +1,5 @@
-#Projet IN104 : Intelligence artificielle pour le jeu Hanabi
+# Projet IN104 : Intelligence artificielle pour le jeu Hanabi
+
 Ce projet à visée pédagogique avait pour buts l'acquisition de compétences en programmation et en gestion de projet:
 * programmation orientée objet en Python
 * prise en main d'un module préconçu par un autre programmeur
@@ -12,7 +13,7 @@ Ce projet à visée pédagogique avait pour buts l'acquisition de compétences e
 ### Conception d'une IA aléatoire
 
 ### Conception d'une IA utilisant la stratégie de recommandation 
-La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy] (https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
+La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
 
 ### Conception d'une IA utilisant la stratégie d'information
-La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy] (https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
+La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
