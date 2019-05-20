@@ -3,6 +3,7 @@ Artificial Intelligence to play Hanabi.
 """
 import itertools
 
+import hanabi
 from hanabi.ai import AI
 
 
@@ -10,20 +11,19 @@ class Recom_Strategist(AI):
 
     """
     This player uses the recommandation strategy, based on the principle of the guessing hat game
-    
+
     Code for the clues :
       * from 0 to 3/4 = play cards from 1 to 4/5
       * from 4/5 to 7/9 = discard cards from 1 to 4/5
       * NB : if there are 4 or 5 players, 4 and 9 should never be used
-    
+
     Algorithm to decide what action to do now:
       * if the latest clue was to play a card AND if no card was played, then play the recommended card
       * if the latest clue was to play a card AND if a card was played AND there is less than 2 red coins, then play the recommended card
       * if there is some blue coin available, give a clue
       * if the latest clue was to discard a card, then discard the recommended card  ####issue if it becomes an indispensable card!!
       * else, discard 1st card of the hand
-    
-    
+
     How to give a relevant clue:
       * play the "5" card with lowest index
       * play the card with lowest rank (+ lowest index if conflict)
@@ -32,7 +32,11 @@ class Recom_Strategist(AI):
       * discard 1st card of the hand
     """
 
-    def play(self, latest_clue, game_changed):
+    #those are two global variables
+    latest_clue = [5] #action d1 by default
+    game_changed = False
+    
+    def play(self):
         "Return the most relevant action according to the recommandation strategy."
         game = self.game
 
@@ -52,13 +56,18 @@ class Recom_Strategist(AI):
         how_to_play_reversed = {v:k for k,v in how_to_play.items()} #key = action // value = color of the hand
 
         playable = [ card for card in
-                     enumerate(game.current_hand.cards)
+                     [hanabi.Card(Red, 1), hanabi.Card(Red, 2),  hanabi.Card(Red, 3), hanabi.Card(Red, 4), hanabi.Card(Red, 5),
+                      hanabi.Card(Blue, 1), hanabi.Card(Blue, 2), hanabi.Card(Blue, 3), hanabi.Card(Blue, 4), hanabi.Card(Blue, 5),
+                      hanabi.Card(Green, 1), hanabi.Card(Green, 2), hanabi.Card(Green, 3), hanabi.Card(Green, 4), hanabi.Card(Green, 5),
+                      hanabi.Card(White, 1), hanabi.Card(White, 2), hanabi.Card(White, 3), hanabi.Card(White, 4), hanabi.Card(White, 5),
+                      hanabi.Card(Yellow, 1), hanabi.Card(Yellow, 2), hanabi.Card(Yellow, 3), hanabi.Card(Yellow, 4), hanabi.Card(Yellow, 5)] #attention au cas multicolore
                      if game.piles[card.color]+1 == card.number ]
-        discardable = [ i+1 for (i,card) in
-                        enumerate(game.current_hand.cards)
-                        if ( (card.number <= game.piles[card.color])
-                             or (game.current_hand.cards.count(card)>1)
-                        ) ]
+        discardable = [ card for card in [hanabi.Card(Red, 1), hanabi.Card(Red, 2),  hanabi.Card(Red, 3), hanabi.Card(Red, 4), hanabi.Card(Red, 5),
+                      hanabi.Card(Blue, 1), hanabi.Card(Blue, 2), hanabi.Card(Blue, 3), hanabi.Card(Blue, 4), hanabi.Card(Blue, 5),
+                      hanabi.Card(Green, 1), hanabi.Card(Green, 2), hanabi.Card(Green, 3), hanabi.Card(Green, 4), hanabi.Card(Green, 5),
+                      hanabi.Card(White, 1), hanabi.Card(White, 2), hanabi.Card(White, 3), hanabi.Card(White, 4), hanabi.Card(White, 5),
+                      hanabi.Card(Yellow, 1), hanabi.Card(Yellow, 2), hanabi.Card(Yellow, 3), hanabi.Card(Yellow, 4), hanabi.Card(Yellow, 5)] #attention au cas multicolore                    )
+                     if game.piles[card.color]+1 > card.number ]
         # fixme: il me manque les cartes sup d'une pile morte
         # fixme: penser aussi aux doubles dans les mains des partenaires?
         precious = [ card for card in
@@ -67,13 +76,11 @@ class Recom_Strategist(AI):
                  == game.deck.card_count[card.number]]
 
         act = "d1" #action by default
-        latest_clue = latest_clue #passed in arg
+        latest_clue = latest_clue[-1] #passed in arg
         game_changed = False #idem
 
 
 
-
-        
         # if the latest clue was to play a card AND if no card was played, then play the recommended card
         if latest_clue < play_limit and not game_changed :
             act = how_to_play[latest_clue]
@@ -86,7 +93,7 @@ class Recom_Strategist(AI):
             return act, latest_clue, game_changed
         # if there is some blue coin available, give a clue
         elif blue_coins > 0:
-            latest_clue = give_a_clue(len(game.players), playable, discardable, precious)
+            latest_clue.append(give_a_clue(len(game.players), playable, discardable, precious))
             act = how_to_play[latest_clue]
             game_changed = False
             return act, latest_clue, game_changed
@@ -104,11 +111,10 @@ class Recom_Strategist(AI):
 
 
 
-        
     def give_a_clue(self, nb_players, playable, discardable, precious): #returns an int
-        
+
         #the code we use varies with the number of players, this is why we use a switch structure
-        if nb_players == 2: 
+        if nb_players == 2:
             how_to_clue = {
                 "c1" : 0,
                 "c2" : 1,
@@ -231,7 +237,6 @@ class Recom_Strategist(AI):
 
 
 
-        
 
     def value_hand (self, hand, playable, discardable, precious):
         # play the "5" card with lowest index
@@ -274,5 +279,3 @@ class Recom_Strategist(AI):
         if code == -1:
             code = "d1"
         return code
-
-##to do : faire la bonne définition de playable, discardable, precious
