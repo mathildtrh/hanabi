@@ -35,11 +35,15 @@ class Recom_Strategist(AI):
     #those are two global variables
     latest_clue = [5] #action d1 by default
     game_changed = False
+
+    
     
     
     def play(self):
         "Return the most relevant action according to the recommandation strategy."
         game = self.game
+
+        nb_players = len(game.players)
 
         #is the same for every game : if there are 4 or 5 players, 4 and 9 should never be used
         how_to_play = {
@@ -80,128 +84,149 @@ class Recom_Strategist(AI):
         latest_clue = [5] #passed in arg
         game_changed = False #idem
 
+        #the code we use varies with the number of players, this is why we use a switch structure
+        if nb_players == 2:
+            how_to_clue = {
+                "c1" : 0,
+                "c2" : 1,
+                "c3" : 2,
+                "c4" : 3,
+                "c5" : 4,
+                "cr" : 5,
+                "cb" : 6,
+                "cg" : 7,
+                "cy" : 8,
+                "cw" : 9
+            }
+        elif nb_players == 3: #demands an extension of the way of giving clues : the 3rd char should be the number of the player who receives the clue
+            how_to_clue = {
+                "c1A" : 0,
+                "c2A" : 2,
+                "c3A" : 3,
+                "c4A" : 3,
+                "c5A" : 3,
+                "c1B" : 1,
+                "c2B" : 4,
+                "c3B" : 4,
+                "c4B" : 4,
+                "c5B" : 4,
+                "cRA" : 5,
+                "cBA" : 7,
+                "cGA" : 8,
+                "cYA" : 8,
+                "cWA" : 8,
+                "cRB" : 6,
+                "cBB" : 9,
+                "cGB" : 9,
+                "cYB" : 9,
+                "cWB" : 9 }
+        elif nb_players == 4:
+            how_to_clue = {
+                "c1A" : 0,
+                "c2A" : 1,
+                "c3A" : 1,
+                "c4A" : 1,
+                "c5A" : 1,
+                "c1B" : 2,
+                "c2B" : 2,
+                "c3B" : 2,
+                "c4B" : 2,
+                "c5B" : 2,
+                "c1C" : 3,
+                "c2C" : 3,
+                "c3C" : 3,
+                "c4C" : 3,
+                "c5C" : 3,
+                "cRA" : 5,
+                "cBA" : 6,
+                "cGA" : 6,
+                "cYA" : 6,
+                "cWA" : 6,
+                "cRB" : 7,
+                "cBB" : 7,
+                "cGB" : 7,
+                "cYB" : 7,
+                "cWB" : 7,
+                "cRC" : 8,
+                "cBC" : 8,
+                "cGC" : 8,
+                "cYC" : 8,
+                "cWC" : 8 }
+        elif nb_players == 5:
+            how_to_clue = {
+                "c1A" : 0,
+                "c2A" : 0,
+                "c3A" : 0,
+                "c4A" : 0,
+                "c5A" : 0,
+                "c1B" : 1,
+                "c2B" : 1,
+                "c3B" : 1,
+                "c4B" : 1,
+                "c5B" : 1,
+                "c1C" : 2,
+                "c2C" : 2,
+                "c3C" : 2,
+                "c4C" : 2,
+                "c5C" : 2,
+                "c1D" : 3,
+                "c2D" : 3,
+                "c3D" : 3,
+                "c4D" : 3,
+                "c5D" : 3,
+                "cRA" : 5,
+                "cBA" : 5,
+                "cGA" : 5,
+                "cYA" : 5,
+                "cWA" : 5,
+                "cRB" : 6,
+                "cBB" : 6,
+                "cGB" : 6,
+                "cYB" : 6,
+                "cWB" : 6,
+                "cRC" : 7,
+                "cBC" : 7,
+                "cGC" : 7,
+                "cYC" : 7,
+                "cWC" : 7,
+                "cRD" : 8,
+                "cBD" : 8,
+                "cGD" : 8,
+                "cYD" : 8,
+                "cWD" : 8 }
+
+
         def give_a_clue(nb_players, playable, discardable, precious): #returns an int
 
-                #the code we use varies with the number of players, this is why we use a switch structure
-                if nb_players == 2:
-                    how_to_clue = {
-                        "c1" : 0,
-                        "c2" : 1,
-                        "c3" : 2,
-                        "c4" : 3,
-                        "c5" : 4,
-                        "cr" : 5,
-                        "cb" : 6,
-                        "cg" : 7,
-                        "cy" : 8,
-                        "cw" : 9
-                    }
-                elif nb_players == 3: #demands an extension of the way of giving clues : the 3rd char should be the number of the player who receives the clue
-                    how_to_clue = {
-                        "c1A" : 0,
-                        "c2A" : 2,
-                        "c3A" : 3,
-                        "c4A" : 3,
-                        "c5A" : 3,
-                        "c1B" : 1,
-                        "c2B" : 4,
-                        "c3B" : 4,
-                        "c4B" : 4,
-                        "c5B" : 4,
-                        "crA" : 5,
-                        "cbA" : 7,
-                        "cgA" : 8,
-                        "cyA" : 8,
-                        "cwA" : 8,
-                        "crB" : 6,
-                        "cbB" : 9,
-                        "cgB" : 9,
-                        "cyB" : 9,
-                        "cwB" : 9 }
-                elif nb_players == 4:
-                    how_to_clue = {
-                        "c1A" : 0,
-                        "c2A" : 1,
-                        "c3A" : 1,
-                        "c4A" : 1,
-                        "c5A" : 1,
-                        "c1B" : 2,
-                        "c2B" : 2,
-                        "c3B" : 2,
-                        "c4B" : 2,
-                        "c5B" : 2,
-                        "c1C" : 3,
-                        "c2C" : 3,
-                        "c3C" : 3,
-                        "c4C" : 3,
-                        "c5C" : 3,
-                        "crA" : 5,
-                        "cbA" : 6,
-                        "cgA" : 6,
-                        "cyA" : 6,
-                        "cwA" : 6,
-                        "crB" : 7,
-                        "cbB" : 7,
-                        "cgB" : 7,
-                        "cyB" : 7,
-                        "cwB" : 7,
-                        "crC" : 8,
-                        "cbC" : 8,
-                        "cgC" : 8,
-                        "cyC" : 8,
-                        "cwC" : 8 }
-                elif nb_players == 5:
-                    how_to_clue = {
-                        "c1A" : 0,
-                        "c2A" : 0,
-                        "c3A" : 0,
-                        "c4A" : 0,
-                        "c5A" : 0,
-                        "c1B" : 1,
-                        "c2B" : 1,
-                        "c3B" : 1,
-                        "c4B" : 1,
-                        "c5B" : 1,
-                        "c1C" : 2,
-                        "c2C" : 2,
-                        "c3C" : 2,
-                        "c4C" : 2,
-                        "c5C" : 2,
-                        "c1D" : 3,
-                        "c2D" : 3,
-                        "c3D" : 3,
-                        "c4D" : 3,
-                        "c5D" : 3,
-                        "crA" : 5,
-                        "cbA" : 5,
-                        "cgA" : 5,
-                        "cyA" : 5,
-                        "cwA" : 5,
-                        "crB" : 6,
-                        "cbB" : 6,
-                        "cgB" : 6,
-                        "cyB" : 6,
-                        "cwB" : 6,
-                        "crC" : 7,
-                        "cbC" : 7,
-                        "cgC" : 7,
-                        "cyC" : 7,
-                        "cwC" : 7,
-                        "crD" : 8,
-                        "cbD" : 8,
-                        "cgD" : 8,
-                        "cyD" : 8,
-                        "cwD" : 8 }
-                else :
-                    pass #la vérification a déjà été faite en principe
-
+                #how_to_clue = {v:k for k,v in how_to_clue.items()}
+                joueurs = { "A" : 1 , "B" : 2 , "C" : 3 , "D" : 4 }
+                couleurs = { "R" : hanabi.deck.Color.Red , "B" : hanabi.deck.Color.Blue , "Y" : hanabi.deck.Color.Yellow , "W" : hanabi.deck.Color.White , "G" : hanabi.deck.Color.Green }
                 sum = 0
                 for hand in game.hands:
-                    color = how_to_clue[value_hand(hand, playable, discardable, precious)]
+                    color = value_hand(hand, playable, discardable, precious)
                     sum = sum + color
                 clue = sum%10
+                
+                available_clues = []
+                for cle, valeur in how_to_clue.items() :
+                    if valeur == clue :
+                        available_clues.append(cle)
+                
+                action = available_clues[0]
 
-                return clue
+                if nb_players>2: #pour gérer la troisième lettre de l'indice
+                    for clue in available_clues : #cherche à qui on peut donner l'indice parmi tous les joueurs
+                        indice = clue[1]
+                        joueur = joueurs[clue[2]]
+                        for card in game.hands[joueur].cards:
+                            if indice in "12345" :
+                                if card.number == int(indice):
+                                    action = clue
+                            elif indice in "RWBGY" :
+                                if card.color == couleurs[indice] :
+                                    action = clue
+                
+                return action
 
 
 
@@ -214,65 +239,69 @@ class Recom_Strategist(AI):
             # discard the not indispensable card with highest rank (+ lowest index if conflict)
             # discard 1st card of the hand
 
-            solution = False
             miniplay = 5
             maxinotprecious = 1
             i=1
             code = -1
 
-            while solution == False and i <= len(hand):
-                card = hand[i]
+            for card in hand.cards :
                 if card in playable:
                     if card.number == 5:
                         code = "p%d"%i
-                        solution = True
                     elif card.number < miniplay:
                         code = "p%d"%i
                         miniplay = card.number
-                        i += 1
-                    else :
-                        pass
                 elif card in discardable:
-                    code = "d%d"%i
-                    i += 1
+                    code = "d%d"%i  
                 elif card not in precious:
                     if card.number > maxinotprecious:
                         code = "d%d"%i
                         maxinotprecious = card.number
-                        i += 1
-                    else:
-                        pass
-                else: #if the current card is not playable, not discardable and precious, go to the next card
-                    i += 1
+                      
+                
+                #if the current card is not playable, not discardable and precious, go to the next card
 
             if code == -1:
                 code = "d1"
-            return code
+            return how_to_play_reversed[code]
+
+
+
+
+
 
         # if the latest clue was to play a card AND if no card was played, then play the recommended card
-        if latest_clue < play_limit and not game_changed :
-            act = how_to_play[latest_clue]
-            game_changed = True
-            return act, latest_clue, game_changed
-        # if the latest clue was to play a card AND if a card was played AND there is less than 2 red coins, then play the recommended card
-        elif latest_clue < play_limit and game.red_coins < 2 :
-            act = how_to_play[latest_clue]
-            game_changed = True
-            return act, latest_clue, game_changed
-        # if there is some blue coin available, give a clue
-        elif game.blue_coins > 0:
-            latest_clue.append(give_a_clue(len(game.players), playable, discardable, precious))
-            act = how_to_play[latest_clue]
-            game_changed = False
-            return act, latest_clue, game_changed
-        # if the latest clue was to discard a card, then discard the recommended card
+        if latest_clue[-1] < play_limit :
+            if not game_changed :
+                act = how_to_play[latest_clue[-1]]
+                game_changed = True
+                return act
+            # if the latest clue was to play a card AND if a card was played AND there is less than 2 red coins, then play the recommended card
+            elif game.red_coins < 2 :
+                act = how_to_play[latest_clue[-1]]
+                game_changed = True
+                return act
+            # if there is some blue coin available, give a clue
+            elif game.blue_coins > 0:
+                latest_clue.append(how_to_clue[give_a_clue(len(game.players), playable, discardable, precious)])
+                act = give_a_clue(len(game.players), playable, discardable, precious)
+                game_changed = False
+                return act
+            # else, discard 1st card of the hand
+            else :
+                return act
+        # if the latest clue was to discard a card, then discard the recommended card (unless it's the first turn)
         ####-----------------------issue if it becomes an indispensable card!!-------------------------####
-        elif latest_clue >= play_limit :
-            act = how_to_play[latest_clue]
-            return act, latest_clue, game_changed
-        # else, discard 1st card of the hand
         else :
-            return act, latest_clue, game_changed
+            if game.blue_coins == 8 :
+                latest_clue.append(how_to_clue[give_a_clue(len(game.players), playable, discardable, precious)])
+                act = give_a_clue(len(game.players), playable, discardable, precious)
+                game_changed = False
+                return act
+            else :
+                act = how_to_play[latest_clue[-1]]
+                return act
+        
 
 
 
