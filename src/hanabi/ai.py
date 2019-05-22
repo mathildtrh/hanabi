@@ -112,7 +112,7 @@ class Cheater(AI):
         # Let's give a random clue, to see if partner can unblock me
         if game.blue_coins >0:
             print ('Cheater would clue randomly: cW')
-            return 'cw'
+            return 'cw' #fixme : clue really randomly
 
         # If reach here, can't play, can't discard safely
         # No blue-coin left.
@@ -140,90 +140,121 @@ class Cheater(AI):
 
 class Random(AI):
     """
-    This AI plays randomly, which is dumb, 
-    but still tries not to make the game fail too much (ie does not play a card that it knows won't fit).
+    This AI plays like a child, which is partially random but use the clue given and try not to fail the game
 
     Algorithm : 
-        * if 0 < blue_coins <= 8 pick randomly between play, discard or clue.
+        * if the AI knows some useful clue about its card, make it play one at random among the useful ones.
+        * Do not play at random if there are two red coins
+        * if 0 < blue_coins < 8 pick randomly between play, discard or clue.
             * if play is chosen, pick randomly between the unclued cards and other cards that won't make the game fail (ie : +1 red_coin)
             * if clue is chosen, give clue on a random card among the ones unclued.
             * if discard is chosen, discard any card in hand
         * if blue_coins == 0 pick randomly between play or discard.
     
-
+    This AI is supposed to lose after discarding all the cards
+    
     """
 
     def play(self):
       
         "Return a random action."
         game = self.game
+
+        #if the cards fit, make it play one of them
+        precious = [(i+1, card.number) for (i,card) in enumerate(game.current_hand.cards) if card.number_clue and game.piles[card.color]+1 == card.number]
+        num_precious = len(precious)
+
+        #find the cards in our own hand that we don't know anything about, or the one that we know match.
+        playable = [ (i+1, card.number) for (i,card) in enumerate(game.current_hand.cards) if not card.number_clue or ( card.number_clue and game.piles[card.color]+1 == card.number )]
+        num_playable = len(playable)
+
+        #find the unclued cards in the other players hands
+        unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
+        num_unclued = len(unclued)
         
-                #if blue coins are not restrictive, choose randomly
+        #if blue coins are not restrictive, choose randomly
         if (game.blue_coins>0) and (game.blue_coins<=8):
-            action = random.randint(1,3) # 1 = play; 2 = discard ; 3 = clue
+            action = random.randint(1,4) # 1 = play ; 2 = discard ; 3 >= clue ; I made it clue more so that the parties can last a bit longer 
+        
+            # cannot clue an already clued card
+            if num_unclued == 0 :
+                action = random.randint(1,2)
 
-        else:#no more blue coins
-            action = random.randint(1,2)
-            
-        while action==1:
-            "play one card"
-            # not play the card that not match the pile now
-            # select randomly from unknown cards or the matched cards
-            not_playable = [ (i+1, card.number) for (i,card) in
-                     enumerate(game.current_hand.cards)
-                     if card.number_clue==True and game.piles[card.color]+1 != card.number ]
-    
-            num_not_playable = len(not_playable)
-            if num_not_playable==5:
+            # cannot play if we know all the cards and they don't match the pile now, cannot play randomly if the game is about to be lost
+            if num_playable==0 or game.red_coins == 2 :
                 # cannot play, so do action 2 or 3
-                action = random.randint(2,3)
+                action = random.randint(2,3) #it can clue if it cannot play
+            
 
-            else:
-                """
-                # find card playable
-                playable = [ (i+1, card.number) for (i,card) in
-                            enumerate(game.current_hand.cards)
-                            if card.number_clue==True and game.piles[card.color]+1 == card.number ]
-                """
-                # play randomly a card
-                card_to_play = random.randint(1, 5-num_not_playable)
-                k = 0
-                for j in range(0, card_to_play):
-                    k = k + 1
-                    if (k+1,game.current_hand.cards[k]) in not_playable:
-                        k = k + 1 
-                print ('Random would play:', "p%d"%(k+1))
-                return "p%d"%(k+1)
-              
+        elif game.blue_coins == 0 : #no more blue coins
+            action = random.randint(1,2)
+            if num_playable==0 or game.red_coins == 2 :
+                # cannot play, so discard
+                action = 2
 
+        if precious :
+            "play one precious card"
+            card_to_play = random.randint(1, num_precious)
+            ind = precious[card_to_play-1][0]
+            print ('Random would play wisely:', "p%d"%ind)
+            return "p%d"%ind
+
+        
+            
+        if action == 1:
+            "play one card at random"
+            # do not play the card that we know doesn't match the pile now
+            # select randomly from unknown cards
+
+            card_to_play = random.randint(1, num_playable)
+            ind = playable[card_to_play-1][0]
+            print ('Random would play:', "p%d"%ind)
+            return "p%d"%ind
               
-        while action == 2:
-            to_discard = random.randint(1, 5)
+              
+        if action == 2:
+            "discard one card"
+            to_discard = random.randint(1, 4) #if the game is set to less than 4 players it doesn't really matter, it is still quite random
+            print ('Random would discard: ', "d%d"%to_discard)
             return ("d%d"%to_discard)
 
 
-        while action == 3:
-            unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
-            
-            if unclued :
-                number_card = random.randint(1,len(unclued))
-                random_card = unclued[number_card-1] #.card supprimé car pas besoin
-                
-                if random_card.color_clue :
+        if action >= 3:
+            "clue"
+
+            #if you can't play or discard
+            if not unclued:
+                number_card = random.randint(1,4)
+                random_card = game.current_hand.cards[number_card-1] 
+                piece = random.randint(1,2)
+                if piece == 1 :
                     clue = "c%d"%random_card.number
-                elif random_card.number_clue :
-                    clue = "c%s"%random_card.color
                 else :
+                    clue = "c%s"%random_card.color
+                    clue = clue[:2]
+
+            
+            else : #choose randomly among the unclued cards
+                number_card = random.randint(1,num_unclued)
+                random_card = unclued[number_card-1] 
+                
+
+                if random_card.color_clue :         #si on a déjà l'indice de couleur c'est qu'il manque l'indice de nombre
+                    clue = "c%d"%random_card.number
+                elif random_card.number_clue :      #si on a déjà l'indice de nombre c'est qu'il manque l'indice de couleur
+                    clue = "c%s"%random_card.color
+                    clue = clue[:2]
+                else :                              #sinon on tire au hasard si on va donner l'indice de couleur ou de nombre puisqu'aucun n'est connu
                     piece = random.randint(1,2)
                     if piece == 1 :
                         clue = "c%d"%random_card.number
                     else :
                         clue = "c%s"%random_card.color
-                print("Random would clue: ", clue)
+                        clue = clue[:2]
+            print("Random would clue: ", clue)
 
-                return
-            else : 
-                action = random.randint(1,3)
+            return clue
+
        
 
 
