@@ -35,7 +35,8 @@ class Recom_Strategist(AI):
     #those are two global variables
     latest_clue = [5] #action d1 by default
     game_changed = False
-    
+
+
     def play(self):
         "Return the most relevant action according to the recommandation strategy."
         game = self.game
@@ -56,17 +57,19 @@ class Recom_Strategist(AI):
         how_to_play_reversed = {v:k for k,v in how_to_play.items()} #key = action // value = color of the hand
 
         playable = [ card for card in
-                     [hanabi.Card(Red, 1), hanabi.Card(Red, 2),  hanabi.Card(Red, 3), hanabi.Card(Red, 4), hanabi.Card(Red, 5),
-                      hanabi.Card(Blue, 1), hanabi.Card(Blue, 2), hanabi.Card(Blue, 3), hanabi.Card(Blue, 4), hanabi.Card(Blue, 5),
-                      hanabi.Card(Green, 1), hanabi.Card(Green, 2), hanabi.Card(Green, 3), hanabi.Card(Green, 4), hanabi.Card(Green, 5),
-                      hanabi.Card(White, 1), hanabi.Card(White, 2), hanabi.Card(White, 3), hanabi.Card(White, 4), hanabi.Card(White, 5),
-                      hanabi.Card(Yellow, 1), hanabi.Card(Yellow, 2), hanabi.Card(Yellow, 3), hanabi.Card(Yellow, 4), hanabi.Card(Yellow, 5)] #attention au cas multicolore
+                     [hanabi.deck.Card(hanabi.deck.Color.Red, 1), hanabi.deck.Card(hanabi.deck.Color.Red, 2),  hanabi.deck.Card(hanabi.deck.Color.Red, 3), hanabi.deck.Card(hanabi.deck.Color.Red, 4), hanabi.deck.Card(hanabi.deck.Color.Red, 5),
+                      hanabi.deck.Card(hanabi.deck.Color.Blue, 1), hanabi.deck.Card(hanabi.deck.Color.Blue, 2), hanabi.deck.Card(hanabi.deck.Color.Blue, 3), hanabi.deck.Card(hanabi.deck.Color.Blue, 4), hanabi.deck.Card(hanabi.deck.Color.Blue, 5),
+                      hanabi.deck.Card(hanabi.deck.Color.Green, 1), hanabi.deck.Card(hanabi.deck.Color.Green, 2), hanabi.deck.Card(hanabi.deck.Color.Green, 3), hanabi.deck.Card(hanabi.deck.Color.Green, 4), hanabi.deck.Card(hanabi.deck.Color.Green, 5),
+                      hanabi.deck.Card(hanabi.deck.Color.White, 1), hanabi.deck.Card(hanabi.deck.Color.White, 2), hanabi.deck.Card(hanabi.deck.Color.White, 3), hanabi.deck.Card(hanabi.deck.Color.White, 4), hanabi.deck.Card(hanabi.deck.Color.White, 5),
+                      hanabi.deck.Card(hanabi.deck.Color.Yellow, 1), hanabi.deck.Card(hanabi.deck.Color.Yellow, 2), hanabi.deck.Card(hanabi.deck.Color.Yellow, 3), hanabi.deck.Card(hanabi.deck.Color.Yellow, 4), hanabi.deck.Card(hanabi.deck.Color.Yellow, 5)] #attention au cas multicolore
                      if game.piles[card.color]+1 == card.number ]
-        discardable = [ card for card in [hanabi.Card(Red, 1), hanabi.Card(Red, 2),  hanabi.Card(Red, 3), hanabi.Card(Red, 4), hanabi.Card(Red, 5),
-                      hanabi.Card(Blue, 1), hanabi.Card(Blue, 2), hanabi.Card(Blue, 3), hanabi.Card(Blue, 4), hanabi.Card(Blue, 5),
-                      hanabi.Card(Green, 1), hanabi.Card(Green, 2), hanabi.Card(Green, 3), hanabi.Card(Green, 4), hanabi.Card(Green, 5),
-                      hanabi.Card(White, 1), hanabi.Card(White, 2), hanabi.Card(White, 3), hanabi.Card(White, 4), hanabi.Card(White, 5),
-                      hanabi.Card(Yellow, 1), hanabi.Card(Yellow, 2), hanabi.Card(Yellow, 3), hanabi.Card(Yellow, 4), hanabi.Card(Yellow, 5)] #attention au cas multicolore                    )
+        discardable = [ card for card in [hanabi.deck.Card(hanabi.deck.Color.Red, 1), hanabi.deck.Card(hanabi.deck.Color.Red, 2),  hanabi.deck.Card(hanabi.deck.Color.Red, 3), hanabi.deck.Card(hanabi.deck.Color.Red, 4), hanabi.deck.Card(hanabi.deck.Color.Red, 5),
+                      hanabi.deck.Card(hanabi.deck.Color.Blue, 1), hanabi.deck.Card(hanabi.deck.Color.Blue, 2), hanabi.deck.Card(hanabi.deck.Color.Blue, 3), hanabi.deck.Card(hanabi.deck.Color.Blue, 4), hanabi.deck.Card(hanabi.deck.Color.Blue, 5),
+                      hanabi.deck.Card(hanabi.deck.Color.Green, 1), hanabi.deck.Card(hanabi.deck.Color.Green, 2), hanabi.deck.Card(hanabi.deck.Color.Green, 3), hanabi.deck.Card(hanabi.deck.Color.Green, 4), hanabi.deck.Card(hanabi.deck.Color.Green, 5),
+                      hanabi.deck.Card(hanabi.deck.Color.White, 1), hanabi.deck.Card(hanabi.deck.Color.White, 2), hanabi.deck.Card(hanabi.deck.Color.White, 3), hanabi.deck.Card(hanabi.deck.Color.White, 4), hanabi.deck.Card(hanabi.deck.Color.White, 5),
+                      hanabi.deck.Card(hanabi.deck.Color.Yellow, 1), hanabi.deck.Card(hanabi.deck.Color.Yellow, 2), hanabi.deck.Card(hanabi.deck.Color.Yellow, 3), hanabi.deck.Card(hanabi.deck.Color.Yellow, 4), hanabi.deck.Card(hanabi.deck.Color.Yellow, 5)] #attention au cas multicolore                    )
+
+                        
                      if game.piles[card.color]+1 > card.number ]
         # fixme: il me manque les cartes sup d'une pile morte
         # fixme: penser aussi aux doubles dans les mains des partenaires?
@@ -76,10 +79,178 @@ class Recom_Strategist(AI):
                  == game.deck.card_count[card.number]]
         play_limit = 5
         act = "d1" #action by default
-        latest_clue = latest_clue[-1] #passed in arg
+
+        latest_clue = [5] #passed in arg
         game_changed = False #idem
 
+        def give_a_clue(nb_players, playable, discardable, precious): #returns an int
 
+                #the code we use varies with the number of players, this is why we use a switch structure
+                if nb_players == 2:
+                    how_to_clue = {
+                        "c1" : 0,
+                        "c2" : 1,
+                        "c3" : 2,
+                        "c4" : 3,
+                        "c5" : 4,
+                        "cr" : 5,
+                        "cb" : 6,
+                        "cg" : 7,
+                        "cy" : 8,
+                        "cw" : 9
+                    }
+                elif nb_players == 3: #demands an extension of the way of giving clues : the 3rd char should be the number of the player who receives the clue
+                    how_to_clue = {
+                        "c1A" : 0,
+                        "c2A" : 2,
+                        "c3A" : 3,
+                        "c4A" : 3,
+                        "c5A" : 3,
+                        "c1B" : 1,
+                        "c2B" : 4,
+                        "c3B" : 4,
+                        "c4B" : 4,
+                        "c5B" : 4,
+                        "crA" : 5,
+                        "cbA" : 7,
+                        "cgA" : 8,
+                        "cyA" : 8,
+                        "cwA" : 8,
+                        "crB" : 6,
+                        "cbB" : 9,
+                        "cgB" : 9,
+                        "cyB" : 9,
+                        "cwB" : 9 }
+                elif nb_players == 4:
+                    how_to_clue = {
+                        "c1A" : 0,
+                        "c2A" : 1,
+                        "c3A" : 1,
+                        "c4A" : 1,
+                        "c5A" : 1,
+                        "c1B" : 2,
+                        "c2B" : 2,
+                        "c3B" : 2,
+                        "c4B" : 2,
+                        "c5B" : 2,
+                        "c1C" : 3,
+                        "c2C" : 3,
+                        "c3C" : 3,
+                        "c4C" : 3,
+                        "c5C" : 3,
+                        "crA" : 5,
+                        "cbA" : 6,
+                        "cgA" : 6,
+                        "cyA" : 6,
+                        "cwA" : 6,
+                        "crB" : 7,
+                        "cbB" : 7,
+                        "cgB" : 7,
+                        "cyB" : 7,
+                        "cwB" : 7,
+                        "crC" : 8,
+                        "cbC" : 8,
+                        "cgC" : 8,
+                        "cyC" : 8,
+                        "cwC" : 8 }
+                elif nb_players == 5:
+                    how_to_clue = {
+                        "c1A" : 0,
+                        "c2A" : 0,
+                        "c3A" : 0,
+                        "c4A" : 0,
+                        "c5A" : 0,
+                        "c1B" : 1,
+                        "c2B" : 1,
+                        "c3B" : 1,
+                        "c4B" : 1,
+                        "c5B" : 1,
+                        "c1C" : 2,
+                        "c2C" : 2,
+                        "c3C" : 2,
+                        "c4C" : 2,
+                        "c5C" : 2,
+                        "c1D" : 3,
+                        "c2D" : 3,
+                        "c3D" : 3,
+                        "c4D" : 3,
+                        "c5D" : 3,
+                        "crA" : 5,
+                        "cbA" : 5,
+                        "cgA" : 5,
+                        "cyA" : 5,
+                        "cwA" : 5,
+                        "crB" : 6,
+                        "cbB" : 6,
+                        "cgB" : 6,
+                        "cyB" : 6,
+                        "cwB" : 6,
+                        "crC" : 7,
+                        "cbC" : 7,
+                        "cgC" : 7,
+                        "cyC" : 7,
+                        "cwC" : 7,
+                        "crD" : 8,
+                        "cbD" : 8,
+                        "cgD" : 8,
+                        "cyD" : 8,
+                        "cwD" : 8 }
+                else :
+                    pass #la vérification a déjà été faite en principe
+
+                sum = 0
+                for hand in game.hands:
+                    color = how_to_clue[value_hand(hand, playable, discardable, precious)]
+                    sum = sum + color
+                clue = sum%10
+
+                return clue
+
+
+
+
+
+        def value_hand (hand, playable, discardable, precious):
+            # play the "5" card with lowest index
+            # play the card with lowest rank (+ lowest index if conflict)
+            # play the dead card with lowest index
+            # discard the not indispensable card with highest rank (+ lowest index if conflict)
+            # discard 1st card of the hand
+
+            solution = False
+            miniplay = 5
+            maxinotprecious = 1
+            i=1
+            code = -1
+
+            while solution == False and i <= len(hand):
+                card = hand[i]
+                if card in playable:
+                    if card.number == 5:
+                        code = "p%d"%i
+                        solution = True
+                    elif card.number < miniplay:
+                        code = "p%d"%i
+                        miniplay = card.number
+                        i += 1
+                    else :
+                        pass
+                elif card in discardable:
+                    code = "d%d"%i
+                    i += 1
+                elif card not in precious:
+                    if card.number > maxinotprecious:
+                        code = "d%d"%i
+                        maxinotprecious = card.number
+                        i += 1
+                    else:
+                        pass
+                else: #if the current card is not playable, not discardable and precious, go to the next card
+                    i += 1
+
+            if code == -1:
+                code = "d1"
+            return code
 
         # if the latest clue was to play a card AND if no card was played, then play the recommended card
         if latest_clue < play_limit and not game_changed :
@@ -87,12 +258,13 @@ class Recom_Strategist(AI):
             game_changed = True
             return act, latest_clue, game_changed
         # if the latest clue was to play a card AND if a card was played AND there is less than 2 red coins, then play the recommended card
-        elif latest_clue < play_limit and red_coins < 2 :
+        elif latest_clue < play_limit and game.red_coins < 2 :
             act = how_to_play[latest_clue]
             game_changed = True
             return act, latest_clue, game_changed
         # if there is some blue coin available, give a clue
-        elif blue_coins > 0:
+
+        elif game.blue_coins > 0:
             latest_clue.append(give_a_clue(len(game.players), playable, discardable, precious))
             act = how_to_play[latest_clue]
             game_changed = False
@@ -105,177 +277,3 @@ class Recom_Strategist(AI):
         # else, discard 1st card of the hand
         else :
             return act, latest_clue, game_changed
-
-
-
-
-
-
-    def give_a_clue(self, nb_players, playable, discardable, precious): #returns an int
-
-        #the code we use varies with the number of players, this is why we use a switch structure
-        if nb_players == 2:
-            how_to_clue = {
-                "c1" : 0,
-                "c2" : 1,
-                "c3" : 2,
-                "c4" : 3,
-                "c5" : 4,
-                "cr" : 5,
-                "cb" : 6,
-                "cg" : 7,
-                "cy" : 8,
-                "cw" : 9
-            }
-        elif nb_players == 3: #demands an extension of the way of giving clues : the 3rd char should be the number of the player who receives the clue
-            how_to_clue = {
-                "c1A" : 0,
-                "c2A" : 2,
-                "c3A" : 3,
-                "c4A" : 3,
-                "c5A" : 3,
-                "c1B" : 1,
-                "c2B" : 4,
-                "c3B" : 4,
-                "c4B" : 4,
-                "c5B" : 4,
-                "crA" : 5,
-                "cbA" : 7,
-                "cgA" : 8,
-                "cyA" : 8,
-                "cwA" : 8,
-                "crB" : 6,
-                "cbB" : 9,
-                "cgB" : 9,
-                "cyB" : 9,
-                "cwB" : 9 }
-        elif nb_players == 4:
-            how_to_clue = {
-                "c1A" : 0,
-                "c2A" : 1,
-                "c3A" : 1,
-                "c4A" : 1,
-                "c5A" : 1,
-                "c1B" : 2,
-                "c2B" : 2,
-                "c3B" : 2,
-                "c4B" : 2,
-                "c5B" : 2,
-                "c1C" : 3,
-                "c2C" : 3,
-                "c3C" : 3,
-                "c4C" : 3,
-                "c5C" : 3,
-                "crA" : 5,
-                "cbA" : 6,
-                "cgA" : 6,
-                "cyA" : 6,
-                "cwA" : 6,
-                "crB" : 7,
-                "cbB" : 7,
-                "cgB" : 7,
-                "cyB" : 7,
-                "cwB" : 7,
-                "crC" : 8,
-                "cbC" : 8,
-                "cgC" : 8,
-                "cyC" : 8,
-                "cwC" : 8 }
-        elif nb_players == 5:
-            how_to_clue = {
-                "c1A" : 0,
-                "c2A" : 0,
-                "c3A" : 0,
-                "c4A" : 0,
-                "c5A" : 0,
-                "c1B" : 1,
-                "c2B" : 1,
-                "c3B" : 1,
-                "c4B" : 1,
-                "c5B" : 1,
-                "c1C" : 2,
-                "c2C" : 2,
-                "c3C" : 2,
-                "c4C" : 2,
-                "c5C" : 2,
-                "c1D" : 3,
-                "c2D" : 3,
-                "c3D" : 3,
-                "c4D" : 3,
-                "c5D" : 3,
-                "crA" : 5,
-                "cbA" : 5,
-                "cgA" : 5,
-                "cyA" : 5,
-                "cwA" : 5,
-                "crB" : 6,
-                "cbB" : 6,
-                "cgB" : 6,
-                "cyB" : 6,
-                "cwB" : 6,
-                "crC" : 7,
-                "cbC" : 7,
-                "cgC" : 7,
-                "cyC" : 7,
-                "cwC" : 7,
-                "crD" : 8,
-                "cbD" : 8,
-                "cgD" : 8,
-                "cyD" : 8,
-                "cwD" : 8 }
-        else :
-            pass #la vérification a déjà été faite en principe
-
-        sum = 0
-        for hand in game.hands:
-            color = how_to_clue[value_hand(hand, playable, discardable, precious)]
-            sum = sum + color
-        clue = sum%10
-
-        return clue
-
-
-
-
-
-    def value_hand (self, hand, playable, discardable, precious):
-        # play the "5" card with lowest index
-        # play the card with lowest rank (+ lowest index if conflict)
-        # play the dead card with lowest index
-        # discard the not indispensable card with highest rank (+ lowest index if conflict)
-        # discard 1st card of the hand
-
-        solution = False
-        miniplay = 5
-        maxinotprecious = 1
-        i=1
-        code = -1
-
-        while solution == False and i <= len(hand):
-            card = hand[i]
-            if card in playable:
-                if card.number == 5:
-                    code = "p%d"%i
-                    solution = True
-                elif card.number < miniplay:
-                    code = "p%d"%i
-                    miniplay = card.number
-                    i += 1
-                else :
-                    pass
-            elif card in discardable:
-                code = "d%d"%i
-                i += 1
-            elif card not in precious:
-                if card.number > maxinotprecious:
-                    code = "d%d"%i
-                    maxinotprecious = card.number
-                    i += 1
-                else:
-                    pass
-            else: #if the current card is not playable, not discardable and precious, go to the next card
-                i += 1
-
-        if code == -1:
-            code = "d1"
-        return code

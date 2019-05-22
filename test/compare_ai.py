@@ -14,6 +14,11 @@
 #def print(*args, **kwargs):
 #    pass
 
+## commandes à taper dans la console en ayant lancé python3 depuis le dossier hanabi/test
+# à chercher dans le fichier script_comparison.py
+
+import hanabi
+import hanabi.ai
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -26,38 +31,46 @@ def compare (list_of_ai, N):
     retourne les statistiques de base pour chaque IA : score maxi; score mini, score moyen; la fréquence du score maxi et la fréquence des défaites
     A AJOUTER : pour chaque défaite, elle enregistre les raisons de la défaite
     """
-    
-    stats = [[0, 25, 0, 0, 0]]*len(list_of_ai) #max_score, min_score, moy_score, freq_25, freq_defeat
 
-    list_of_scores = [[]]*len(list_of_ai) #liste de len(list_of_ai) listes de N scores
-    
-    i = 0
-    for ai in list_of_ai:
+    #stats = [[0, 25, 0, 0, 0]]*len(list_of_ai) #max_score, min_score, moy_score, freq_25, freq_defeat
+    ##attention on fait une copie de liste, cela pose un problème
+
+    #list_of_scores = [[0]*N]*len(list_of_ai) #liste de len(list_of_ai) listes de N scores
+
+    stats = []
+    list_of_scores = []
+    for i in range(len(list_of_ai)):
+        stat_local = [0, 25, 0, 0, 0]
+        score_local = [0]*N
         for j in range (N):
-            # print("Game numero", j, " avec IA numero",i)
-            game = hanabi.Game(2)  # 2 players
-            game.ai = hanabi.ai.Cheater(game)
-            ai.game = game
+            #print("Game numero", j, " avec IA numero",i)
+            game = hanabi.Game(5)  # 2 players
+            ai_test = list_of_ai[i]
+            game.ai = ai_test
+            ai_test.game = game
             game.run()
+            #print("score : ", game.score)
+            score_local[j] = game.score
+            #print (list_of_scores)
 
-            list_of_scores[i].append(game.score)
-
-            if game.score > stats[i][0]:
-                stats [i][0] = game.score
-            if game.score < stats[i][1]:
-                stats [i][1] = game.score
-            stats [i][2] += game.score
             if game.score == 25:
-                stats [i][3] += 1
+                stat_local[3] += 1
             if game.score == 0:
-                stats [i][4] += 1
-        stats[i][i] = stats[i][2]/N
-        i += 1
-        
+                stat_local[4] += 1
+
+        stat_local[0] = max(score_local)
+        stat_local[1] = min(score_local)
+        stat_local[2] = np.mean(score_local)
+
+        stats.append(stat_local)
+        list_of_scores.append(score_local)
+
+
+    print (stats, list_of_scores)
     return (stats, list_of_scores)
-    
+
 def affichage_alone (scores, stat, ai): #stat = liste de longueur 5
-    
+
     """
     affichage_alone a pour but de visualiser les statistiques d'une IA seulement
     l'histogramme résume tous les scores
