@@ -17,21 +17,24 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-import hanabi
-import hanabi.ai
-
 # attention il faut bien importer toutes les IA qu on veut comparer si elles sont dans des fichiers differents
 
-def compare (list_of_ai):
+def compare (list_of_ai, N):
+    
+    """
+    compare a pour but d'executer un game de hanabi pour chaque IA demandée
+    retourne les statistiques de base pour chaque IA : score maxi; score mini, score moyen; la fréquence du score maxi et la fréquence des défaites
+    A AJOUTER : pour chaque défaite, elle enregistre les raisons de la défaite
+    """
+    
+    stats = [[0, 25, 0, 0, 0]]*len(list_of_ai) #max_score, min_score, moy_score, freq_25, freq_defeat
 
-    stats = [[0, 25, 0, 0, 0]*len(list_of_ai)] #max_score, min_score, moy_score, freq_25, freq_defeat
-
-    list_of_scores = [[]*len(list_of_ai)]
-
+    list_of_scores = [[]]*len(list_of_ai) #liste de len(list_of_ai) listes de N scores
+    
+    i = 0
     for ai in list_of_ai:
-        i = 0
-        for j in range (1000):
-            print("Game numero", j, " avec IA numero",i)
+        for j in range (N):
+            # print("Game numero", j, " avec IA numero",i)
             game = hanabi.Game(2)  # 2 players
             game.ai = hanabi.ai.Cheater(game)
             ai.game = game
@@ -43,38 +46,66 @@ def compare (list_of_ai):
                 stats [i][0] = game.score
             if game.score < stats[i][1]:
                 stats [i][1] = game.score
-            stats [i][2] += game.score/1000.0
+            stats [i][2] += game.score
             if game.score == 25:
                 stats [i][3] += 1
             if game.score == 0:
                 stats [i][4] += 1
+        stats[i][i] = stats[i][2]/N
         i += 1
-    return (stats)
-
-    plt.figure(1)
-    plt.subplot(311)
-    n, bins, patches = plt.hist(list_of_scores[0], 25, normed=1, facecolor='b', alpha=0.75)
-    plt.xlabel('Pourcentage')
-    plt.ylabel('Score')
-    plt.title("Repartition des scores pour IA 1")
-    plt.axis([0, 25, 0, 100])
+        
+    return (stats, list_of_scores)
+    
+def affichage_alone (scores, stat, ai): #stat = liste de longueur 5
+    
+    """
+    affichage_alone a pour but de visualiser les statistiques d'une IA seulement
+    l'histogramme résume tous les scores
+    A AJOUTER : symboliser les valeurs intéressantes pour une IA, ie liste stats renvoyée par compare
+    """
+    
+    titre = "Répartition des scores pour: " + ai
+    plt.figure()
+    n, bins, patches = plt.hist(scores, 26, alpha=0.5)
+    plt.axvline(x=stat[2], color = 'red', label = "Score moyen")
+    plt.plot([0,25],[stat[3], stat[3]], color = 'yellow', label = "Nombre de jeux parfaits")
+    plt.plot([0,25],[stat[4], stat[4]], color = 'black', label = "Nombre de défaites")
+    plt.xlabel('Score')
+    plt.ylabel('Pourcentage')
+    plt.title(titre)
+    plt.axis([-1, 26, 0, 1000])
     plt.grid(True)
 
-    plt.subplot(312)
-    n, bins, patches = plt.hist(list_of_scores[1], 25, normed=1, facecolor='r', alpha=0.75)
-    plt.xlabel('Pourcentage')
-    plt.ylabel('Score')
-    plt.title("Repartition des scores pour IA 2")
-    plt.axis([0, 25, 0, 100])
-    plt.grid(True)
+    plt.legend()
+    plt.show()
 
-    plt.subplot(313)
-    n, bins, patches = plt.hist(list_of_scores[2], 25, normed=1, facecolor='g', alpha=0.75)
-    plt.xlabel('Pourcentage')
-    plt.ylabel('Score')
-    plt.title("Repartition des scores pour IA 3")
-    plt.axis([0, 25, 0, 100])
+def affichage_general (list_of_scores, stats):
+    
+    """
+    affichage_alone a pour but de visualiser les statistiques d'une IA seulement
+    l'histogramme résume tous les scores
+    A AJOUTER : symboliser les valeurs intéressantes pour une IA, ie liste stats renvoyée par compare
+    """
+
+    couleurs = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
+    plt.figure()
+    n, bins, patches = plt.hist(list_of_scores, 25, alpha=0.5)
+    for i in range(len(stats)):
+        plt.axvline(x=stats[i][2], label = "Score moyen", color = couleurs[i])
+    plt.xlabel('Score')
+    plt.ylabel('Pourcentage')
+    plt.title("Histogramme Comparatif")
+    plt.axis([0, 25, 0, 1000])
     plt.grid(True)
 
     plt.show()
-    #problème toutes les données sont stockées dans le premère liste = à corriger
+
+## main script
+
+#a, b = compare([1,2,3], 1000)
+# affichage_alone(b[0], a[0], "AI named Alan")
+# print("okay for Alan")
+# affichage_alone(b[1], a[1], "AI named Betty")
+# print("okay for Betty")
+#affichage_general(b,a)
+#print("okay for comparison")

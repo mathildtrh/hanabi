@@ -74,7 +74,7 @@ class Recom_Strategist(AI):
              self.other_players_cards
              if (1+game.discard_pile.cards.count(card))
                  == game.deck.card_count[card.number]]
-
+        play_limit = 5
         act = "d1" #action by default
         latest_clue = latest_clue[-1] #passed in arg
         game_changed = False #idem
