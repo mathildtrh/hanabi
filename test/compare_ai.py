@@ -66,7 +66,7 @@ def compare (list_of_ai, N):
         list_of_scores.append(score_local)
 
 
-    print (stats, list_of_scores)
+    #print (stats, list_of_scores)
     return (stats, list_of_scores)
 
 def affichage_alone (scores, stat, ai): #stat = liste de longueur 5
@@ -86,7 +86,7 @@ def affichage_alone (scores, stat, ai): #stat = liste de longueur 5
     plt.xlabel('Score')
     plt.ylabel('Pourcentage')
     plt.title(titre)
-    plt.axis([-1, 26, 0, 1000])
+    plt.axis([-1, 26, 0, 10000])
     plt.grid(True)
 
     plt.legend()
@@ -108,7 +108,7 @@ def affichage_general (list_of_scores, stats):
     plt.xlabel('Score')
     plt.ylabel('Pourcentage')
     plt.title("Histogramme Comparatif")
-    plt.axis([0, 25, 0, 1000])
+    plt.axis([0, 25, 0, 10000])
     plt.grid(True)
 
     plt.show()
