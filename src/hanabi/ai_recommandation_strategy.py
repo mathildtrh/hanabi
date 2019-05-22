@@ -36,13 +36,9 @@ class Recom_Strategist(AI):
     latest_clue = [5] #action d1 by default
     game_changed = False
 
-    
-    
-    
     def play(self):
         "Return the most relevant action according to the recommandation strategy."
         game = self.game
-
         nb_players = len(game.players)
 
         #is the same for every game : if there are 4 or 5 players, 4 and 9 should never be used
@@ -67,20 +63,21 @@ class Recom_Strategist(AI):
                       hanabi.deck.Card(hanabi.deck.Color.White, 1), hanabi.deck.Card(hanabi.deck.Color.White, 2), hanabi.deck.Card(hanabi.deck.Color.White, 3), hanabi.deck.Card(hanabi.deck.Color.White, 4), hanabi.deck.Card(hanabi.deck.Color.White, 5),
                       hanabi.deck.Card(hanabi.deck.Color.Yellow, 1), hanabi.deck.Card(hanabi.deck.Color.Yellow, 2), hanabi.deck.Card(hanabi.deck.Color.Yellow, 3), hanabi.deck.Card(hanabi.deck.Color.Yellow, 4), hanabi.deck.Card(hanabi.deck.Color.Yellow, 5)] #attention au cas multicolore
                      if game.piles[card.color]+1 == card.number ]
+
         discardable = [ card for card in [hanabi.deck.Card(hanabi.deck.Color.Red, 1), hanabi.deck.Card(hanabi.deck.Color.Red, 2),  hanabi.deck.Card(hanabi.deck.Color.Red, 3), hanabi.deck.Card(hanabi.deck.Color.Red, 4), hanabi.deck.Card(hanabi.deck.Color.Red, 5),
                       hanabi.deck.Card(hanabi.deck.Color.Blue, 1), hanabi.deck.Card(hanabi.deck.Color.Blue, 2), hanabi.deck.Card(hanabi.deck.Color.Blue, 3), hanabi.deck.Card(hanabi.deck.Color.Blue, 4), hanabi.deck.Card(hanabi.deck.Color.Blue, 5),
                       hanabi.deck.Card(hanabi.deck.Color.Green, 1), hanabi.deck.Card(hanabi.deck.Color.Green, 2), hanabi.deck.Card(hanabi.deck.Color.Green, 3), hanabi.deck.Card(hanabi.deck.Color.Green, 4), hanabi.deck.Card(hanabi.deck.Color.Green, 5),
                       hanabi.deck.Card(hanabi.deck.Color.White, 1), hanabi.deck.Card(hanabi.deck.Color.White, 2), hanabi.deck.Card(hanabi.deck.Color.White, 3), hanabi.deck.Card(hanabi.deck.Color.White, 4), hanabi.deck.Card(hanabi.deck.Color.White, 5),
-                      hanabi.deck.Card(hanabi.deck.Color.Yellow, 1), hanabi.deck.Card(hanabi.deck.Color.Yellow, 2), hanabi.deck.Card(hanabi.deck.Color.Yellow, 3), hanabi.deck.Card(hanabi.deck.Color.Yellow, 4), hanabi.deck.Card(hanabi.deck.Color.Yellow, 5)] #attention au cas multicolore                    )
+                      hanabi.deck.Card(hanabi.deck.Color.Yellow, 1), hanabi.deck.Card(hanabi.deck.Color.Yellow, 2), hanabi.deck.Card(hanabi.deck.Color.Yellow, 3), hanabi.deck.Card(hanabi.deck.Color.Yellow, 4), hanabi.deck.Card(hanabi.deck.Color.Yellow, 5)] #attention au cas multicolore
                      if game.piles[card.color]+1 > card.number ]
-        # fixme: il me manque les cartes sup d'une pile morte
-        # fixme: penser aussi aux doubles dans les mains des partenaires?
+
         precious = [ card for card in
              self.other_players_cards
              if (1+game.discard_pile.cards.count(card))
                  == game.deck.card_count[card.number]]
         play_limit = 5
         act = "d1" #action by default
+
         latest_clue = [5] #passed in arg
         game_changed = False #idem
 
@@ -271,14 +268,18 @@ class Recom_Strategist(AI):
 
 
         # if the latest clue was to play a card AND if no card was played, then play the recommended card
+        current_state_of_game = 0
+        for hand in game.hands:
+            color = value_hand(hand, playable, discardable, precious)
+            current_state_of_game = current_state_of_game + color
         if latest_clue[-1] < play_limit :
             if not game_changed :
-                act = how_to_play[latest_clue[-1]]
+                act = how_to_play[(latest_clue[-1] - current_state_of_game)%10]
                 game_changed = True
                 return act
             # if the latest clue was to play a card AND if a card was played AND there is less than 2 red coins, then play the recommended card
             elif game.red_coins < 2 :
-                act = how_to_play[latest_clue[-1]]
+                act = how_to_play[(latest_clue[-1] - current_state_of_game)%10]
                 game_changed = True
                 return act
             # if there is some blue coin available, give a clue
@@ -299,7 +300,7 @@ class Recom_Strategist(AI):
                 game_changed = False
                 return act
             else :
-                act = how_to_play[latest_clue[-1]]
+                act = how_to_play[(latest_clue[-1] - current_state_of_game)%10]
                 return act
         
 

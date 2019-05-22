@@ -3,9 +3,12 @@ Artificial Intelligence to play Hanabi.
 """
 
 import random
-
+import hanabi
 import itertools
 
+
+def print(*args, **kwargs):
+    pass
 
 class AI:
     """
