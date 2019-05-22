@@ -140,30 +140,20 @@ class Cheater(AI):
 
 class Random(AI):
     """
-<<<<<<< HEAD
     This AI plays like a child, which is partially random but use the clue given and try not to fail the game
 
     Algorithm : 
         * if the AI knows some useful clue about its card, make it play one at random among the useful ones.
         * Do not play at random if there are two red coins
         * if 0 < blue_coins < 8 pick randomly between play, discard or clue.
-=======
-    This AI plays randomly, which is dumb, it doesn't even try to avoid KABOOM... but it doesn't try to discard if there is already 8 blue coins nor to give a clue if there isn't any blue coins left
-
-    Algorithm :
-        * if 0 < blue_coins <= 8 pick randomly between play, discard or clue.
->>>>>>> c105b1acc57db197ef639214ccf11c923ef5bfe9
             * if play is chosen, pick randomly between the unclued cards and other cards that won't make the game fail (ie : +1 red_coin)
             * if clue is chosen, give clue on a random card among the ones unclued.
             * if discard is chosen, discard any card in hand
         * if blue_coins == 8 pick randomly between play or clue
         * if blue_coins == 0 pick randomly between play or discard.
-<<<<<<< HEAD
     
     This AI is supposed to lose after discarding all the cards
     
-=======
->>>>>>> c105b1acc57db197ef639214ccf11c923ef5bfe9
     """
 
     def play(self):
@@ -171,7 +161,6 @@ class Random(AI):
         "Return a random action."
         game = self.game
 
-<<<<<<< HEAD
         #if the cards fit, make it play one of them
         precious = [(i+1, card.number) for (i,card) in enumerate(game.current_hand.cards) if card.number_clue and game.piles[card.color]+1 == card.number]
         num_precious = len(precious)
@@ -191,14 +180,6 @@ class Random(AI):
             # cannot clue an already clued card
             if num_unclued == 0 :
                 action = random.randint(1,2)
-=======
-                #if blue coins are not restrictive, choose randomly
-        if (game.blue_coins>0):
-            if (game.blue_coins<=8):
-                action = random.randint(1,3) # 1 = play; 2 = discard ; 3 = clue
-            else :#8 blue coins
-                action = (2*random.randint(1,3)+1)%4 #trick pour ne jamais tomber sur 2
->>>>>>> c105b1acc57db197ef639214ccf11c923ef5bfe9
 
             # cannot play if we know all the cards and they don't match the pile now, cannot play randomly if the game is about to be lost
             if num_playable==0 or game.red_coins == 2 :
@@ -208,7 +189,6 @@ class Random(AI):
 
         elif game.blue_coins == 0 : #no more blue coins
             action = random.randint(1,2)
-<<<<<<< HEAD
             if num_playable==0 or game.red_coins == 2 :
                 # cannot play, so discard
                 action = 2
@@ -261,32 +241,6 @@ class Random(AI):
                 
 
                 if random_card.color_clue :         #si on a déjà l'indice de couleur c'est qu'il manque l'indice de nombre
-=======
-
-        while action==1:
-            "play a random card in its hand"
-
-            index = random.randint(1,5)
-            return "p%d"%index
-
-        while action == 2:
-            print ('Random would like to discard a card')
-            to_discard = random.randint(1, 5)
-            return ("d%d"%to_discard)
-
-
-        while action == 3:
-            print ('Random would like to give a clue to ...', end='')
-            p = str(random.randint(1, len(game.players)-1))
-            print('%s'%p) #attention donne le numero du joueur et non son nom, à corriger
-            unclued = [ card for card in game.hands[game.other_player].cards if ((not card.color_clue) or (not card.number_clue)) ]
-
-            if unclued :
-                number_card = random.randint(1,len(unclued))
-                random_card = unclued[number_card-1] #.card supprimé car pas besoin
-
-                if random_card.color_clue :
->>>>>>> c105b1acc57db197ef639214ccf11c923ef5bfe9
                     clue = "c%d"%random_card.number
                 elif random_card.number_clue :      #si on a déjà l'indice de nombre c'est qu'il manque l'indice de couleur
                     clue = "c%s"%random_card.color
@@ -297,7 +251,6 @@ class Random(AI):
                         clue = "c%d"%random_card.number
                     else :
                         clue = "c%s"%random_card.color
-<<<<<<< HEAD
                         clue = clue[:2]
             print("Random would clue: ", clue)
 
@@ -308,11 +261,3 @@ class Random(AI):
 
 
 ## blablabla
-=======
-                clue = clue[:2]+p #un peu sale mais pas mieux pour l'instant
-                print("Random would clue: ", clue)
-
-                return clue
-            else :
-                action = random.randint(1,3)
->>>>>>> c105b1acc57db197ef639214ccf11c923ef5bfe9
