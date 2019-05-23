@@ -7,7 +7,7 @@ import hanabi
 from hanabi.ai import AI
 
 
-class Recom_Strategist(AI):
+class Recom_Strategist_2(AI):
 
     """
     This player uses the recommandation strategy, based on the principle of the guessing hat game
