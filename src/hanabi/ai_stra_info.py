@@ -3,33 +3,11 @@ Artificial Intelligence to play Hanabi with the information strategy.
 """
 
 from . import deck
+from hanabi.ai import AI
 import random
 import itertools
 import numpy as np
 
-class AI:
-    """
-    AI base class: some basic functions, game analysis.
-    """
-    def __init__(self, game):
-        self.game = game(5)
-        # possibility table
-        # Suppose there is 5 players in this game
-        # each has 4 cards
-        # each card has 5 suits x 5 ranks = 25 possibilities
-        # 1 possible, 0 impossible
-
-    @property
-    def other_hands(self):
-        "The list of other players' hands."
-        return self.game.hands[1:]
-
-    @property
-    def other_players_cards(self):
-        "All of other players's cards, concatenated in a single list."
-        #return sum([x.cards for x in self.other_hands], [])
-        return list(itertools.chain.from_iterable([hand.cards for hand in self.other_hands]))
-    
 
 class Stra_info(AI):
     """
@@ -45,21 +23,24 @@ class Stra_info(AI):
     """
     p_table = np.ones((5, 4, 5, 5))
     color_p_table = { 0:34, 1:32, 2:31, 3:37, 4:33 } # Figure 3 of Hanabi_final.pdf
-    color_inverse = { 34:0, 32:1, 31:2, 37:3, 33:4 }
-    card_count = {1:3, 2:2, 3:2, 4:2, 5:1 }
-
+    color_p_table_2 = { 0:deck.Color(34), 1:deck.Color(32), 2:deck.Color(31), 3:deck.Color(37), 4:deck.Color(33) } # Figure 3 of Hanabi_final.pdf
+    color_inverse = { deck.Color(34):0, deck.Color(32):1, deck.Color(31):2, deck.Color(37):3, deck.Color(33):4 }
+    card_count = { 1:3, 2:2, 3:2, 4:2, 5:1 }
 
     def cards_possible(self, p_table_current):
         # 5 players
         possibility_current = []
         for (i, card) in enumerate(self.game.current_hand.cards):
             card.possible = []
+            # print(card.color)
             n_p_card = 0
             for j in range(0, 5):
                 for k in range(0, 5):
                     if p_table_current[i][j][k]==1 :
                         n_p_card += 1
-                        card.possible.append(deck.Card(self.color_p_table[j], k+1))
+                        test_c = deck.Card(self.color_p_table_2[j], k+1)
+                        deck.Card.str_color(test_c)
+                        card.possible.append(deck.Card(self.color_p_table_2[j], k+1))
             if n_p_card==1:
                 card.color_clue = True
                 card.number_clue = True
@@ -68,10 +49,16 @@ class Stra_info(AI):
         return possibility_current
 
     def if_playable(self, i, card, possibility_current):
+        # print(self.game.piles)
         if card.color_clue == True and card.number_clue==True and self.game.piles[card.color]+1 == card.number:
             return True
         for (index, p) in enumerate(possibility_current[i]):
-            if (self.game.piles[p.color]+1!=p.number):
+            print(p.number)
+            print(p.color)
+            print(self.game.piles)
+            print(self.game.piles[p.color])
+            # self.game.piles[card.color]+1 == card.number
+            if self.game.piles[p.color]+1!=p.number:
                 return False
         return True
 
@@ -99,7 +86,7 @@ class Stra_info(AI):
         for (c, card) in enumerate(self.game.discard_pile):
             if card.number==number and card.color==card_i.color:
                 n_discard += 1
-        if sefl.card_count[number]-n_discard<1:
+        if self.card_count[number]-n_discard<1:
             return False
         else:
             return True
@@ -111,6 +98,8 @@ class Stra_info(AI):
             hand = self.game.hands[i]
             probability_playable_c = 0
             for (c, card) in enumerate(hand.cards):
+                if c==0:
+                    target_c = card
                 t_c = 0
                 a_c = 0
                 for j in range(0, 5):
@@ -120,6 +109,8 @@ class Stra_info(AI):
                             possibility_current_c = self.cards_possible(self.p_table[i])
                             if self.if_playable(c, card, possibility_current_c):
                                 a_c += 1
+                print(t_c)
+                print(a_c/t_c)
                 if a_c/t_c > probability_playable_c:
                     probability_playable_c = a_c / t_c
                     target_c = c
@@ -129,18 +120,21 @@ class Stra_info(AI):
     # build the partition table to determine the action of the current player
     def tell_action(self, players, target_cards, p_table):
         # 4 players
-        table_partition = np.zeros(4, 5, 5)
+        table_partition = np.zeros((4, 5, 5))
         j = 0 # j-th card in target_cards
         ratio_playable = 0
         ratio_table = []
         for i in range(0, 4):
             player = players[i]
-            card_number = target_cards[i]
+            hand = self.game.hands[player]
+            for (c, card) in enumerate(hand.cards):
+                if card.number==target_cards[i].number and card.color==target_cards[i].color :
+                    card_number = c
             ratio_i_cards = 1 # the ratio of possibilities of this card
             for k in range(0, 5): # 5 ranks
                 for l in range(0, 5): # 5 suits
-                    if p_table[player][card_number][l][k]==1:
-                        if self.game.piles[self.color_p_table[l]]+1 > k+1:
+                    if p_table[i][card_number-1][l][k]==1:
+                        if self.game.piles[self.color_p_table_2[l]]+1 > k+1:
                             table_partition[i][k][l] = 0
                         else:
                             if ratio_i_cards<7:
@@ -151,14 +145,12 @@ class Stra_info(AI):
                     else:
                         table_partition[i][k][l] = -1 # to represent its impossibility
             # tell the ratio of this card
-            hand = self.game.hands[player]
             for (c, card) in enumerate(hand.cards):
                 if c==card_number:
-                    color = card.color
-                    ratio_i_card = table_partition[i][c-1][self.color_inverse[color]]
+                    ratio_i_card = table_partition[i][c-1][self.color_inverse[card.color]]
             ratio_table.append(ratio_i_card)
             ratio_playable += ratio_i_card
-        action = ratio_playable%8
+        action = int(ratio_playable%8)
         return [action, ratio_table, table_partition]
 
     def adjust_p_table(self, players, target_cards, action, ratio_table, table_partition):
@@ -174,23 +166,26 @@ class Stra_info(AI):
             while total_ratio<ratio_he_knows:
                 total_ratio += 8
             ratio_his = total_ratio - ratio_he_knows
+            hand = self.game.hands[players[i]]
             # he can use this information to change the possibility table
+            for (c, card) in enumerate(hand.cards):
+                    if card==target_cards[i]:
+                        card_number = c
             if ratio_his<7:
                 # then this card is known by all
-                hand = self.game.hands[players[i]]
                 for (c, card) in enumerate(hand.cards):
-                    if c==target_cards[i]:
+                    if c==card_number:
                         card.color_clue = True
                         card.number_clue = True
-            for i in range(0,5): # 5 colors
-                for j in range(0, 5): # 5 ranks
-                    if table_partition[i][i][j]!=ratio_his:
-                        self.p_table[players[i]][target_cards[i]][i][j] = 0
+            for l in range(0,5): # 5 colors
+                for k in range(0, 5): # 5 ranks
+                    if table_partition[i][l][k]!=ratio_his:
+                        self.p_table[players[i]][c][l][k] = 0
 
     def play(self):
         game = self.game
         possibility_current = self.cards_possible(self.p_table[game.current_player])
-
+        
 
         # if 1-or-more card is playable: play the lowest one, then newest one
         playable = [ (i+1, card.number) for (i,card) in
@@ -211,7 +206,7 @@ class Stra_info(AI):
                      if self.if_dead(i, card, possibility_current) ]
         if dead and len(game.discard_pile) < 5:
             print ('Stra_info would discard:', "d%d"%dead[0], dead)
-            return "d%d"%dead[0]
+            return "d%d"%dead[0][0]
         
 
         # if a token exists, give a hint
@@ -222,11 +217,14 @@ class Stra_info(AI):
             target_cards = self.calcul_target(players, self.p_table)
             [action, ratio_table, table_partition] = self.tell_action(players, target_cards, self.p_table)
             if action<4:
+                rank = 0
+                clue = 0
                 # rank hint to the player in position 'action'
                 hand = self.game.hands[players[action]]
                 for (c, card) in enumerate(hand.cards):
                     if c==target_cards[action]:
                         rank = card.number
+                        print(rank)
                         clue = "c%d"%card.number
                         # problem with print...
                         #
@@ -242,22 +240,23 @@ class Stra_info(AI):
                        clue, ' of player ', players[action])
             else:
                 #suit hint to the player in position 'action-4'
+                ccolor = 31
+                clue = 0
                 hand = self.game.hands[players[action-4]]
                 for (c, card) in enumerate(hand.cards):
-                    if c==target_cards[action-4]:
-                        color = card.color
-                        clue = "c%d"%card.color
+                    if card==target_cards[action-4]:
+                        ccolor = card.color
+                        clue = "c%s"%card.color
                         # problem with print...
                         #
                 # new possibility table
                 for (c, card) in enumerate(hand.cards):
-                    if c==target_cards[action-4]:
+                    if card.color==ccolor:
                         card.color_clue = True
-                        clue = "c%d"%card.color
                         for i in range(0, 5): # 5 suits
                             for j in range(0, 5): # 5 ranks
                                 if i!= self.color_inverse[card.color]:
-                                    self.p_table[players[action]][c][i][j] = 0
+                                    self.p_table[players[action-4]][c][i][j] = 0
                 print ('Stra_info would clue :',
                        clue, ' of player ', players[action-4])
             # possibility table needs to be changed according to the action
@@ -269,7 +268,7 @@ class Stra_info(AI):
         # discard the dead card with lowest index
         if dead:
             print ('Stra_info would discard:', "d%d"%dead[0], dead)
-            return "d%d"%dead[0]
+            return "d%d"%dead[0][0]
 
 
         # discard the duplicate card
@@ -278,7 +277,7 @@ class Stra_info(AI):
                      if self.if_duplicate(i, card) ]
         if duplicate:
             print ('Stra_info would discard:', "d%d"%duplicate[0], duplicate)
-            return "d%d"%duplicate[0]
+            return "d%d"%duplicate[0][0]
         
 
         # discard the dispensable card 
@@ -287,12 +286,11 @@ class Stra_info(AI):
                      if self.if_dispensable(i, card) ]
         if dispensable:
             print ('Stra_info would discard:', "d%d"%dispensable[0], dispensable)
-            return "d%d"%dispensable[0]
+            return "d%d"%dispensable[0][0]
 
 
         # discard the first card
         cards = [ (i+1, card) for (i,card) in
                      enumerate(game.current_hand.cards) ]
         print ('Stra_info would discard:', "d%d"%cards[0], cards)
-        return "d%d"%cards[0]
-
+        return "d%d"%cards[0][0]
