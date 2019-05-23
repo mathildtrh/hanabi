@@ -1,0 +1,1 @@
+modification de deck : retirait un jeton bleu même quand l'indice n'était pas donné ce qui permettait ensuite de discard une carte.
