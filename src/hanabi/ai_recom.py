@@ -11,19 +11,16 @@ class Recom_Strategist_2(AI):
 
     """
     This player uses the recommandation strategy, based on the principle of the guessing hat game
-
     Code for the self.CLUES :
       * from 0 to 3/4 = play cards from 1 to 4/5
       * from 4/5 to 7/9 = discard cards from 1 to 4/5
       * NB : if there are 4 or 5 players, 4 and 9 should never be used
-
     Algorithm to decide what action to do now:
       * if the latest clue was to play a card AND if no card was played, then play the recommended card
       * if the latest clue was to play a card AND if a card was played AND there is less than 2 red coins, then play the recommended card
       * if there is some blue coin available, give a clue
       * if the latest clue was to discard a card, then discard the recommended card  ####issue if it becomes an indispensable card!!
       * else, discard 1st card of the hand
-
     How to give a relevant clue:
       * play the "5" card with lowest index
       * play the card with lowest rank (+ lowest index if conflict)
@@ -36,7 +33,8 @@ class Recom_Strategist_2(AI):
         "Return the most relevant action according to the recommandation strategy."
         game = self.game
         nb_players = len(game.players)
-
+        self.CLUES = self.CLUES[:nb_players]
+        print("self.CLUES au début : ",self.CLUES)
 
         #is the same for every game : if there are 4 or 5 players, 4 and 9 should never be used
         def how_to_play(nb_players) :
@@ -114,6 +112,8 @@ class Recom_Strategist_2(AI):
                 indice = sum%10
                 ind_card = indice%5
             
+            if ind_card >= len(game.hands[1]):
+                ind_card = 0
             card = game.hands[1].cards[ind_card]
 
             if nb_players > 3 :

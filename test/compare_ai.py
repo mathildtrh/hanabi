@@ -19,6 +19,7 @@
 
 import hanabi
 import hanabi.ai
+import hanabi.ai_recom
 import numpy as np
 import matplotlib.pyplot as plt
 
