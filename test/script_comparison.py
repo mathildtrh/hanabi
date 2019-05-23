@@ -5,7 +5,7 @@ import hanabi.ai_recom as rec2
 import compare_ai as c
 import hanabi.ai_recom
 
-ai1 = hanabi.ai_recom.Recom_Strategist()
+ai1 = hanabi.ai_recom.Recom_Strategist_2()
 ai2 = hanabi.ai.Random()
 ai3 = rec1.Recom_Strategist()
 
