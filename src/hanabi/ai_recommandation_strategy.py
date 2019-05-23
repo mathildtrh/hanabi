@@ -213,6 +213,10 @@ class Recom_Strategist(AI):
                     if valeur == clue :
                         available_clues.append(cle)
                 
+                if not available_clues:
+                    print("Arrêt barbare du jeu à la ligne 213 rec")
+                    raise StopIteration()
+                
                 action = available_clues[0]
 
                 if nb_players>2: #pour gérer la troisième lettre de l'indice
@@ -281,20 +285,32 @@ class Recom_Strategist(AI):
             if not game_changed :
                 act = how_to_play[(latest_clue[-1] - current_state_of_game)%10]
                 game_changed = True
+                if act[1] == 5 and game.players >= 4 :
+                    print("Arrêt barbare dans play de rec ligne 286")
+                    raise StopIteration()
                 return act
             # if the latest clue was to play a card AND if a card was played AND there is less than 2 red coins, then play the recommended card
             elif game.red_coins < 2 :
                 act = how_to_play[(latest_clue[-1] - current_state_of_game)%10]
                 game_changed = True
+                if act[1] == 5 and game.players >= 4 :
+                    print("Arrêt barbare dans play de rec ligne 294")
+                    raise StopIteration()
                 return act
             # if there is some blue coin available, give a clue
             elif game.blue_coins > 0:
                 latest_clue.append(how_to_clue[give_a_clue(len(game.players), playable, discardable, precious)])
                 act = give_a_clue(len(game.players), playable, discardable, precious)
                 game_changed = False
+                if act[1] == 5 and game.players >= 4 :
+                    print("Arrêt barbare dans play de rec ligne 303")
+                    raise StopIteration()
                 return act
             # else, discard 1st card of the hand
             else :
+                if act[1] == 5 and game.players >= 4 :
+                    print("Arrêt barbare dans play de rec ligne 309")
+                    raise StopIteration()
                 return act
         # if the latest clue was to discard a card, then discard the recommended card (unless it's the first turn)
         ####-----------------------issue if it becomes an indispensable card!!-------------------------####
@@ -303,9 +319,15 @@ class Recom_Strategist(AI):
                 latest_clue.append(how_to_clue[give_a_clue(len(game.players), playable, discardable, precious)])
                 act = give_a_clue(len(game.players), playable, discardable, precious)
                 game_changed = False
+                if act[1] == 5 and game.players >= 4 :
+                    print("Arrêt barbare dans play de rec ligne 320")
+                    raise StopIteration()
                 return act
             else :
                 act = how_to_play[(latest_clue[-1] - current_state_of_game)%10]
+                if act[1] == 5 and game.players >= 4 :
+                    print("Arrêt barbare dans play de rec ligne 326")
+                    raise StopIteration()
                 return act
         
 

@@ -260,9 +260,3 @@ class Random(AI):
             print("Random would clue: ", clue)
 
             return clue
-
-       
-
-
-
-## blablabla
