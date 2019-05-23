@@ -34,7 +34,6 @@ class Recom_Strategist(AI):
         game = self.game
         nb_players = len(game.players)
         self.CLUES = self.CLUES[:nb_players]
-        print("self.CLUES au début : ",self.CLUES)
 
         #is the same for every game : if there are 4 or 5 players, 4 and 9 should never be used
         def how_to_play(nb_players) :
@@ -92,7 +91,6 @@ class Recom_Strategist(AI):
         
         act = "d1" #action by default
 
-        self.GAME_CHANGED = False #idem
 
         def give_a_clue(nb_players,playable,discardable,precious) :
             #return the clue to give, and also the list of the hints for all the players
@@ -206,18 +204,35 @@ class Recom_Strategist(AI):
 
 
 
-
-        print("LAST_ACTIONS :", game.moves)
         # forces the first player to give a clue :
         if game.moves == [] or interpret_clue(nb_players) == False :
             if game.blue_coins > 0 :
                 act = give_a_clue(nb_players,playable,discardable,precious)[0]
+            self.GAME_CHANGED = False
             return act
         
+        # if the last person who plays was the last one to clue one round ago you mustn't use the hint given so either you hint or discard at random
+        i = 0
+        j =-1
+        while game.moves[j][0] != 'c' :
+            i+=1                
+            j-=1
 
+        if i == nb_players-1 :
+            # give a clue if you can
+            if game.blue_coins > 0 :
+                act = give_a_clue(nb_players, playable, discardable, precious)[0]
+                self.GAME_CHANGED = False
+                return act
+            # else, discard 1st card of the hand
+            else :
+                self.GAME_CHANGED = False
+                return act
+
+        
         clue = interpret_clue(nb_players)
+        
         # if the latest clue was to play a card AND if no card was played, then play the recommended card
-    
         if clue[0] == 'p' :
             if not self.GAME_CHANGED :
                 act = clue
@@ -235,6 +250,7 @@ class Recom_Strategist(AI):
                 return act
             # else, discard 1st card of the hand
             else :
+                self.GAME_CHANGED = False
                 return act
         # if the latest clue was to discard a card, then discard the recommended card (unless it's the first turn)
         ####-----------------------issue if it becomes an indispensable card!!-------------------------####
@@ -245,5 +261,5 @@ class Recom_Strategist(AI):
                 return act
             else :
                 act = clue
-                self.GAME_CHANGED = True
+                self.GAME_CHANGED = False
                 return act
