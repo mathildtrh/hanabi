@@ -345,7 +345,6 @@ class Game:
         hint = clue[0].upper()  # so cr is valid to clue Red
         if not hint in "12345RBGWY":
             raise ValueError("%s is not a valid clue."%hint)
-        self.remove_blue_coin() # will raise if no blue coin left
 
         try:
             target_index = clue[1]
@@ -357,6 +356,8 @@ class Game:
         target_index = int(target_index)
         if target_index == 0:
             raise ValueError("Cannot give a clue to yourself.")
+
+        self.remove_blue_coin() # will raise if no blue coin left
 
         target_name = self.players[target_index]
 
