@@ -41,6 +41,7 @@ class Recom_Strategist(AI):
         game = self.game
         nb_players = len(game.players)
 
+
         #is the same for every game : if there are 4 or 5 players, 4 and 9 should never be used
         how_to_play = {
             0 : "p1",
@@ -202,7 +203,10 @@ class Recom_Strategist(AI):
                 for hand in game.hands:
                     color = value_hand(hand, playable, discardable, precious)
                     sum = sum + color
-                clue = sum%10
+                if len(game.players) >3 :
+                    clue = sum%8
+                else :
+                    clue = sum%10
                 
                 available_clues = []
                 for cle, valeur in how_to_clue.items() :
@@ -254,6 +258,7 @@ class Recom_Strategist(AI):
                     if card.number > maxinotprecious:
                         code = "d%d"%i
                         maxinotprecious = card.number
+                i+=1
                       
                 
                 #if the current card is not playable, not discardable and precious, go to the next card

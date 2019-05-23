@@ -16,6 +16,10 @@ class AI:
     """
     def __init__(self, game=None):
         self.game = game
+        self.LAST_ACTIONS = [] 
+        self.GAME_CHANGED = False
+        nb_players = len(game.players)
+        self.CLUES = self.CLUES =[0]*(nb_players)
 
     @property
     def other_hands(self):
