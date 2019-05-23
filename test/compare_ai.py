@@ -19,6 +19,7 @@
 
 import hanabi
 import hanabi.ai
+import hanabi.ai_recom
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -44,7 +45,7 @@ def compare (list_of_ai, N):
         score_local = [0]*N
         for j in range (N):
             #print("Game numero", j, " avec IA numero",i)
-            game = hanabi.Game(5)  # 2 players
+            game = hanabi.Game(2)  # 2 players
             ai_test = list_of_ai[i]
             game.ai = ai_test
             ai_test.game = game

@@ -7,8 +7,8 @@ import hanabi
 import itertools
 
 
-def print(*args, **kwargs):
-    pass
+#def print(*args, **kwargs):
+#    pass
 
 class AI:
     """
@@ -17,7 +17,7 @@ class AI:
     def __init__(self, game=None):
         self.game = game
         self.GAME_CHANGED = False
-        self.CLUES = []
+        self.CLUES = [0]*5
 
     @property
     def other_hands(self):
