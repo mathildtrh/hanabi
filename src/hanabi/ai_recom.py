@@ -77,20 +77,20 @@ class Recom_Strategist(AI):
                       hanabi.deck.Card(hanabi.deck.Color.White, 1), hanabi.deck.Card(hanabi.deck.Color.White, 2), hanabi.deck.Card(hanabi.deck.Color.White, 3), hanabi.deck.Card(hanabi.deck.Color.White, 4), hanabi.deck.Card(hanabi.deck.Color.White, 5),
                       hanabi.deck.Card(hanabi.deck.Color.Yellow, 1), hanabi.deck.Card(hanabi.deck.Color.Yellow, 2), hanabi.deck.Card(hanabi.deck.Color.Yellow, 3), hanabi.deck.Card(hanabi.deck.Color.Yellow, 4), hanabi.deck.Card(hanabi.deck.Color.Yellow, 5)] #attention au cas multicolore
                      if game.piles[card.color]+1 == card.number ]
-        print("playble : ",playable)
+        #print("playble : ",playable)
         discardable = [ card for card in [hanabi.deck.Card(hanabi.deck.Color.Red, 1), hanabi.deck.Card(hanabi.deck.Color.Red, 2),  hanabi.deck.Card(hanabi.deck.Color.Red, 3), hanabi.deck.Card(hanabi.deck.Color.Red, 4), hanabi.deck.Card(hanabi.deck.Color.Red, 5),
                       hanabi.deck.Card(hanabi.deck.Color.Blue, 1), hanabi.deck.Card(hanabi.deck.Color.Blue, 2), hanabi.deck.Card(hanabi.deck.Color.Blue, 3), hanabi.deck.Card(hanabi.deck.Color.Blue, 4), hanabi.deck.Card(hanabi.deck.Color.Blue, 5),
                       hanabi.deck.Card(hanabi.deck.Color.Green, 1), hanabi.deck.Card(hanabi.deck.Color.Green, 2), hanabi.deck.Card(hanabi.deck.Color.Green, 3), hanabi.deck.Card(hanabi.deck.Color.Green, 4), hanabi.deck.Card(hanabi.deck.Color.Green, 5),
                       hanabi.deck.Card(hanabi.deck.Color.White, 1), hanabi.deck.Card(hanabi.deck.Color.White, 2), hanabi.deck.Card(hanabi.deck.Color.White, 3), hanabi.deck.Card(hanabi.deck.Color.White, 4), hanabi.deck.Card(hanabi.deck.Color.White, 5),
                       hanabi.deck.Card(hanabi.deck.Color.Yellow, 1), hanabi.deck.Card(hanabi.deck.Color.Yellow, 2), hanabi.deck.Card(hanabi.deck.Color.Yellow, 3), hanabi.deck.Card(hanabi.deck.Color.Yellow, 4), hanabi.deck.Card(hanabi.deck.Color.Yellow, 5)] #attention au cas multicolore
                      if game.piles[card.color]+1 > card.number ]
-        print("discardable : ",discardable)
+        #print("discardable : ",discardable)
         precious = [ card for card in
              self.other_players_cards
              if (1+game.discard_pile.cards.count(card)
                  == game.deck.card_count[card.number])]
         
-        print("precious ; ", precious)
+        #print("precious ; ", precious)
         
         act = "d1" #action by default
 
@@ -103,9 +103,9 @@ class Recom_Strategist(AI):
             i=1
             self.CLUES[0] = 'x'
             for hand in game.hands[1:]:
-                print(game.hands[1:])
+                #print(game.hands[1:])
                 ind = value_hand(hand, playable, discardable, precious)
-                print("ind :", ind)
+                #print("ind :", ind)
                 self.CLUES[i]=ind
                 sum = sum + ind
                 i+=1
@@ -115,11 +115,11 @@ class Recom_Strategist(AI):
             else :
                 indice = sum%10
                 ind_card = indice%5
-            print("indice = ",indice)
+            #print("indice = ",indice)
             
             card = game.hands[1].cards[ind_card]
-            print("card :",card)
-            print( "self.CLUES : ", self.CLUES)
+            #print("card :",card)
+            #print( "self.CLUES : ", self.CLUES)
             if nb_players > 3 :
                 if indice >= 4 :
                     clue = str(card.color)[0]
@@ -147,8 +147,8 @@ class Recom_Strategist(AI):
             while game.moves[j][0] != 'c' :
                 i+=1
                 j-=1
-            clue = self.CLUES[j%(len(self.CLUES))]
-            print("clue : ", clue) 
+            clue = self.CLUES[(i+1)%(len(self.CLUES))]
+            #print("clue : ", clue) 
             if clue == 'x' :
                 return False
 
@@ -174,7 +174,7 @@ class Recom_Strategist(AI):
                     current_discardable.append(card)
                 if card not in precious :
                     current_not_precious.append(card)
-            print("current_not_precious : ", current_not_precious)
+            #print("current_not_precious : ", current_not_precious)
 
             if current_playable :
                 miniplay = min(card.number for card in current_playable)
@@ -198,8 +198,8 @@ class Recom_Strategist(AI):
                 elif code == -1 and card not in precious:                        
                     if card.number == maxinotprecious:
                         code = "d%d"%(i+1)
-                print("code : ", code)
-                print("card : ", card)
+                #print("code : ", code)
+                #print("card : ", card)
                 i+=1
                 if i == len(hand.cards) :
                     sortir = True
