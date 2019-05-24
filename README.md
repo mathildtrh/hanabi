@@ -103,6 +103,7 @@ There are many possible tasks:
 
  
     - Modifier dans *hanabi/test/script_comparison.py* le nombre de joueurs (par défaut à 5) 
+    - Dans le terminal taper ceci :
     ```
     make module
     python3 test/script_comparison.py
