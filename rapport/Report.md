@@ -138,9 +138,8 @@ Résultats obtenus à la deuxième phase de conception :
 ![Image](4_joueurs_Recom.png "performances de notre IA Recom pour 4 joueurs")
 ![Image](5_joueur_Recom.png "performances de notre IA Recom pour 5 joueurs")
 
-Comparaison avec les autres IA que nous avons développé :
-![Image](Comp_Random_Recom_2joueurs.png "Comparaison avec l'IA Random pour 2 joueurs")
-![Image](Comp_Recom_Cheater_2joueurs.png "Comparaison avec l'IA Cheater pour 2 joueurs")
+Comparaison avec l' autre IA que nous avons développé *en bleu Recom et en vert Random* :
+![Image](Comp_Random_Recom_4joueurs.png "Comparaison avec l'IA Random pour 2 joueurs")
 
 ### Conception d'une IA utilisant la stratégie d'information
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
