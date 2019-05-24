@@ -39,5 +39,33 @@ Nous pouvons résumer ses perfomances par le graphique suivant:
 ### Conception d'une IA utilisant la stratégie de recommandation 
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
 
+Cette stratégie est plus facile à appréhenser par un ordinateur car elle est systématique : elle repose en effet sur la méthode de maximisation de réponses justes dans le jeu des chapeaux (cf source). Pour résumer, un indice n'est plus destiné à informer un joueur en particulier sur le contenu de sa main mais plutôt à informer tous les joueurs sur ce que chacun devrait faire dans l'état actuel du jeu.
+
+Il a donc été nécessaire d'établir une bijection entre le type d'indice donné et l'action associée. Cette bijection était proposée dans le document source pour le cas d'un jeu à cinq joueurs mais nous avons dû adapter la méthode pour un nombre plus faible de joueurs et, par conséquent des mains contenant plus de cartes. N'oublions pas non plus que tous les indices ne sont pas valables à tout instant : la règle du jeu impose qu'on ne peut pas donner un indice sur une couleur et/ou un numéro qui ne se trouve pas effectivement dans la main du joeur à qui on s'adresse.
+
+Nous avons également remarqué que cette stratégie n'est payante que si tous les joueurs autour de la table adoptent la même. Nous ne pouvons donc pas faire jouer une IA adoptant cette stratégie à la table qu'une IA tricheuse.
+
+**à remplir  par Camille et Mathilde**
+
+Résultats obtenus après une première phase de conception
+
+**évolutions à remplir par Camille**
+
+Résultats obtenus après une phase de correction
+
 ### Conception d'une IA utilisant la stratégie d'information
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
+
+**à remplir par Ruonan**
+*pour t'aider si nécessaire :
+part 1 : spécificité de ta stratégie
+part 2 : difficultés pour la mise en algorithme
+part 3 : problèmes rencontrés
+part 4 : solutions apportées
+part 5 : problèmes restants, pistes pour les résoudre?*
+
+Résultats obtenus pour l'IA avec stratégie d'information **s'il y en a**
+
+## Conclusion
+
+some bullshit sentences to conclude
