@@ -134,7 +134,7 @@ Résultats obtenus à la deuxième phase de conception :
 ![Image](2_joueurs_Recom.png "performances de notre IA Recom pour 2 joueurs")
 ![Image](3_joueurs_Recom.png "performances de notre IA Recom pour 3 joueurs")
 ![Image](4_joueurs_Recom.png "performances de notre IA Recom pour 4 joueurs")
-![Image](5_joueurs_Recom.png "performances de notre IA Recom pour 5 joueurs")
+![Image](5_joueur_Recom.png "performances de notre IA Recom pour 5 joueurs")
 
 Comparaison avec les autres IA que nous avons développé :
 ![Image](Comp_Random_Recom_2joueurs.png "Comparaison avec l'IA Random pour 2 joueurs")
