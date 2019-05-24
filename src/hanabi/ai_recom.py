@@ -6,6 +6,8 @@ import itertools
 import hanabi
 from hanabi.ai import AI
 
+def print(*args, **kwargs):
+    pass
 
 class Recom_Strategist_2(AI):
 
