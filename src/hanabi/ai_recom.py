@@ -218,7 +218,7 @@ class Recom_Strategist_2(AI):
             i+=1                
             j-=1
 
-        if i == nb_players-1 :
+        """if i == nb_players-1 :
             # give a clue if you can
             if game.blue_coins > 0 :
                 act = give_a_clue(nb_players, playable, discardable, precious)[0]
@@ -226,8 +226,7 @@ class Recom_Strategist_2(AI):
                 return act
             # else, discard 1st card of the hand
             else :
-                self.GAME_CHANGED = False
-                return act
+                return act"""
 
         
         clue = interpret_clue(nb_players)
@@ -250,7 +249,6 @@ class Recom_Strategist_2(AI):
                 return act
             # else, discard 1st card of the hand
             else :
-                self.GAME_CHANGED = False
                 return act
         # if the latest clue was to discard a card, then discard the recommended card (unless it's the first turn)
         ####-----------------------issue if it becomes an indispensable card!!-------------------------####
@@ -261,5 +259,4 @@ class Recom_Strategist_2(AI):
                 return act
             else :
                 act = clue
-                self.GAME_CHANGED = False
                 return act

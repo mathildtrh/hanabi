@@ -7,8 +7,8 @@ import hanabi
 import itertools
 
 
-#def print(*args, **kwargs):
-#    pass
+def print(*args, **kwargs):
+    pass
 
 class AI:
     """

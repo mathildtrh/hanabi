@@ -12,8 +12,8 @@ from enum import unique
 from . import ascii_art
 from . import ai
 
-#def print(*args, **kwargs):
-#    pass
+def print(*args, **kwargs):
+    pass
 
 
 @unique

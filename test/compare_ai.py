@@ -45,7 +45,7 @@ def compare (list_of_ai, N):
         score_local = [0]*N
         for j in range (N):
             #print("Game numero", j, " avec IA numero",i)
-            game = hanabi.Game(2)  # 2 players
+            game = hanabi.Game(2)  # nb players
             ai_test = list_of_ai[i]
             game.ai = ai_test
             ai_test.game = game
@@ -78,16 +78,16 @@ def affichage_alone (scores, stat, ai): #stat = liste de longueur 5
     A AJOUTER : symboliser les valeurs intéressantes pour une IA, ie liste stats renvoyée par compare
     """
     
-    titre = "Répartition des scores pour: " + ai
+    titre = "Répartition des scores à 2 joueurs pour: " + ai
     plt.figure()
-    n, bins, patches = plt.hist(scores, 26, alpha=0.75)
-    plt.axvline(x=stat[2], color = 'red', label = "Score moyen")
-    plt.plot([0,25],[stat[3], stat[3]], color = 'yellow', label = "Nombre de jeux parfaits")
-    plt.plot([0,25],[stat[4], stat[4]], color = 'black', label = "Nombre de défaites")
+    n, bins, patches = plt.hist(scores, 26, alpha=0.5)
+    plt.axvline(x=stat[2], color = 'red', label = "Score moyen : %s"%stat[2])
+    plt.plot([0,25],[stat[3], stat[3]], color = 'yellow', label = "Nombre de jeux parfaits : %s"%stat[3])
+    plt.plot([0,25],[stat[4], stat[4]], color = 'black', label = "Nombre de défaites : %s"%stat[4])
     plt.xlabel('Score')
     plt.ylabel('Pourcentage')
     plt.title(titre)
-    plt.axis([-1, 26, 0, 10000])
+    plt.axis([-1, 26, 0, 400])
     plt.grid(True)
 
     plt.legend()
@@ -109,7 +109,7 @@ def affichage_general (list_of_scores, stats):
     plt.xlabel('Score')
     plt.ylabel('Pourcentage')
     plt.title("Histogramme Comparatif")
-    plt.axis([0, 25, 0, 10000])
+    plt.axis([0, 25, 0, 400])
     plt.grid(True)
 
     plt.show()
