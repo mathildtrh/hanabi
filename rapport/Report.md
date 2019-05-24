@@ -10,6 +10,15 @@ Ce projet à visée pédagogique avait pour buts l'acquisition de compétences e
 
 ## Ce que nous avons accompli pour ce projet
 
+### Prise en main de Git, de la méthode de développement par tests et du module hanabi
+
+L'enjeux de ce projet a d'abord été de comprendre comment fonctionne Git, ce qui ne fut pas chose facile. Puis nous avons été sensibilisé à l'utilisation de tests pour le debug, notamment en écrivant chacun des tests pour le module deck.
+Cette phase de test du module deck a permis de comprendre plusieurs choses : nous avons compris un peu mieux ce que le module hanabi faisait et nous avons pu relever quelques bugs et autres entorses aux règles du jeu. 
+De plus, cette phase de tests nous a fait comprendre qu'il était très compliqué d'écrire des tests sur un programme déjà écrit, qui plus est sur un module que nous venions à peine de prendre en main. Cela a mis en évidence l'interêt de faire les tests en même temps que l'écriture du code, car l'écriture des tests sur un module qu'on vient à peine de découvrir se résume surtout à des tests "à la main", suivi du debugging au fur et à mesure, ce que l'écriture des tests permet de systématiser. De plus à chaque modification les tests permettent de voir si en résolvant un problème on n'en a pas créé un autre.
+Cependant, dans la pratique, on ne sait pas à l'avance tous les tests qu'on va vouloir faire, on en a une idée, puis c'est en testant à la main en lançant le programme qu'on se rend compte de certains problèmes, et qu'on peut écrire le test. La culture des tests n'étant pas encore vraiment implantée dans nos esprits, on a plutôt tendance à résoudre directement le bug. 
+Il paraît cependant évident (mais il nous manque encore quelques réflexes) que la méthode de test-driven development permet *in fine* de gagner du temps pendant la phase de debug. Nous sommes encore loin cependant de maîtriser la méthode, mais nous y avons été grandement sensibilisé pendant ce projet.
+
+
 ### Evaluation des performances d'une intelligence artificielle
 
 Bien que ce travail ait été fait plus tard dans la chronologie du projet, il est important de le signaler maintenant car il nous a permis une analyse plus quantitative des performances de nos différentes intelligences artificielles.
@@ -28,7 +37,7 @@ Ces cinq informations nous permettent de classer les IA entre elles et surtout d
 Le but de cette partie était essentiellement de prendre en main le module de jeu hanabi et l'intelligence artificielle tricheuse (Cheater) qui nous était proposée comme modèle. Tout l'intérêt d'une IA aléatoire repose bien entendu sur l'*absence de stratégie* à implémenter : notre travail s'est ainsi concentré sur la **syntaxe** particulière qu'impliquait le module hanabi et sur l'écriture de **tests unitaires** nous permettant de vérifier le bon fonctionnement de notre IA.
 
 Ainsi, nous avons commencé par lui faire choisir une action au hasard parmi "play", "discard" et "clue", puis un autre choix aléatoire s'effectuait pour déterminer la carte à jouer, défausser ou sur laquelle donner un indice.
-A ce stade de la conception, le reste du groupe commentait les possibilités qui so'ffraient à nous pour pouvoir jouer à **plus de deux joueurs**. C'est pourquoi la phase de choix pour l'action "clue" s'est est trouvée compliquée.
+A ce stade de la conception, le reste du groupe commentait les possibilités qui s'offraient à nous pour pouvoir jouer à **plus de deux joueurs**. C'est pourquoi la phase de choix pour l'action "clue" s'est est trouvée compliquée.
 Très rapidement, nous nous sommes rendues compte des exigences imposées par le module, qui pouvaient différer les règles du jeu hanabi à proprement parler. 
 *Exemple : le module interdit à un joueur de se défausser d'une carte si l'équipe possède déjà 8 jetons bleus. Même si cette action n'est pas recommandée, elle n'est pas formellement interdite par les règles du jeu*
 Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un enfant : elle connait les règles du jeu tel qu'il est implémenté dans le module et n'effectue pas une action qui ferait échouer la partie. Cependant, face à de multiples possibilités de jeu, elle est incapable de prioriser les actions et joue au hasard.
@@ -43,7 +52,7 @@ Cette stratégie est plus facile à appréhenser par un ordinateur car elle est 
 
 Il a donc été nécessaire d'établir une bijection entre le type d'indice donné et l'action associée. Cette bijection était proposée dans le document source pour le cas d'un jeu à cinq joueurs mais nous avons dû adapter la méthode pour un nombre plus faible de joueurs et, par conséquent des mains contenant plus de cartes. N'oublions pas non plus que tous les indices ne sont pas valables à tout instant : la règle du jeu impose qu'on ne peut pas donner un indice sur une couleur et/ou un numéro qui ne se trouve pas effectivement dans la main du joeur à qui on s'adresse.
 
-Nous avons également remarqué que cette stratégie n'est payante que si tous les joueurs autour de la table adoptent la même. Nous ne pouvons donc pas faire jouer une IA adoptant cette stratégie à la table qu'une IA tricheuse.
+Nous avons également remarqué que cette stratégie n'est payante que si tous les joueurs autour de la table adoptent la même. Nous ne pouvons donc pas faire jouer une IA adoptant cette stratégie à la même table qu'une IA tricheuse.
 
 **à remplir  par Camille et Mathilde**
 
