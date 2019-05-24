@@ -13,8 +13,8 @@ from . import ascii_art
 from . import ai
 
 ### à décommenter pour l'affichage des stats
-"""def print(*args, **kwargs):
-    pass"""
+def print(*args, **kwargs):
+    pass
 ###
 
 @unique

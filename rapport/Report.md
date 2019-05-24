@@ -111,8 +111,6 @@ Nous avons remarqué que cette stratégie n'est payante que si tous les joueurs 
 
 **Première phase de conception**
 
-Cette stratégie est plus facile à appréhender par un ordinateur car elle est systématique : elle repose en effet sur la méthode de maximisation de réponses justes dans le jeu des chapeaux (cf source). Pour résumer, un indice n'est plus destiné à informer un joueur en particulier sur le contenu de sa main mais plutôt à informer tous les joueurs sur ce que chacun devrait faire dans l'état actuel du jeu.
-
 Il a donc été nécessaire d'établir une bijection entre le type d'indice donné et l'action associée. Cette bijection était proposée dans le document source pour le cas d'un jeu à cinq joueurs mais nous avons dû adapter la méthode pour un nombre plus faible de joueurs et, par conséquent des mains contenant plus de cartes. N'oublions pas non plus que tous les indices ne sont pas valables à tout instant : la règle du jeu impose qu'on ne peut pas donner un indice sur une couleur et/ou un numéro qui ne se trouve pas effectivement dans la main du joeur à qui on s'adresse.
 
 Cependant la stratégie telle qu'implémentée ne fonctionne qu'avec deux joueurs et ne renvoie pas du tout les bonnes actions ce qui la fait perdre très souvent :
@@ -121,12 +119,15 @@ Cependant la stratégie telle qu'implémentée ne fonctionne qu'avec deux joueur
 
 Nous avons donc dû prendre du recul par rapport à notre IA pour comprendre ce qui clochait.
 
+**Problèmes dans la première version :**
+
+- La relation entre les indices et les actions à faire était très compliquée à établir sauf à deux joueurs et donc plutôt compliquée à décoder puisqu'elle n'était plus bijective.
+
+- Il manquait de plus quelques fonctions d'interprétation des indices et certaines boucles présentaient des bug qui ont été corrigés dans cette deuxième version.
+
 **Deuxième phase de conception**
 
-La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice (ce qui n'est pas possible dans la vraie vie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire).
-Il manquait de plus quelques fonctions d'interprétation des indices et certaines boucles présentaient des bug qui ont été corrigés dans cette deuxième version.
-
-Cependant, même en faisant ces améliorations, on se rend compte que la fonction play du module AI, ne garde pas du tout en mémoire la configuration du jeu lorsque l'on donne l'indice. En effet, pour que l'indice soit valable, il faut le calculer au moment où il a été donné. Or, lorsque c'est le tour d'un joueur, la configuration de la partie a déjà changé, il ne peut plus calculer sa propre action, puisqu'il faut pour cela calculer les actions optimales des autres joueurs, actions qui ont peut-être changé, s'ils ont eux-même joué ou s'ils ont défaussé leurs cartes. 
+On se rend compte que la fonction play du module AI, ne garde pas du tout en mémoire la configuration du jeu lorsque l'on donne l'indice. En effet, pour que l'indice soit valable, il faut le calculer au moment où il a été donné. Or, lorsque c'est le tour d'un joueur, la configuration de la partie a déjà changé, il ne peut plus calculer sa propre action, puisqu'il faut pour cela calculer les actions optimales des autres joueurs, actions qui ont peut-être changé, s'ils ont eux-même joué ou s'ils ont défaussé leurs cartes. 
 
 Comme nous étions limitées en temps, au lieu de garder la configuration en mémoire et de recalculer à chaque fois toutes les actions puis faire un modulo, nous avons préféré directement garder en mémoire la liste des indices pour chaque joueur. Certes c'est un peu de la triche, mais c'est uniquement un raccourci en admettant que chaque joueur réussit à calculer son propre indice. Puisque les fonctions de calcul d'action optimale (value_hand) sont les mêmes (qu'il s'agisse de donner un indice ou de calculer les indices des autres pour trouver le sien), cela revient au même. 
 
@@ -149,17 +150,17 @@ La stratégie utilisée par cette IA est décrite dans le document suivant: [Han
 
 (stratégie à 5 joueurs donc 4 cartes dans chaque main)
 
-L’indice, son action correspondante et les trois catégories des cartes sont mêmes que la stratégie de recommandation. Les indices a donner dans cette stratégie représentent les informations sur les cartes des joueurs.
+L’indice, son action correspondante et les trois catégories de cartes sont les mêmes que dans la stratégie de recommandation. Les indices à donner dans cette stratégie représentent les informations sur les cartes des joueurs.
 
 Un joueur doit faire des actions dans l’ordre ci-dessous :
 
 1. Jouer la carte jouable avec l'index le plus bas.
 2. S'il y a moins de 5 cartes dans la pile de défausse, défausser de la carte morte ayant l'indice le plus bas.
 3. Si des jetons de conseil sont disponibles, donner un indice.
-4. Jeter la carte morte avec l'indice le plus bas.
-5. Si une carte dans la main du joueur est identique à une autre carte dans la main d’un autre joueur, c’est-à-dire qu’il s’agit d’un duplicata, défausser de cette carte.
-6. Jeter la carte à distribuer avec l’indice le plus bas.
-7. Jeter la première carte dans la main.
+4. Se défausser de la carte morte avec l'indice le plus bas.
+5. Si une carte dans la main du joueur est identique à une autre carte dans la main d’un autre joueur, c’est-à-dire qu’il s’agit d’un duplicata, défausser cette carte.
+6. Se défausser de la carte à distribuer avec l’indice le plus bas.
+7. Se défausser de la première carte dans la main.
 
 L'étape la plus importante consiste à donner un indice. Ici, on construit le tableau général des possibilités, une matrice à quatre dimensions, la première dimension représente cinq joueurs, la deuxième dimension représente quatre cartes dans la main de chaque joueur et les troisième et quatrième dimension indiquent respectivement que la carte peut avoir cinq couleurs et cinq nombres. Ainsi, nous pouvons construire un tableau qui montre les possibilités des cartes pour tous les joueurs et dont les informations sont connues de tous. Au début du jeu, chaque élément de la matrice est 1 car une carte peut être n'importe quel numéro de n'importe quelle couleur. 
 
@@ -168,7 +169,7 @@ Lorsqu'un joueur veut donner les indices aux quatre autres joueurs, il doit d'ab
 On doit maintenant construire la partition d'indices de la table de possibilités pour chaque carte cible. La table des possibilités de chaque carte est une matrice de 5 x 5. Avec référence au tableau général de possibilités, dans toutes les possibilités de cette carte, on a un nombre de 0 à 7 pour la possibilité d'une valeur de 1. Dans la partition de la table de possibilités, toutes les possibilités qui ne sont plus jouables valent 0, 1-6 occupent chacun une possibilité dans l’ordre, laissant toutes les possibilités restantes au numéro 7. L’indice de cette carte est donc le numéro correspondant à sa case.
 Et puis l’indice que ce joueur va donner est simplement la somme des indices des cartes cibles module 8. Car chacun connaît l'indice de la carte cible des autres joueurs et, après calcul, il peut connaître l'indice de sa propre carte cible, modifiant ainsi le tableau possible de la carte.
 
-* Difficultés pour la mise en algorithme :
+* Difficultés pour l'élaboration de l'algorithme :
 
 L'algorithme lui-même n'est pas très facile à comprendre et sa mise en œuvre est aussi compliquée. Une petite erreur dans les variables du calcul donnera un résultat très différent. Le calcul sur une matrice à quatre dimensions comporte de nombreuses variables, des données à transférer, des calculs et des boucles énormes, ainsi que le code correspondant au fichier de jeu existant. Le fonctionnement des tableaux multidimensionnels utilise des fonctions de numpy.
 
