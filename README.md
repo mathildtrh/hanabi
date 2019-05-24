@@ -81,21 +81,25 @@ There are many possible tasks:
 ## Note for our teacher
 
 * Pour lancer les parties sur nos deux IA opérationnelles : 
-    - faire un make module
-    - exécuter le fichier play_a_game.py 
+    ```
+    make module
+    python3 play_a_game.py
+    ```
     - suivre les instructions : ce fichier permet de choisir entre les deux IA développées (Random ou Recom), de choisir le nombre de joueurs, permet de faire jouer une partie entière à l'IA, ou de la faire jouer tour par tour.
 
 
 
-* Pour afficher les stats : décommenter les deux lignes suivantes en tête des fichiers suivants (redéfinit la fonction print pour éviter l'affichage des 1000 parties) :
-    - deck.py
-    - ai.py
-    - ai_recommandation_strategy.py
-    - ai_recom.py
+* Pour afficher les stats : décommenter les deux lignes suivantes (redéfinit la fonction print pour éviter l'affichage des 1000 parties) : 
     ```
     def print(*args, **kwargs):
         pass 
     ```
+     en tête des fichiers suivants :
+    - deck.py
+    - ai.py
+    - ai_recommandation_strategy.py
+    - ai_recom.py
+
  
     - Modifier dans *hanabi/test/script_comparison.py* le nombre de joueurs (par défaut à 5) 
     - faire un make module
