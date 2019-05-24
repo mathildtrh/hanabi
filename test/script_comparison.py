@@ -5,7 +5,8 @@ import hanabi.ai_recom as rec2
 import compare_ai as c
 import hanabi.ai_recom
 
-
+""" Avez-vous pensez à décommenter def print dans les fichiers ai.py, ai_recom.py and deck.py ?
+"""
 ai1 = rec2.Recom_Strategist_2()
 ai2 = hanabi.ai.Random()
 ai3 = hanabi.ai.Cheater()

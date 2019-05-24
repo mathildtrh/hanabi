@@ -347,6 +347,8 @@ class Game:
         if not hint in "12345RBGWY":
             raise ValueError("%s is not a valid clue."%hint)
 
+        #self.remove_blue_coin() was here originnally, I changed its place because you can't remove a blue coin if you made an error giving a clue
+
         try:
             target_index = clue[1]
             if target_index in 'ABCDE':

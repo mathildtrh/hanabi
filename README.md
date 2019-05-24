@@ -80,6 +80,15 @@ There are many possible tasks:
 
 ## Note for our teacher
 
+* Voici les noms de fichiers intéressants :
+    - *src/hanabi/deck.py* (quelques modifications mineures)
+    - *src/hanabi/ai.py* contient l'IA Cheater (inchangée) et l'IA Random (toute la doc est dans la description de la classe)
+    - *src/hanabi/ai_recommandation_strategy.py* contient la première version de l'IA Recom qui a été abandonnée
+    - *src/hanabi/ai_recom.py* contient la deuxième version de l'IA Recom qui fonctionne mieux
+    - *src/hanabi/ai_stra_info.py* contient l'essai d'IA utilisant la stratégie d'information
+    - *test/script_comparison.py* c'est ce fichier qui permet d'afficher nos stats (voir plus bas pour un affichage optimal et déterminer les paramètres)
+    - *play_a_game.py* permet de faire jouer les AI qui fonctionnent correctement (voir plus bas)
+
 * Pour lancer les parties sur nos deux IA opérationnelles : 
     ```
     make module
@@ -98,7 +107,6 @@ There are many possible tasks:
     - en tête des fichiers suivants :
         - deck.py
         - ai.py
-        - ai_recommandation_strategy.py
         - ai_recom.py
 
  

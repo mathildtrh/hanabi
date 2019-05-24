@@ -2,6 +2,8 @@ import hanabi
 import hanabi.ai
 import hanabi.ai_recom
 
+"""Si vous avez affiché les stats, avez-vous pensez à recommenter la définition de print en haut des fichiers ai.py, ai_recom.py et deck.py ?"""
+
 
 nom_de_IA = input("quelle IA voulez-vous tester ? [Random/Recom] : ")
 nb_players = int(input("combien de joueurs ? [2/3/4/5]: "))
