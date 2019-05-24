@@ -43,9 +43,10 @@ Très rapidement, nous nous sommes rendues compte des exigences imposées par le
 Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un humain stupide : elle connait les règles du jeu tel qu'implémentées dans le module et n'effectue pas une action qui ferait échouer la partie. Elle joue en priorité une carte si elle sait que celle-ci est correcte. Sinon elle joue aléatoirement : elle joue une carte de manière aléatoire parmi celle dont elle ne connaît rien (mais évite de jouer une carte qu'elle sait va faire échouer la partie) elle donne un indice aléatoire parmi les indices que l'autre joueur ne connaît pas encore, ou alors elle se défausse d'une carte de manière aléatoire. Ces actions ne prennent en compte aucune stratégie, excepté d'éviter de faire échouer la partie.
 
 Nous pouvons résumer ses perfomances par le graphique suivant:
-Finalement cette IA oscille entre des performances médiocres et honorable, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchi : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal manée.
 
 ![Image](stats_random.png "performances de notre IA Random") ![Image](stats_cheater.png "performances de l'IA Cheater")
+
+Finalement cette IA oscille entre des performances médiocres et honorable, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchi : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal manée.
 
 
 ### Conception d'une IA utilisant la stratégie de recommandation 
