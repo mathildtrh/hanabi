@@ -80,9 +80,10 @@ There are many possible tasks:
 
 ## Note for our teacher
 
-* Pour lancer les parties : 
-    - dans le terminal taper make module
-    - exécuter le fichier play_a_game.py (on peut modifier l'IA choisie et le nombre de joueur à l'intérieur de ce fichier ; soit l'IA Random, soit l'IA qui utilise la méthode de recommandation)
+* Pour lancer les parties sur nos deux IA opérationnelles : 
+    - faire un make module
+    - exécuter le fichier play_a_game.py 
+    - suivre les instructions : ce fichier permet de choisir entre les deux IA développées (Random ou Recom), de choisir le nombre de joueurs, permet de faire jouer une partie entière à l'IA, ou de la faire jouer tour par tour.
 
 
 
