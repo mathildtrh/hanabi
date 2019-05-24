@@ -31,13 +31,8 @@ There are many possible tasks:
   - [x] complete its documentation when needed,
   - [x] share with everyone this improvement,
 
-- [ ] improve the CheaterAI
- - [x] we chose instead to develop new AIs
-
 - [x] add AIs. Some suggestions:
   - [x] RandomAI (plays randomly)
-  - [ ] DirectAI (plays whatever is hinted)
-  - [ ] BGAAI (plays Board Game Arena's standard)
   - [x] HansimAI (both strategies)
   - [x] train a machine learning (I'm not sure if this will give anything interesting without powerful CPU/GPU resources)
   - [x] design your own, by progressively improving the Random one
@@ -47,7 +42,13 @@ There are many possible tasks:
 
 - [x] make it workable for up to 5 players : hanabi module is workable for 2, 3, 4 and 5 players, thanks to the contributions of the whole group. We also made Cheater, Random and Recom able to play with 2, 3, 4 or 5 players.
 
+
+## Improvements to come
+
+- [ ] improve the CheaterAI : we chose instead to develop new AIs but it could be interesting to achieve a perfect score 100% of the time, or understanf why this is not possible
 - [ ] make it workable from two separate screens : it would have been fun to be able to play with our friends or with our AIs
+- [ ] design a GUI that looks like a real *professional* game (for the moment, you only have some colored ascii art on your terminal)
+- [ ] make all our AIs able to play, in particular the one with a information strategy because it has great chances of making high scores more frequently than the other AIS we developped.
 
 ## Bibliography
 
