@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 
 # attention il faut bien importer toutes les IA qu on veut comparer si elles sont dans des fichiers differents
 
-def compare (list_of_ai, N):
+def compare (list_of_ai, N, nb_players):
     
     """
     compare a pour but d'executer un game de hanabi pour chaque IA demandée
@@ -45,7 +45,7 @@ def compare (list_of_ai, N):
         score_local = [0]*N
         for j in range (N):
             #print("Game numero", j, " avec IA numero",i)
-            game = hanabi.Game(2)  # nb players
+            game = hanabi.Game(nb_players)  # nb players
             ai_test = list_of_ai[i]
             game.ai = ai_test
             ai_test.game = game
