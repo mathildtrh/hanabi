@@ -80,14 +80,25 @@ There are many possible tasks:
 
 ## Note for our teacher
 
-Please note that we had to change the definition of the function **print** so as to speed up the execution of 1000 games (to make our statistics). If you want to see again your wonderful ascii art and the many commentaries we made when our IAs are actually playing, you should remove those two lines
+* Pour lancer les parties : 
+    - dans le terminal taper make module
+    - exécuter le fichier play_a_game.py (on peut modifier l'IA choisie et le nombre de joueur à l'intérieur de ce fichier ; soit l'IA Random, soit l'IA qui utilise la méthode de recommandation)
+
+
+
+* Pour afficher les stats : décommenter les deux lignes suivantes en tête des fichiers suivants (redéfinit la fonction print pour éviter l'affichage des 1000 parties) :
+    - deck.py
+    - ai.py
+    - ai_recommandation_strategy.py
+    - ai_recom.py
 ```
 def print(*args, **kwargs):
     pass 
 ```
+Modifier dans *hanabi/test/script_comparison.py* le nombre de joueurs (par défaut à 5) 
+Puis faire un make module
+Et lancer python3 hanabi/test/script_comparison.py
+Donne 4 figures : AI de Recommandation, AI Random et AI Cheater puis un graphe qui superpose les résultats.
 
-from the following files:
-* deck.py
-* ai.py
-* ai_recommandation_strategy.py
-* ai_recom.py
+
+
