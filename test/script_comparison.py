@@ -17,5 +17,5 @@ nb_parties = 1000 #idem si jamais
 a,b = c.compare([ai1, ai2, ai3], nb_parties, nb_players)
 c.affichage_alone(b[0], a[0], "AI named Recom")
 c.affichage_alone(b[1], a[1], "AI named Random")
-c.affichage_alone(b[1], a[1], "AI named Cheater")
+c.affichage_alone(b[2], a[2], "AI named Cheater")
 c.affichage_general(b,a)

@@ -85,9 +85,9 @@ def affichage_alone (scores, stat, ai): #stat = liste de longueur 5
     plt.plot([0,25],[stat[3], stat[3]], color = 'yellow', label = "Nombre de jeux parfaits : %s"%stat[3])
     plt.plot([0,25],[stat[4], stat[4]], color = 'black', label = "Nombre de défaites : %s"%stat[4])
     plt.xlabel('Score')
-    plt.ylabel('Pourcentage')
+    plt.ylabel('Nombre de parties')
     plt.title(titre)
-    plt.axis([-1, 26, 0, 400])
+    plt.axis([-1, 26, 0, 500])
     plt.grid(True)
 
     plt.legend()
@@ -107,9 +107,9 @@ def affichage_general (list_of_scores, stats):
     for i in range(len(stats)):
         plt.axvline(x=stats[i][2], label = "Score moyen", color = couleurs[i])
     plt.xlabel('Score')
-    plt.ylabel('Pourcentage')
+    plt.ylabel('Nombre de parties')
     plt.title("Histogramme Comparatif")
-    plt.axis([0, 25, 0, 400])
+    plt.axis([0, 25, 0, 500])
     plt.grid(True)
 
     plt.show()

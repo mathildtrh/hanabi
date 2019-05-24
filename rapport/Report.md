@@ -1,9 +1,9 @@
 # Projet IN104 : Intelligence artificielle pour le jeu Hanabi
 
-Ce projet à visée pédagogique avait pour buts l'acquisition de compétences en programmation et en gestion de projet:
+Ce projet à visée pédagogique avait pour but l'acquisition de compétences en programmation et en gestion de projet:
 * programmation orientée objet en Python
 * prise en main d'un module préconçu par un autre programmeur
-* extension de ce module et construction d'intelligence artificielle
+* extension de ce module et construction d'intelligences artificielles
 * sensibilisation à la maintenabilité d'un code et à l'élaboration progressive de tests unitaires en cas de bugs
 * initialisation à GitHub et ses fonctionnalités
 * sensibilisation à l'utilisation de la syntaxe Markdown
@@ -16,9 +16,12 @@ L'enjeu de ce projet a d'abord été de comprendre comment fonctionne Git, ce qu
 
 ## Méthode de développement par tests et module hanabi
 
-Nous avons été sensibilisées dans un deuxième temps à l'utilisation de tests pour le debug, notamment en écrivant chacun des tests pour le module deck.
+Nous avons été sensibilisées dans un deuxième temps à l'utilisation de tests pour le debug, notamment en écrivant des tests pour le module deck.
+
 Cette phase de test a permis de comprendre plusieurs choses. D'une part, nous avons compris un peu mieux ce que le module hanabi faisait et d'autre part nous avons pu relever quelques bugs et autres entorses aux règles du jeu. 
+
 De plus, cette phase de tests nous a fait comprendre qu'il était délicat d'écrire des tests sur un programme déjà écrit, qui plus est sur un module que nous venions à peine de prendre en main. Cela a mis en évidence l'intérêt de faire les tests en même temps que l'écriture du code, car l'écriture des tests sur un module qu'on vient à peine de découvrir se résume surtout à des tests "à la main", suivi du debugging au fur et à mesure, ce que l'écriture synchrone du code et des tests permet de systématiser. D'autre part, les tests permettent à chaque modification de voir si en résolvant un problème un autre n'a pas été créé.
+
 Cependant, en pratique, il est difficile de prévoir tous les tests à effectuer et c’est en lançant le programme qu’on se rend compte de certains problèmes et qu’on peut écrire les tests correspondants. 
 
 ## Ce que nous avons accompli pour ce projet
@@ -38,11 +41,11 @@ Ces cinq informations nous permettent de classer les IA entre elles et surtout d
 
 *Exemple 1 : Cheater réalise un score parfait 86.4% du temps et a un score moyen égal à 24,7. Nous pouvons donc nous demander pourquoi un tricheur ne peux pas s'assurer un score parfait systématiquement.* 
 
-![Image](2_joueurs_Cheater.png "Performances de l'IA Cheater pour 2 joueurs")
+![Image](5_joueur_Cheater.png "Performances de l'IA Cheater pour 5 joueurs")
 
 *Exemple 2 : Doit-on préférer une IA ayant un bon score moyen mais qui échoue souvent à une IA ayant un socre moyen plus faible mais qui n'échoue jamais?*
 
-### Remarques sur l'IA tricheuse Cheater
+#### Remarques sur l'IA tricheuse Cheater
 
 L'IA Cheater, bien qu'elle obtienne des résultats assez impressionnants, n'obtient pas 100% de réussite. En effet, parfois la configuration du jeu fait que parfois, le joueur est obligé de se débarasser d'une carte indispensable, par exemple un 5, car il n'a pas d'autre possibilité. Le jeu ne peut donc plus être parfait.
 
@@ -50,21 +53,21 @@ L'IA Cheater, bien qu'elle obtienne des résultats assez impressionnants, n'obti
 
 Le but de cette partie était essentiellement de prendre en main le module de jeu hanabi. Tout l'intérêt d'une IA aléatoire repose bien entendu sur l'*absence de stratégie* à implémenter : notre travail s'est ainsi concentré sur la **syntaxe** particulière qu'impliquait le module hanabi et sur l'écriture de **tests unitaires** nous permettant de vérifier le bon fonctionnement de notre IA.
 
-Ainsi, nous avons commencé par lui faire choisir une action au hasard parmi "play", "discard" et "clue", puis un autre choix aléatoire s'effectuait pour déterminer la carte à jouer, défausser ou sur laquelle donner un indice.
-A ce stade de la conception, le reste du groupe commentait les possibilités qui s'offraient à nous pour pouvoir jouer à **plus de deux joueurs**. C'est pourquoi la phase de choix pour l'action "clue" s'est trouvée compliquée.
-Très rapidement, nous nous sommes rendues compte des exigences imposées par le module, qui pouvaient différer les règles du jeu hanabi à proprement parler. 
+Ainsi, nous avons commencé par lui faire choisir une action au hasard parmi "play", "discard" et "clue", puis un autre choix aléatoire s'effectuait pour déterminer la carte à jouer, défausser ou sur laquelle donner un indice. 
+
+Très rapidement, nous nous sommes rendues compte des exigences imposées par le module, qui pouvaient différer des règles du jeu hanabi à proprement parler : en effet, le module permet par exemple de donner un indice inexistant dans la main du joueur.
 
 *Exemple : le module interdit à un joueur de se défausser d'une carte si l'équipe possède déjà 8 jetons bleus. Même si cette action n'est pas recommandée, elle n'est pas formellement interdite par les règles du jeu*
 
-Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un humain simple d'esprit : elle connait les règles du jeu telles qu'implémentées dans le module et n'effectue pas une action qui ferait échouer la partie. Elle joue en priorité une carte si elle sait que celle-ci est correcte. Sinon, elle joue aléatoirement une carte parmi celle dont elle ne connaît rien (mais évite de jouer une carte dont elle sait qu'elle va faire échouer la partie), donne un indice aléatoire parmi les indices que l'autre joueur ne connaît pas encore, ou bien se défausse d'une carte de manière aléatoire. Ces actions ne prennent en compte aucune stratégie, excepté celle qui évite de faire échouer la partie.
+Nous avons ensuite fait évoluer cette IA afin qu'elle joue plutôt comme un humain simple d'esprit : elle connait les règles du jeu telles qu'implémentées dans le module et n'effectue pas une action qui ferait échouer la partie. Elle joue en priorité une carte si elle sait que celle-ci est correcte. Sinon, elle joue aléatoirement une carte parmi celle dont elle ne connaît rien (mais évite de jouer une carte dont elle sait qu'elle va faire échouer la partie), donne un indice aléatoire parmi les indices que les autres joueurs ne connaît pas encore, ou bien se défausse d'une carte de manière aléatoire. 
 
 Nous pouvons résumer ses perfomances par le graphique suivant (comparées avec les performances de l'AI Cheater):
 
-![Image](4_joueurs_Random.png "performances de notre IA Random pour 4 joueurs") ![Image](Comp_Random_Cheater_2joueurs.png "Comparaison avec les performances de l'IA Cheater")
+![Image](5_joueurs_Random.png "performances de notre IA Random pour 5 joueurs") ![Image](Comp_Random_Cheater.png "Comparaison avec les performances de l'IA Cheater")
 
-*Les stats sont données pour 4 joueurs mais ce graphique est similaire pour n'importe quel nombre de joueurs.*
+*Les stats sont données pour 5 joueurs mais ce graphique est similaire pour n'importe quel nombre de joueurs.*
 
-Finalement cette IA oscille entre des performances médiocres et honorables, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchit : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal menée.
+Finalement cette IA oscille entre des performances médiocres et honorables, et **elle a le mérite de ne jamais faire échouer la partie**, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchit : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal menée.
 
 ### Conception d'une IA utilisant la stratégie de recommandation Recom
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
@@ -72,7 +75,7 @@ La stratégie utilisée par cette IA est décrite dans le document suivant: [Han
 (stratégie à 5 joueurs donc 4 cartes dans chaque main)
 * Chaque indice correspond à une action : 
 
-    0. jouer carte 1 // indice de rang sur la carte 1
+    - 0. jouer carte 1 // indice de rang sur la carte 1
     1. jouer carte 2 // indice de rang sur la carte 2
     2. jouer carte 3 // indice de rang sur la carte 3
     3. jouer carte 4 // indice de rang sur la carte 4
@@ -120,7 +123,7 @@ Nous avons donc dû prendre du recul par rapport à notre IA pour comprendre ce 
 
 **Deuxième phase de conception**
 
-La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice **(ce qui n'est pas possible dans la vraie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire).**
+La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice (ce qui n'est pas possible dans la vraie vie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire).
 Il manquait de plus quelques fonctions d'interprétation des indices et certaines boucles présentaient des bug qui ont été corrigés dans cette deuxième version.
 
 Cependant, même en faisant ces améliorations, on se rend compte que la fonction play du module AI, ne garde pas du tout en mémoire la configuration du jeu lorsque l'on donne l'indice. En effet, pour que l'indice soit valable, il faut le calculer au moment où il a été donné. Or, lorsque c'est le tour d'un joueur, la configuration de la partie a déjà changé, il ne peut plus calculer sa propre action, puisqu'il faut pour cela calculer les actions optimales des autres joueurs, actions qui ont peut-être changé, s'ils ont eux-même joué ou s'ils ont défaussé leurs cartes. 

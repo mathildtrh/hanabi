@@ -7,8 +7,8 @@ import hanabi
 import itertools
 
 ### à décommenter pour l'affichage des stats
-"""def print(*args, **kwargs):
-    pass"""
+def print(*args, **kwargs):
+    pass
 ###
 
 class AI:
@@ -231,8 +231,8 @@ class Random(AI):
 
             #if you can't play or discard
             if not unclued:
-                number_card = random.randint(1,4)
-                random_card = game.current_hand.cards[number_card-1] 
+                number_card = random.randint(1,len(game.hands[1].cards))
+                random_card = game.hands[1].cards[number_card-1] 
                 piece = random.randint(1,2)
                 if piece == 1 :
                     clue = "c%d"%random_card.number
@@ -245,19 +245,21 @@ class Random(AI):
                 number_card = random.randint(1,num_unclued)
                 random_card = unclued[number_card-1] 
                 
-
+                i=1
+                while random_card not in game.hands[i].cards :
+                    i+=1
                 if random_card.color_clue :         #si on a déjà l'indice de couleur c'est qu'il manque l'indice de nombre
-                    clue = "c%d"%random_card.number
+                    clue = "c%d%d"%(random_card.number,i)
                 elif random_card.number_clue :      #si on a déjà l'indice de nombre c'est qu'il manque l'indice de couleur
                     clue = "c%s"%random_card.color
-                    clue = clue[:2]
+                    clue = clue[:2]+'%d'%i
                 else :                              #sinon on tire au hasard si on va donner l'indice de couleur ou de nombre puisqu'aucun n'est connu
                     piece = random.randint(1,2)
                     if piece == 1 :
-                        clue = "c%d"%random_card.number
+                        clue = "c%d%d"%(random_card.number,i)
                     else :
                         clue = "c%s"%random_card.color
-                        clue = clue[:2]
+                        clue = clue[:2]+'%d'%i
             print("Random would clue: ", clue)
 
             return clue
