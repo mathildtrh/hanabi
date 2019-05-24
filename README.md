@@ -77,3 +77,17 @@ There are many possible tasks:
 * [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging)
 * [markdown (overview)](https://guides.github.com/features/mastering-markdown/), [markdown (in details)](https://github.github.com/gfm/)
 * [BGA state machine](https://www.slideshare.net/boardgamearena/bga-studio-focus-on-bga-game-state-machine)
+
+## Note for our teacher
+
+Please note that we had to change the definition of the function **print** so as to speed up the execution of 1000 games (to make our statistics). If you want to see again your wonderful ascii art and the many commentaries we made when our IAs are actually playing, you should remove those two lines
+```
+def print(*args, **kwargs):
+    pass 
+```
+
+from the following files:
+* deck.py
+* ai.py
+* ai_recommandation_strategy.py
+* ai_recom.py
