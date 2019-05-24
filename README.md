@@ -1,4 +1,4 @@
-# Hanabi project
+# Camille, Ruonan and Mathilde's Hanabi project
 
 This project is for educational purposes: 
 its current status represents the student's work until May, 24th, 2019.
