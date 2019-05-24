@@ -39,6 +39,10 @@ Ces cinq informations nous permettent de classer les IA entre elles et surtout d
 
 *Exemple 2 : Doit-on préférer une IA ayant un bon score moyen mais qui échoue souvent à une IA ayant un socre moyen plus faible mais qui n'échoue jamais?*
 
+### Remarques sur l'IA Cheater
+
+L'IA Cheater, bien qu'elle obtienne des résultats assez impressionnant n'obtient pas 100% de réussite. En effet, parfois la configuration du jeu fait que parfois, le joueur est obligé de se débarasser d'une carte indispensable, par exemple un 5, car il n'a pas d'autres possibilités. Le jeu ne peut donc plus être parfait.
+
 ### Conception d'une IA aléatoire
 
 Le but de cette partie était essentiellement de prendre en main le module de jeu hanabi et l'intelligence artificielle tricheuse (Cheater) qui nous était proposée comme modèle. Tout l'intérêt d'une IA aléatoire repose bien entendu sur l'*absence de stratégie* à implémenter : notre travail s'est ainsi concentré sur la **syntaxe** particulière qu'impliquait le module hanabi et sur l'écriture de **tests unitaires** nous permettant de vérifier le bon fonctionnement de notre IA.
@@ -71,7 +75,7 @@ La stratégie utilisée par cette IA est décrite dans le document suivant: [Han
     6. se débarasser carte 3 // indice de couleur sur la carte 3
     7. se débarasser carte 4 // indice de couleur sur la carte 4
 
-* Trois catégorie de cartes : Playable ; Dead ; Indispensable
+* Trois catégories de cartes : Playable ; Dead ; Indispensable.
 
 * Priorités des indices à donner : 
     1. Faire jouer une Playable de rang 5 (d'index 1 2 3 4 minimal)
@@ -92,23 +96,27 @@ Le joueur voulant faire la recommandation donne l'indice correspondant à la som
     4. Si l'indice était de se débarasser d'une carte, se débarasser de la carte.
     5. Se débarasser de la carte n°1
 
+
+Nous avons remarqué que cette stratégie n'est payante que si tous les joueurs autour de la table adoptent la même. Nous ne pouvons donc pas faire jouer une IA adoptant cette stratégie à la même table qu'une IA tricheuse.
+
+**Première phase de conception**
+
 Cette stratégie est plus facile à appréhender par un ordinateur car elle est systématique : elle repose en effet sur la méthode de maximisation de réponses justes dans le jeu des chapeaux (cf source). Pour résumer, un indice n'est plus destiné à informer un joueur en particulier sur le contenu de sa main mais plutôt à informer tous les joueurs sur ce que chacun devrait faire dans l'état actuel du jeu.
 
 Il a donc été nécessaire d'établir une bijection entre le type d'indice donné et l'action associée. Cette bijection était proposée dans le document source pour le cas d'un jeu à cinq joueurs mais nous avons dû adapter la méthode pour un nombre plus faible de joueurs et, par conséquent des mains contenant plus de cartes. N'oublions pas non plus que tous les indices ne sont pas valables à tout instant : la règle du jeu impose qu'on ne peut pas donner un indice sur une couleur et/ou un numéro qui ne se trouve pas effectivement dans la main du joeur à qui on s'adresse.
 
-Nous avons également remarqué que cette stratégie n'est payante que si tous les joueurs autour de la table adoptent la même. Nous ne pouvons donc pas faire jouer une IA adoptant cette stratégie à la même table qu'une IA tricheuse.
+Cependant la stratégie telle qu'implémentée ne fonctionne qu'avec deux joueurs et ne renvoie pas du tout les bonnes actions ce qui la fait perdre très souvent :
 
-**Première phase de conception**
-
-Résultats obtenus après une première phase de conception
+![Image](2_joueurs_Recom_v1.png "performance 1ère version IA Recom")
 
 **Deuxième phase de conception**
 
-La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice (ce qui n'est pas possible dans la vraie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire).
+La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice (ce qui n'est pas possible dans la vraie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire). 
+Il manquait de plus quelques fonctions d'interprétation des indices et certaines boucles présentaient des bug qui ont été corrigés dans cette deuxième version.
 
-Cependant, même en changeant ce détail, on se rend compte que la fonction play du module AI, ne garde pas du tout en mémoire la configuration du jeu lorsque l'on donne l'indice. En effet, pour que l'indice soit valable il faut le calculer au moment où il a été donné. Or lorsque c'est le tour d'un joueur, la configuration de la partie a déjà changé, il ne peut plus calculer sa propre action, puisqu'il faut pour cela calculer les actions optimales des autres joueurs, actions qui ont peut-être changé, s'ils ont eux-même joué ou s'ils ont défaussé leurs cartes. 
+Cependant, même en faisant ces améliorations, on se rend compte que la fonction play du module AI, ne garde pas du tout en mémoire la configuration du jeu lorsque l'on donne l'indice. En effet, pour que l'indice soit valable il faut le calculer au moment où il a été donné. Or lorsque c'est le tour d'un joueur, la configuration de la partie a déjà changé, il ne peut plus calculer sa propre action, puisqu'il faut pour cela calculer les actions optimales des autres joueurs, actions qui ont peut-être changé, s'ils ont eux-même joué ou s'ils ont défaussé leurs cartes. 
 
-Comme nous étions limité en temps, au lieu de garder la configuration en mémoire et de recalculer à chaque fois toutes les actions puis faire un modulo, j'ai préféré directement garder en mémoire la liste des indices pour chaque joueur. Certes c'est un peu de la triche, mais c'est uniquement un raccourci en admettant que chaque joueur réussit à calculer son propre indice. Puisque les fonctions de calcul d'action optimale (value_hand) sont les mêmes de toute façon, cela revient au même. 
+Comme nous étions limités en temps, au lieu de garder la configuration en mémoire et de recalculer à chaque fois toutes les actions puis faire un modulo, nous avons préféré directement garder en mémoire la liste des indices pour chaque joueur. Certes c'est un peu de la triche, mais c'est uniquement un raccourci en admettant que chaque joueur réussit à calculer son propre indice. Puisque les fonctions de calcul d'action optimale (value_hand) sont les mêmes (qu'il s'agisse de donner un indice ou de calculer les indices des autres pour trouver le sien), cela revient au même. 
 
 L'efficacité de la stratégie en elle-même repose plutôt sur l'ordre de priorité des actions. Cependant nous sommes confrontés à d'autres difficultés, notamment dans une partie à deux joueurs (mais le cas de figure peut également se présenter à plusieurs) : le premier joueur donne un indice avec le dernier jeton bleu, le joueur suivant joue sa carte, il n'y a plus de jetons bleus, donc le joueur 1 se défausse au lieu de donner un indice, le joueur 2 regarde les indices donnés précédemment, sans se rendre compte qu'ils ne sont plus à jour et joue de nouveau, au risque de récolter un jeton rouge. 
 Pour y remédier, nous avons rajouté une condition, qui oblige le joueur 2 à donner un indice au lieu de jouer bêtement (ou à se défausser mais dans ce cas de figure, le joueur 1 ayant discard, on a 1 jeton bleu), la variable GAME_CHANGED était censée remplir cette fonction, (edit : cela a été modifié entre temps, mais on a laissé en commentaire cette boucle).

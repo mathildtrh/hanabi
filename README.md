@@ -15,7 +15,7 @@ A python3 module that knows Hanabi:
   * Random, which plays quite randomly like a human who would discover this game
   * Human, which doesn't work (should be an improvement of Random)
   * two different versions of Recom, an IA which uses a recommandation strategy
-  * Strat_info, which doesn't work (should use a information strategy
+  * Strat_info, which doesn't work (should use a information strategy)
 
 
 ## Suggested tasks and installation of the module
@@ -45,9 +45,9 @@ There are many possible tasks:
 
 ## Improvements to come
 
-- [ ] improve the CheaterAI : we chose instead to develop new AIs but it could be interesting to achieve a perfect score 100% of the time, or understanf why this is not possible
-- [ ] make it workable from two separate screens : it would have been fun to be able to play with our friends or with our AIs
-- [ ] design a GUI that looks like a real *professional* game (for the moment, you only have some colored ascii art on your terminal)
+- [ ] improve the CheaterAI : we chose instead to develop new AIs but it could be interesting to achieve a perfect score 100% of the time, or understanf why this is not possible.
+- [ ] make it workable from two separate screens : it would have been fun to be able to play with our friends or with our AIs.
+- [ ] design a GUI that looks like a real *professional* game (for the moment, you only have some colored ascii art on your terminal).
 - [ ] make all our AIs able to play, in particular the one with a information strategy because it has great chances of making high scores more frequently than the other AIS we developped.
 
 ## Bibliography

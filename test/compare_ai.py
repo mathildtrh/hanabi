@@ -78,7 +78,7 @@ def affichage_alone (scores, stat, ai): #stat = liste de longueur 5
     A AJOUTER : symboliser les valeurs intéressantes pour une IA, ie liste stats renvoyée par compare
     """
     
-    titre = "Répartition des scores à 2 joueurs pour: " + ai
+    titre = "Répartition des scores pour: " + ai
     plt.figure()
     n, bins, patches = plt.hist(scores, 26, alpha=0.5)
     plt.axvline(x=stat[2], color = 'red', label = "Score moyen : %s"%stat[2])
