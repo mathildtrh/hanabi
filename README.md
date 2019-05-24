@@ -95,10 +95,10 @@ There are many possible tasks:
 def print(*args, **kwargs):
     pass 
 ```
- * Modifier dans *hanabi/test/script_comparison.py* le nombre de joueurs (par défaut à 5) 
- * Puis faire un make module
- * Lancer python3 hanabi/test/script_comparison.py
- * Donne 4 figures : AI de Recommandation, AI Random et AI Cheater puis un graphe qui superpose les résultats.
+ - Modifier dans *hanabi/test/script_comparison.py* le nombre de joueurs (par défaut à 5) 
+ - Puis faire un make module
+ - Lancer python3 hanabi/test/script_comparison.py
+ - Donne 4 figures : AI de Recommandation, AI Random et AI Cheater puis un graphe qui superpose les résultats.
 
 
 
