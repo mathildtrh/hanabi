@@ -6,9 +6,10 @@ import random
 import hanabi
 import itertools
 
-
-def print(*args, **kwargs):
-    pass
+### à décommenter pour l'affichage des stats
+"""def print(*args, **kwargs):
+    pass"""
+###
 
 class AI:
     """
