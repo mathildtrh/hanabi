@@ -37,13 +37,16 @@ Ces cinq informations nous permettent de classer les IA entre elles et surtout d
 Le but de cette partie était essentiellement de prendre en main le module de jeu hanabi et l'intelligence artificielle tricheuse (Cheater) qui nous était proposée comme modèle. Tout l'intérêt d'une IA aléatoire repose bien entendu sur l'*absence de stratégie* à implémenter : notre travail s'est ainsi concentré sur la **syntaxe** particulière qu'impliquait le module hanabi et sur l'écriture de **tests unitaires** nous permettant de vérifier le bon fonctionnement de notre IA.
 
 Ainsi, nous avons commencé par lui faire choisir une action au hasard parmi "play", "discard" et "clue", puis un autre choix aléatoire s'effectuait pour déterminer la carte à jouer, défausser ou sur laquelle donner un indice.
-A ce stade de la conception, le reste du groupe commentait les possibilités qui s'offraient à nous pour pouvoir jouer à **plus de deux joueurs**. C'est pourquoi la phase de choix pour l'action "clue" s'est est trouvée compliquée.
+A ce stade de la conception, le reste du groupe commentait les possibilités qui s'offraient à nous pour pouvoir jouer à **plus de deux joueurs**. C'est pourquoi la phase de choix pour l'action "clue" s'est trouvée compliquée.
 Très rapidement, nous nous sommes rendues compte des exigences imposées par le module, qui pouvaient différer les règles du jeu hanabi à proprement parler. 
 *Exemple : le module interdit à un joueur de se défausser d'une carte si l'équipe possède déjà 8 jetons bleus. Même si cette action n'est pas recommandée, elle n'est pas formellement interdite par les règles du jeu*
-Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un enfant : elle connait les règles du jeu tel qu'il est implémenté dans le module et n'effectue pas une action qui ferait échouer la partie. Cependant, face à de multiples possibilités de jeu, elle est incapable de prioriser les actions et joue au hasard.
+Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un humain stupide : elle connait les règles du jeu tel qu'implémentées dans le module et n'effectue pas une action qui ferait échouer la partie. Elle joue en priorité une carte si elle sait que celle-ci est correcte. Sinon elle joue aléatoirement : elle joue une carte de manière aléatoire parmi celle dont elle ne connaît rien (mais évite de jouer une carte qu'elle sait va faire échouer la partie) elle donne un indice aléatoire parmi les indices que l'autre joueur ne connaît pas encore, ou alors elle se défausse d'une carte de manière aléatoire. Ces actions ne prennent en compte aucune stratégie, excepté d'éviter de faire échouer la partie.
 
 Nous pouvons résumer ses perfomances par le graphique suivant:
-*à gauche les performances de notre IA Random - à droite, la comparaison avec l'IA Cheater*
+Finalement cette IA oscille entre des performances médiocres et honorable, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchi : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal manée.
+
+![Image](stats_random.png "performances de notre IA Random") ![Image](stats_cheater.png "performances de l'IA Cheater")
+
 
 ### Conception d'une IA utilisant la stratégie de recommandation 
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
