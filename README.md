@@ -89,16 +89,17 @@ There are many possible tasks:
 
 
 
-* Pour afficher les stats : décommenter les deux lignes suivantes (redéfinit la fonction print pour éviter l'affichage des 1000 parties) : 
+* Pour afficher les stats : 
+    - décommenter les deux lignes suivantes (redéfinit la fonction print pour éviter l'affichage des 1000 parties) : 
     ```
     def print(*args, **kwargs):
         pass 
     ```
-     en tête des fichiers suivants :
-    - deck.py
-    - ai.py
-    - ai_recommandation_strategy.py
-    - ai_recom.py
+    - en tête des fichiers suivants :
+        - deck.py
+        - ai.py
+        - ai_recommandation_strategy.py
+        - ai_recom.py
 
  
     - Modifier dans *hanabi/test/script_comparison.py* le nombre de joueurs (par défaut à 5) 
