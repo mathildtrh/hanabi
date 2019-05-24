@@ -37,6 +37,8 @@ Ces cinq informations nous permettent de classer les IA entre elles et surtout d
 
 *Exemple 1 : Cheater réalise un score parfait 90% du temps et a un score moyen égal à 24,7. Nous pouvons donc nous demander pourquoi un tricheur ne peux pas s'assurer un score parfait systématiquement.* 
 
+![Image](2_joueurs_Cheater.png "Performances de l'IA Cheater pour 2 joueurs")
+
 *Exemple 2 : Doit-on préférer une IA ayant un bon score moyen mais qui échoue souvent à une IA ayant un socre moyen plus faible mais qui n'échoue jamais?*
 
 ### Remarques sur l'IA Cheater
@@ -52,11 +54,13 @@ A ce stade de la conception, le reste du groupe commentait les possibilités qui
 Très rapidement, nous nous sommes rendues compte des exigences imposées par le module, qui pouvaient différer les règles du jeu hanabi à proprement parler. 
 
 *Exemple : le module interdit à un joueur de se défausser d'une carte si l'équipe possède déjà 8 jetons bleus. Même si cette action n'est pas recommandée, elle n'est pas formellement interdite par les règles du jeu*
+
 Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un humain stupide : elle connait les règles du jeu tel qu'implémentées dans le module et n'effectue pas une action qui ferait échouer la partie. Elle joue en priorité une carte si elle sait que celle-ci est correcte. Sinon elle joue aléatoirement : elle joue une carte de manière aléatoire parmi celle dont elle ne connaît rien (mais évite de jouer une carte qu'elle sait va faire échouer la partie) elle donne un indice aléatoire parmi les indices que l'autre joueur ne connaît pas encore, ou alors elle se défausse d'une carte de manière aléatoire. Ces actions ne prennent en compte aucune stratégie, excepté d'éviter de faire échouer la partie.
 
 Nous pouvons résumer ses perfomances par le graphique suivant (comparées avec les performances de l'AI Cheater):
 
-![Image](4_joueurs_Random.png "performances de notre IA Random pour 4 joueurs") ![Image](stats_cheater.png "performances de l'IA Cheater")
+![Image](4_joueurs_Random.png "performances de notre IA Random pour 4 joueurs") ![Image](Comp_Random_Cheater_2joueurs.png "Comparaison avec les performances de l'IA Cheater")
+
 *Les stats sont données pour 4 joueurs mais ce graphique est similaire pour n'importe quel nombre de joueurs*
 
 Finalement cette IA oscille entre des performances médiocres et honorables, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchit : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal manée.
@@ -109,6 +113,8 @@ Cependant la stratégie telle qu'implémentée ne fonctionne qu'avec deux joueur
 
 ![Image](2_joueurs_Recom_v1.png "performance 1ère version IA Recom")
 
+Nous avons donc dû prendre du recul par rapport à notre IA pour comprendre ce qui clochait.
+
 **Deuxième phase de conception**
 
 La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice (ce qui n'est pas possible dans la vraie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire). 
@@ -128,6 +134,10 @@ Résultats obtenus à la deuxième phase de conception :
 ![Image](3_joueurs_Recom.png "performances de notre IA Recom pour 3 joueurs")
 ![Image](4_joueurs_Recom.png "performances de notre IA Recom pour 4 joueurs")
 ![Image](5_joueurs_Recom.png "performances de notre IA Recom pour 5 joueurs")
+
+Comparaison avec les autres IA que nous avons développé :
+![Image](Comp_Random_Recom_2joueurs.png "Comparaison avec l'IA Random pour 2 joueurs")
+![Image](Comp_Recom_Cheater_2joueurs.png "Comparaison avec l'IA Cheater pour 2 joueurs")
 
 ### Conception d'une IA utilisant la stratégie d'information
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
