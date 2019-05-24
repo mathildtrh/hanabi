@@ -75,14 +75,14 @@ La stratégie utilisée par cette IA est décrite dans le document suivant: [Han
 (stratégie à 5 joueurs donc 4 cartes dans chaque main)
 * Chaque indice correspond à une action : 
 
-    - 0. jouer carte 1 // indice de rang sur la carte 1
-    1. jouer carte 2 // indice de rang sur la carte 2
-    2. jouer carte 3 // indice de rang sur la carte 3
-    3. jouer carte 4 // indice de rang sur la carte 4
-    4. se débarasser carte 1 // indice de couleur sur la carte 1
-    5. se débarasser carte 2 // indice de couleur sur la carte 2
-    6. se débarasser carte 3 // indice de couleur sur la carte 3
-    7. se débarasser carte 4 // indice de couleur sur la carte 4
+    - 0 : jouer carte 1 // indice de rang sur la carte 1
+    - 1 : jouer carte 2 // indice de rang sur la carte 2
+    - 2 : jouer carte 3 // indice de rang sur la carte 3
+    - 3 : jouer carte 4 // indice de rang sur la carte 4
+    - 4 : se débarasser carte 1 // indice de couleur sur la carte 1
+    - 5 : se débarasser carte 2 // indice de couleur sur la carte 2
+    - 6 : se débarasser carte 3 // indice de couleur sur la carte 3
+    - 7 : se débarasser carte 4 // indice de couleur sur la carte 4
 
 * Trois catégories de cartes : Playable ; Dead ; Indispensable.
 
