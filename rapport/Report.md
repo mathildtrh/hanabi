@@ -142,9 +142,8 @@ Comparaison avec les autres IA que nous avons développé :
 ### Conception d'une IA utilisant la stratégie d'information
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
 
-**à remplir par Ruonan**
-
 (stratégie à 5 joueurs donc 4 cartes dans chaque main)
+
 L’indice, son action correspondante et les trois catégories des cartes sont mêmes que la stratégie de recommandation. Les indices a donner dans cette stratégie représentent les informations sur les cartes des joueurs.
 
 Un joueur doit faire des actions dans l’ordre ci-dessous :
@@ -163,10 +162,10 @@ Lorsqu'un joueur veut donner les indices aux quatre autres joueurs, il doit d'ab
 On doit maintenant construire la partition d'indices de la table de possibilités pour chaque carte cible. La table des possibilités de chaque carte est une matrice de 5 x 5. Avec référence au tableau général de possibilités, dans toutes les possibilités de cette carte, on a un nombre de 0 à 7 pour la possibilité d'une valeur de 1. Dans la partition de la table de possibilités, toutes les possibilités qui ne sont plus jouables valent 0, 1-6 occupent chacun une possibilité dans l’ordre, laissant toutes les possibilités restantes au numéro 7. L’indice de cette carte est donc le numéro correspondant à sa case.
 Et puis l’indice que ce joueur va donner est simplement la somme des indices des cartes cibles module 8. Car chacun connaît l'indice de la carte cible des autres joueurs et, après calcul, il peut connaître l'indice de sa propre carte cible, modifiant ainsi le tableau possible de la carte.
 
-* Difficultés pour la mise en algorithme :
+** Difficultés pour la mise en algorithme :
 L'algorithme lui-même n'est pas très facile à comprendre et sa mise en œuvre est aussi compliquée. Une petite erreur dans les variables du calcul donnera un résultat très différent. Le calcul sur une matrice à quatre dimensions comporte de nombreuses variables, des données à transférer, des calculs et des boucles énormes, ainsi que le code correspondant au fichier de jeu existant. Le fonctionnement des tableaux multidimensionnels utilise des fonctions de numpy.
 
-* problèmes restants, pistes pour les résoudre?
+** problèmes restants, pistes pour les résoudre?
 Malgré une longue période de debug et de test, il y a toujours un problème quelque part dans le programme (certains index ne correspondent pas), il est donc impossible de l'exécuter correctement.
 
 
