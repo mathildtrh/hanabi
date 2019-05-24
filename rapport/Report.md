@@ -46,9 +46,9 @@ Ces cinq informations nous permettent de classer les IA entre elles et surtout d
 
 L'IA Cheater, bien qu'elle obtienne des résultats assez impressionnants, n'obtient pas 100% de réussite. En effet, parfois la configuration du jeu fait que parfois, le joueur est obligé de se débarasser d'une carte indispensable, par exemple un 5, car il n'a pas d'autre possibilité. Le jeu ne peut donc plus être parfait.
 
-### Conception d'une IA aléatoire
+### Conception d'une IA aléatoire Random
 
-Le but de cette partie était essentiellement de prendre en main le module de jeu hanabi et l'intelligence artificielle tricheuse (Cheater) qui nous était proposée comme modèle. Tout l'intérêt d'une IA aléatoire repose bien entendu sur l'*absence de stratégie* à implémenter : notre travail s'est ainsi concentré sur la **syntaxe** particulière qu'impliquait le module hanabi et sur l'écriture de **tests unitaires** nous permettant de vérifier le bon fonctionnement de notre IA.
+Le but de cette partie était essentiellement de prendre en main le module de jeu hanabi. Tout l'intérêt d'une IA aléatoire repose bien entendu sur l'*absence de stratégie* à implémenter : notre travail s'est ainsi concentré sur la **syntaxe** particulière qu'impliquait le module hanabi et sur l'écriture de **tests unitaires** nous permettant de vérifier le bon fonctionnement de notre IA.
 
 Ainsi, nous avons commencé par lui faire choisir une action au hasard parmi "play", "discard" et "clue", puis un autre choix aléatoire s'effectuait pour déterminer la carte à jouer, défausser ou sur laquelle donner un indice.
 A ce stade de la conception, le reste du groupe commentait les possibilités qui s'offraient à nous pour pouvoir jouer à **plus de deux joueurs**. C'est pourquoi la phase de choix pour l'action "clue" s'est trouvée compliquée.
@@ -56,21 +56,22 @@ Très rapidement, nous nous sommes rendues compte des exigences imposées par le
 
 *Exemple : le module interdit à un joueur de se défausser d'une carte si l'équipe possède déjà 8 jetons bleus. Même si cette action n'est pas recommandée, elle n'est pas formellement interdite par les règles du jeu*
 
-Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un humain stupide : elle connait les règles du jeu tel qu'implémentées dans le module et n'effectue pas une action qui ferait échouer la partie. Elle joue en priorité une carte si elle sait que celle-ci est correcte. Sinon elle joue aléatoirement : elle joue une carte de manière aléatoire parmi celle dont elle ne connaît rien (mais évite de jouer une carte qu'elle sait va faire échouer la partie) elle donne un indice aléatoire parmi les indices que l'autre joueur ne connaît pas encore, ou alors elle se défausse d'une carte de manière aléatoire. Ces actions ne prennent en compte aucune stratégie, excepté d'éviter de faire échouer la partie.
+Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un humain simple d'esprit : elle connait les règles du jeu telles qu'implémentées dans le module et n'effectue pas une action qui ferait échouer la partie. Elle joue en priorité une carte si elle sait que celle-ci est correcte. Sinon, elle joue aléatoirement une carte parmi celle dont elle ne connaît rien (mais évite de jouer une carte dont elle sait qu'elle va faire échouer la partie), donne un indice aléatoire parmi les indices que l'autre joueur ne connaît pas encore, ou bien se défausse d'une carte de manière aléatoire. Ces actions ne prennent en compte aucune stratégie, excepté celle qui évite de faire échouer la partie.
 
 Nous pouvons résumer ses perfomances par le graphique suivant (comparées avec les performances de l'AI Cheater):
 
 ![Image](4_joueurs_Random.png "performances de notre IA Random pour 4 joueurs") ![Image](Comp_Random_Cheater_2joueurs.png "Comparaison avec les performances de l'IA Cheater")
 
-*Les stats sont données pour 4 joueurs mais ce graphique est similaire pour n'importe quel nombre de joueurs*
+*Les stats sont données pour 4 joueurs mais ce graphique est similaire pour n'importe quel nombre de joueurs.*
 
-Finalement cette IA oscille entre des performances médiocres et honorables, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchit : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal manée.
+Finalement cette IA oscille entre des performances médiocres et honorables, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchit : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal menée.
 
-### Conception d'une IA utilisant la stratégie de recommandation 
+### Conception d'une IA utilisant la stratégie de recommandation Recom
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
 
 (stratégie à 5 joueurs donc 4 cartes dans chaque main)
 * Chaque indice correspond à une action : 
+
     0. jouer carte 1 // indice de rang sur la carte 1
     1. jouer carte 2 // indice de rang sur la carte 2
     2. jouer carte 3 // indice de rang sur la carte 3
@@ -92,7 +93,8 @@ La stratégie utilisée par cette IA est décrite dans le document suivant: [Han
 Chaque main est associée à un nombre de 0 à 7 suivant l'ordre de priorité ci-dessus.
 
 Le joueur voulant faire la recommandation donne l'indice correspondant à la somme des indices pour chaque joueur modulo 8.
-/!\ chaque recommandation concerne l'instant présent et n'est plus valable une fois qu'une action a été faite.
+
+:bangbang: Chaque recommandation concerne l'instant présent et n'est plus valable une fois qu'une action a été faite.
 
 * Solution pour y remédier (ordre de priorité):
     1. Si le dernier indice reçu était de jouer une carte et qu'aucune carte n'a été jouée depuis le dernier indice, jouer la carte indiquée.
@@ -118,12 +120,12 @@ Nous avons donc dû prendre du recul par rapport à notre IA pour comprendre ce 
 
 **Deuxième phase de conception**
 
-La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice (ce qui n'est pas possible dans la vraie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire). 
+La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice **(ce qui n'est pas possible dans la vraie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire).**
 Il manquait de plus quelques fonctions d'interprétation des indices et certaines boucles présentaient des bug qui ont été corrigés dans cette deuxième version.
 
-Cependant, même en faisant ces améliorations, on se rend compte que la fonction play du module AI, ne garde pas du tout en mémoire la configuration du jeu lorsque l'on donne l'indice. En effet, pour que l'indice soit valable il faut le calculer au moment où il a été donné. Or lorsque c'est le tour d'un joueur, la configuration de la partie a déjà changé, il ne peut plus calculer sa propre action, puisqu'il faut pour cela calculer les actions optimales des autres joueurs, actions qui ont peut-être changé, s'ils ont eux-même joué ou s'ils ont défaussé leurs cartes. 
+Cependant, même en faisant ces améliorations, on se rend compte que la fonction play du module AI, ne garde pas du tout en mémoire la configuration du jeu lorsque l'on donne l'indice. En effet, pour que l'indice soit valable, il faut le calculer au moment où il a été donné. Or, lorsque c'est le tour d'un joueur, la configuration de la partie a déjà changé, il ne peut plus calculer sa propre action, puisqu'il faut pour cela calculer les actions optimales des autres joueurs, actions qui ont peut-être changé, s'ils ont eux-même joué ou s'ils ont défaussé leurs cartes. 
 
-Comme nous étions limités en temps, au lieu de garder la configuration en mémoire et de recalculer à chaque fois toutes les actions puis faire un modulo, nous avons préféré directement garder en mémoire la liste des indices pour chaque joueur. Certes c'est un peu de la triche, mais c'est uniquement un raccourci en admettant que chaque joueur réussit à calculer son propre indice. Puisque les fonctions de calcul d'action optimale (value_hand) sont les mêmes (qu'il s'agisse de donner un indice ou de calculer les indices des autres pour trouver le sien), cela revient au même. 
+Comme nous étions limitées en temps, au lieu de garder la configuration en mémoire et de recalculer à chaque fois toutes les actions puis faire un modulo, nous avons préféré directement garder en mémoire la liste des indices pour chaque joueur. Certes c'est un peu de la triche, mais c'est uniquement un raccourci en admettant que chaque joueur réussit à calculer son propre indice. Puisque les fonctions de calcul d'action optimale (value_hand) sont les mêmes (qu'il s'agisse de donner un indice ou de calculer les indices des autres pour trouver le sien), cela revient au même. 
 
 L'efficacité de la stratégie en elle-même repose plutôt sur l'ordre de priorité des actions. Cependant nous sommes confrontés à d'autres difficultés, notamment dans une partie à deux joueurs (mais le cas de figure peut également se présenter à plusieurs) : le premier joueur donne un indice avec le dernier jeton bleu, le joueur suivant joue sa carte, il n'y a plus de jetons bleus, donc le joueur 1 se défausse au lieu de donner un indice, le joueur 2 regarde les indices donnés précédemment, sans se rendre compte qu'ils ne sont plus à jour et joue de nouveau, au risque de récolter un jeton rouge. 
 Pour y remédier, nous avons rajouté une condition, qui oblige le joueur 2 à donner un indice au lieu de jouer bêtement (ou à se défausser mais dans ce cas de figure, le joueur 1 ayant discard, on a 1 jeton bleu), la variable GAME_CHANGED était censée remplir cette fonction, (edit : cela a été modifié entre temps, mais on a laissé en commentaire cette boucle).
