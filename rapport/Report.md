@@ -16,34 +16,35 @@ L'enjeu de ce projet a d'abord été de comprendre comment fonctionne Git, ce qu
 
 ## Méthode de développement par tests et module hanabi
 
-Nous avons été sensibilisé dans un deuxième temps à l'utilisation de tests pour le debug, notamment en écrivant chacun des tests pour le module deck.
-Cette phase de test du module deck a permis de comprendre plusieurs choses : nous avons compris un peu mieux ce que le module hanabi faisait et nous avons pu relever quelques bugs et autres entorses aux règles du jeu. 
-De plus, cette phase de tests nous a fait comprendre qu'il était très compliqué d'écrire des tests sur un programme déjà écrit, qui plus est sur un module que nous venions à peine de prendre en main. Cela a mis en évidence l'interêt de faire les tests en même temps que l'écriture du code, car l'écriture des tests sur un module qu'on vient à peine de découvrir se résume surtout à des tests "à la main", suivi du debugging au fur et à mesure, ce que l'écriture des tests permet de systématiser. D'autre part, les tests permettent à chaque modification de voir si en résolvant un problème on n'en a pas créé un autre.
-Cependant, dans la pratique, on ne sait pas à l'avance tous les tests qu'on va vouloir faire, on en a une idée, puis c'est en testant à la main en lançant le programme qu'on se rend compte de certains problèmes, et qu'on peut écrire le test. La culture des tests n'étant pas encore vraiment implantée dans nos esprits, on a plutôt tendance à résoudre directement le bug. 
-Il paraît cependant évident (mais il nous manque encore quelques réflexes) que la méthode de test-driven development permet *in fine* de gagner du temps pendant la phase de debug. Nous sommes encore loin cependant de maîtriser la méthode, mais nous y avons été grandement sensibilisé pendant ce projet.
+Nous avons été sensibilisées dans un deuxième temps à l'utilisation de tests pour le debug, notamment en écrivant chacun des tests pour le module deck.
+Cette phase de test a permis de comprendre plusieurs choses. D'une part, nous avons compris un peu mieux ce que le module hanabi faisait et d'autre part nous avons pu relever quelques bugs et autres entorses aux règles du jeu. 
+De plus, cette phase de tests nous a fait comprendre qu'il était délicat d'écrire des tests sur un programme déjà écrit, qui plus est sur un module que nous venions à peine de prendre en main. Cela a mis en évidence l'intérêt de faire les tests en même temps que l'écriture du code, car l'écriture des tests sur un module qu'on vient à peine de découvrir se résume surtout à des tests "à la main", suivi du debugging au fur et à mesure, ce que l'écriture synchrone du code et des tests permet de systématiser. D'autre part, les tests permettent à chaque modification de voir si en résolvant un problème un autre n'a pas été créé.
+Cependant, en pratique, il est difficile de prévoir tous les tests à effectuer et c’est en lançant le programme qu’on se rend compte de certains problèmes et qu’on peut écrire les tests correspondants. 
 
 ## Ce que nous avons accompli pour ce projet
 
 ### Evaluation des performances d'une intelligence artificielle
 
 Bien que ce travail ait été fait plus tard dans la chronologie du projet, il est important de le signaler maintenant car il nous a permis une analyse plus quantitative des performances de nos différentes intelligences artificielles.
-Nous avons donc réalisé une étude statistique sommaire des performances de l'IA Cheater pour débuter notre programme comparatif. Sur un nombre N de parties (N de l'ordre de 10 000 pour avoir une estimation raisonnable), nous avons relevé :
+
+Nous avons donc réalisé une étude statistique sommaire des performances de l'IA Cheater pour débuter notre programme comparatif. Sur un nombre N de parties (N de l'ordre de 1 000 pour avoir une estimation raisonnable), nous avons relevé :
 * le meilleur score
 * le score le plus faible
 * le score moyen (moyenne arithmétique)
 * la fréquence d'apparition d'un score parfait (25)
 * la fréquence d'apparition d'un échec (score nul)
+
 Ces cinq informations nous permettent de classer les IA entre elles et surtout de percevoir les points forts et points faibles de chacune.
 
-*Exemple 1 : Cheater réalise un score parfait 90% du temps et a un score moyen égal à 24,7. Nous pouvons donc nous demander pourquoi un tricheur ne peux pas s'assurer un score parfait systématiquement.* 
+*Exemple 1 : Cheater réalise un score parfait 86.4% du temps et a un score moyen égal à 24,7. Nous pouvons donc nous demander pourquoi un tricheur ne peux pas s'assurer un score parfait systématiquement.* 
 
 ![Image](2_joueurs_Cheater.png "Performances de l'IA Cheater pour 2 joueurs")
 
 *Exemple 2 : Doit-on préférer une IA ayant un bon score moyen mais qui échoue souvent à une IA ayant un socre moyen plus faible mais qui n'échoue jamais?*
 
-### Remarques sur l'IA Cheater
+### Remarques sur l'IA tricheuse Cheater
 
-L'IA Cheater, bien qu'elle obtienne des résultats assez impressionnant n'obtient pas 100% de réussite. En effet, parfois la configuration du jeu fait que parfois, le joueur est obligé de se débarasser d'une carte indispensable, par exemple un 5, car il n'a pas d'autres possibilités. Le jeu ne peut donc plus être parfait.
+L'IA Cheater, bien qu'elle obtienne des résultats assez impressionnants, n'obtient pas 100% de réussite. En effet, parfois la configuration du jeu fait que parfois, le joueur est obligé de se débarasser d'une carte indispensable, par exemple un 5, car il n'a pas d'autre possibilité. Le jeu ne peut donc plus être parfait.
 
 ### Conception d'une IA aléatoire
 
@@ -142,33 +143,23 @@ Comparaison avec les autres IA que nous avons développé :
 ### Conception d'une IA utilisant la stratégie d'information
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
 
-(stratégie à 5 joueurs donc 4 cartes dans chaque main)
+**à remplir par Ruonan**
+*pour t'aider si nécessaire :
+part 1 : spécificité de ta stratégie
+part 2 : difficultés pour la mise en algorithme
+part 3 : problèmes rencontrés
+part 4 : solutions apportées
+part 5 : problèmes restants, pistes pour les résoudre?*
 
-L’indice, son action correspondante et les trois catégories des cartes sont mêmes que la stratégie de recommandation. Les indices a donner dans cette stratégie représentent les informations sur les cartes des joueurs.
-
-Un joueur doit faire des actions dans l’ordre ci-dessous :
-1. Jouer la carte jouable avec l'index le plus bas.
-2. S'il y a moins de 5 cartes dans la pile de défausse, défausser de la carte morte ayant l'indice le plus bas.
-3. Si des jetons de conseil sont disponibles, donner un indice.
-4. Jeter la carte morte avec l'indice le plus bas.
-5. Si une carte dans la main du joueur est identique à une autre carte dans la main d’un autre joueur, c’est-à-dire qu’il s’agit d’un duplicata, défausser de cette carte.
-6. Jeter la carte à distribuer avec l’indice le plus bas.
-7. Jeter la première carte dans la main.
-
-L'étape la plus importante consiste à donner un indice. Ici, on construit le tableau général des possibilités, une matrice à quatre dimensions, la première dimension représente cinq joueurs, la deuxième dimension représente quatre cartes dans la main de chaque joueur et les troisième et quatrième dimension indiquent respectivement que la carte peut avoir cinq couleurs et cinq nombres. Ainsi, nous pouvons construire un tableau qui montre les possibilités des cartes pour tous les joueurs et dont les informations sont connues de tous. Au début du jeu, chaque élément de la matrice est 1 car une carte peut être n'importe quel numéro de n'importe quelle couleur. 
-
-Lorsqu'un joueur veut donner les indices aux quatre autres joueurs, il doit d'abord calculer la carte cible dans les mains des autres joueurs. La méthode de calcul est la suivante : ratio = le nombre de toutes les possibilités de cette carte qui sont jouables / Le nombre total de possibilités pour cette carte. Parmi les quatre cartes dans la main de chaque joueur, la carte avec le ratio le plus élevé deviendra la carte cible. Grâce aux calculs, chaque joueur peut connaître les cartes cibles dans les mains des autres. 
-
-On doit maintenant construire la partition d'indices de la table de possibilités pour chaque carte cible. La table des possibilités de chaque carte est une matrice de 5 x 5. Avec référence au tableau général de possibilités, dans toutes les possibilités de cette carte, on a un nombre de 0 à 7 pour la possibilité d'une valeur de 1. Dans la partition de la table de possibilités, toutes les possibilités qui ne sont plus jouables valent 0, 1-6 occupent chacun une possibilité dans l’ordre, laissant toutes les possibilités restantes au numéro 7. L’indice de cette carte est donc le numéro correspondant à sa case.
-Et puis l’indice que ce joueur va donner est simplement la somme des indices des cartes cibles module 8. Car chacun connaît l'indice de la carte cible des autres joueurs et, après calcul, il peut connaître l'indice de sa propre carte cible, modifiant ainsi le tableau possible de la carte.
-
-* Difficultés pour la mise en algorithme :
-L'algorithme lui-même n'est pas très facile à comprendre et sa mise en œuvre est aussi compliquée. Une petite erreur dans les variables du calcul donnera un résultat très différent. Le calcul sur une matrice à quatre dimensions comporte de nombreuses variables, des données à transférer, des calculs et des boucles énormes, ainsi que le code correspondant au fichier de jeu existant. Le fonctionnement des tableaux multidimensionnels utilise des fonctions de numpy.
-
-* problèmes restants, pistes pour les résoudre?
-Malgré une longue période de debug et de test, il y a toujours un problème quelque part dans le programme (certains index ne correspondent pas), il est donc impossible de l'exécuter correctement.
-
+Résultats obtenus pour l'IA avec stratégie d'information **s'il y en a**
 
 ## Conclusion
 
-some bullshit sentences to conclude
+Ce projet nous permis d’acquérir des compétences de gestions de projet informatique et nous a sensibilisé à la méthode de test-driven development permet *in fine* de gagner du temps pendant la phase de debug. Cependant, la culture des tests n'étant pas encore vraiment implantée dans nos esprits, nous avons encore tendance à résoudre directement le bug, même s’il est évident que cette méthode est des plus efficaces.
+
+Nous avons d’un autre coté rencontré des difficultés d’organisation. En effet, nous ne pouvions pas développer une IA à deux ou trois et nous avons pour ainsi dire adopté deux stratégies qui ont chacune leurs défauts. Pour Random et Recom l’une d’entre nous a fait la première phase de conception et la structure globale du code, puis a laissé sa place une deuxième  pour la phase de tests. A l’inverse, l’IA Strat_info a été développée et débuggée par la troisième d’entre nous.
+
+La première stratégie  nous a obligé à faire de nombreux allers et retours sur le code, et nous a fait perdre beaucoup de temps pour la phase de debugging, car nous n’avions pas toutes la même façon de penser l’IA. Mais nous nous sommes aussi rendues compte que concevoir et debugger une IA était un travail de titan, difficile à accomplir seule dans le temps qui nous était imparti.
+
+Nous dirons pour terminer que ce projet a été scolairement et humainement instructif et que les nombreuses possibilités qui s’offrent encore au programmeur sont tentantes : pourquoi ne pas les explorer pour le plaisir ?
+
