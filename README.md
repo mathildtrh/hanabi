@@ -103,8 +103,10 @@ There are many possible tasks:
 
  
     - Modifier dans *hanabi/test/script_comparison.py* le nombre de joueurs (par défaut à 5) 
-    - faire un make module
-    - taper python3 hanabi/test/script_comparison.py
+    ```
+    make module
+    python3 test/script_comparison.py
+    ```
     - Donne 4 figures : AI de Recommandation, AI Random et AI Cheater puis un graphe qui superpose les résultats.
 
 
