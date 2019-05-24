@@ -109,6 +109,8 @@ Cependant la stratégie telle qu'implémentée ne fonctionne qu'avec deux joueur
 
 ![Image](2_joueurs_Recom_v1.png "performance 1ère version IA Recom")
 
+Nous avons donc dû prendre du recul par rapport à notre IA pour comprendre ce qui clochait.
+
 **Deuxième phase de conception**
 
 La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice (ce qui n'est pas possible dans la vraie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire). 
