@@ -52,19 +52,62 @@ Finalement cette IA oscille entre des performances médiocres et honorables, un 
 ### Conception d'une IA utilisant la stratégie de recommandation 
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
 
-Cette stratégie est plus facile à appréhenser par un ordinateur car elle est systématique : elle repose en effet sur la méthode de maximisation de réponses justes dans le jeu des chapeaux (cf source). Pour résumer, un indice n'est plus destiné à informer un joueur en particulier sur le contenu de sa main mais plutôt à informer tous les joueurs sur ce que chacun devrait faire dans l'état actuel du jeu.
+(stratégie à 5 joueurs donc 4 cartes dans chaque main)
+* Chaque indice correspond à une action : 
+    0. jouer carte 1 // indice de rang sur la carte 1
+    1. jouer carte 2 // indice de rang sur la carte 2
+    2. jouer carte 3 // indice de rang sur la carte 3
+    3. jouer carte 4 // indice de rang sur la carte 4
+    4. se débarasser carte 1 // indice de couleur sur la carte 1
+    5. se débarasser carte 2 // indice de couleur sur la carte 2
+    6. se débarasser carte 3 // indice de couleur sur la carte 3
+    7. se débarasser carte 4 // indice de couleur sur la carte 4
+
+* Trois catégorie de cartes : Playable ; Dead ; Indispensable
+
+* Priorités des indices à donner : 
+    1. Faire jouer une Playable de rang 5 (d'index 1 2 3 4 minimal)
+    2. Faire jouer une playable de rang minimal (d'index minimal si litige)
+    3. Faire se débarasser d'une Dead avec index min.
+    4. Faire se débarasser d'une carte non Indispensable avec le rang le plus haut (index min si litige)
+    5. Faire se débarasser de la carte 1 de la main. (indice n°4)
+
+Chaque main est associée à un nombre de 0 à 7 suivant l'ordre de priorité ci-dessus.
+
+Le joueur voulant faire la recommandation donne l'indice correspondant à la somme des indices pour chaque joueur modulo 8.
+/!\ chaque recommandation concerne l'instant présent et n'est plus valable une fois qu'une action a été faite.
+
+* Solution pour y remédier (ordre de priorité):
+    1. Si le dernier indice reçu était de jouer une carte et qu'aucune carte n'a été jouée depuis le dernier indice, jouer la carte indiquée.
+    2. Si une carte a été jouée et que les joueurs ont fait moins de 2 erreurs, jouer la carte.
+    3. Si les joueurs ont des jetons d'indice, donner un indice.
+    4. Si l'indice était de se débarasser d'une carte, se débarasser de la carte.
+    5. Se débarasser de la carte n°1
+
+Cette stratégie est plus facile à appréhender par un ordinateur car elle est systématique : elle repose en effet sur la méthode de maximisation de réponses justes dans le jeu des chapeaux (cf source). Pour résumer, un indice n'est plus destiné à informer un joueur en particulier sur le contenu de sa main mais plutôt à informer tous les joueurs sur ce que chacun devrait faire dans l'état actuel du jeu.
 
 Il a donc été nécessaire d'établir une bijection entre le type d'indice donné et l'action associée. Cette bijection était proposée dans le document source pour le cas d'un jeu à cinq joueurs mais nous avons dû adapter la méthode pour un nombre plus faible de joueurs et, par conséquent des mains contenant plus de cartes. N'oublions pas non plus que tous les indices ne sont pas valables à tout instant : la règle du jeu impose qu'on ne peut pas donner un indice sur une couleur et/ou un numéro qui ne se trouve pas effectivement dans la main du joeur à qui on s'adresse.
 
 Nous avons également remarqué que cette stratégie n'est payante que si tous les joueurs autour de la table adoptent la même. Nous ne pouvons donc pas faire jouer une IA adoptant cette stratégie à la même table qu'une IA tricheuse.
 
-**à remplir  par Camille et Mathilde**
+**Première phase de conception**
 
 Résultats obtenus après une première phase de conception
 
-**évolutions à remplir par Camille**
+**Deuxième phase de conception**
 
-Résultats obtenus après une phase de correction
+La première IA ne suivait pas exactement la stratégie décrite par the Hat Guessing Game : en effet, la relation entre les indices et les actions à faire dépendait entièrement de l'indice et non de la position de la carte sur laquelle on donnait l'indice (ce qui n'est pas possible dans la vraie à moins que tous les joueurs ne jouent en connaissant la correspondance entre chaque indice et les actions, ce qui est équivalent à directement communiquer l'action à faire).
+
+Cependant, même en changeant ce détail, on se rend compte que la fonction play du module AI, ne garde pas du tout en mémoire la configuration du jeu lorsque l'on donne l'indice. En effet, pour que l'indice soit valable il faut le calculer au moment où il a été donné. Or lorsque c'est le tour d'un joueur, la configuration de la partie a déjà changé, il ne peut plus calculer sa propre action, puisqu'il faut pour cela calculer les actions optimales des autres joueurs, actions qui ont peut-être changé, s'ils ont eux-même joué ou s'ils ont défaussé leurs cartes. 
+
+Comme nous étions limité en temps, au lieu de garder la configuration en mémoire et de recalculer à chaque fois toutes les actions puis faire un modulo, j'ai préféré directement garder en mémoire la liste des indices pour chaque joueur. Certes c'est un peu de la triche, mais c'est uniquement un raccourci en admettant que chaque joueur réussit à calculer son propre indice. Puisque les fonctions de calcul d'action optimale (value_hand) sont les mêmes de toute façon, cela revient au même. 
+
+L'efficacité de la stratégie en elle-même repose plutôt sur l'ordre de priorité des actions. Cependant nous sommes confrontés à d'autres difficultés, notamment dans une partie à deux joueurs  
+
+Résultats obtenus à la deuxième phase de conception : 
+![Image](3_joueurs_Recom.png "performances de notre IA Recom pour 3 joueurs")
+![Image](4_joueurs_Recom.png "performances de notre IA Recom pour 4 joueurs")
+![Image](5_joueurs_Recom.png "performances de notre IA Recom pour 5 joueurs")
 
 ### Conception d'une IA utilisant la stratégie d'information
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
