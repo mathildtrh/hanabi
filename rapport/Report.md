@@ -1,4 +1,5 @@
-# Projet IN104 : Intelligence artificielle pour le jeu Hanabi
+Projet IN104 : Intelligence artificielle pour le jeu Hanabi
+==
 
 Ce projet à visée pédagogique avait pour but l'acquisition de compétences en programmation et en gestion de projet:
 * programmation orientée objet en Python
