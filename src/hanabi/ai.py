@@ -7,8 +7,8 @@ import hanabi
 import itertools
 
 ### à décommenter pour l'affichage des stats
-def print(*args, **kwargs):
-    pass
+"""def print(*args, **kwargs):
+    pass"""
 ###
 
 class AI:

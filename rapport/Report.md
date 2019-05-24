@@ -183,7 +183,7 @@ Ce projet nous permis d’acquérir des compétences de gestions de projet infor
 
 Nous avons d’un autre coté rencontré des difficultés d’organisation. En effet, nous ne pouvions pas développer une IA à deux ou trois et nous avons pour ainsi dire adopté deux stratégies qui ont chacune leurs défauts. Pour Random et Recom l’une d’entre nous a fait la première phase de conception et la structure globale du code, puis a laissé sa place une deuxième  pour la phase de tests. A l’inverse, l’IA Strat_info a été développée et débuggée par la troisième d’entre nous.
 
-La première stratégie  nous a obligé à faire de nombreux allers et retours sur le code, et nous a fait perdre beaucoup de temps pour la phase de debugging, car nous n’avions pas toutes la même façon de penser l’IA. Mais nous nous sommes aussi rendues compte que concevoir et debugger une IA était un travail de titan, difficile à accomplir seule dans le temps qui nous était imparti.
+La première stratégie  nous a obligées à faire de nombreux allers et retours sur le code, et nous a fait perdre beaucoup de temps pour la phase de debugging, car nous n’avions pas toutes la même façon de penser l’IA. Mais nous nous sommes aussi rendues compte que concevoir et debugger une IA était un travail de titan, difficile à accomplir seule dans le temps qui nous était imparti.
 
 Nous dirons pour terminer que ce projet a été scolairement et humainement instructif et que les nombreuses possibilités qui s’offrent encore au programmeur sont tentantes : pourquoi ne pas les explorer pour le plaisir ?
 
