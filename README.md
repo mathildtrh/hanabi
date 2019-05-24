@@ -18,61 +18,36 @@ A python3 module that knows Hanabi:
   * Strat_info, which doesn't work (should use a information strategy
 
 
+## Suggested tasks and installation of the module
 
-## Tasks
+See the [README_STARTING_POINT](https://github.com/mathildtrh/hanabi/blob/master/README_STARTING_POINT.md)
+
+
+## Completed tasks
 
 There are many possible tasks:
 
-- read the current state of the module, 
-  - complete its documentation when needed,
-  - share with everyone this improvement,
+- [x] read the current state of the module, 
+  - [x] complete its documentation when needed,
+  - [x] share with everyone this improvement,
 
-- improve the CheaterAI
-  -- answer the question (still an open question afaik) what is the best possible score, statistically speaking.
+- [ ] improve the CheaterAI
+ - [x] we chose instead to develop new AIs
 
-- add AIs. Some suggestions:
-  - RandomAI (plays randomly)
-  - DirectAI (plays whatever is hinted)
-  - BGAAI (plays Board Game Arena's standard)
-  - HansimAI (see below)
-  - train a machine learning (I'm not sure if this will give anything interesting without powerful CPU/GPU resources)
-  - design your own, from scratch or by improving another
+- [x] add AIs. Some suggestions:
+  - [x] RandomAI (plays randomly)
+  - [ ] DirectAI (plays whatever is hinted)
+  - [ ] BGAAI (plays Board Game Arena's standard)
+  - [x] HansimAI (both strategies)
+  - [x] train a machine learning (I'm not sure if this will give anything interesting without powerful CPU/GPU resources)
+  - [x] design your own, by progressively improving the Random one
 
-Keep track of scores for all these games/AI. 
-We will want to compare: different AIs on a same deck, or a given AI over a 1000 decks. 
-We will need to see why a certain AI fails on a certain game.
+- [x] we kept track of scores and compared our different AIs : you will find the results [here](https://github.com/mathildtrh/hanabi/blob/master/rapport/Report.md)
 
 
-- make it workable for up to 5 players.
+- [x] make it workable for up to 5 players : hanabi module is workable for 2, 3, 4 and 5 players, thanks to the contributions of the whole group. We also made Cheater, Random and Recom able to play with 2, 3, 4 or 5 players.
 
-- make it workable from two separate screens (network?)
-
-
-During the project:
-  - make sure you understand the "replay" mode
-  - add tests (UnitTest or whole tests)
-  - keep notes on your questions, decisions, discussions (github's wiki)
-
-
-You may also design a GUI, but be warned that this is a very time-consuming task.
-I like PySide2. Tkinter is more portable but harder to learn imho. 
-
-
-
-## Installation
-
-
-    git clone https://github.com/JDGaraudEnsta/hanabi
-    cd hanabi
-    make        # pip installs it in the default directory ~/.local
-    hanabi
-    # and now you may play
-
-
-If `hanabi` doesn't start (`bash: hanabi: command not found`), add this to your `~/.bashrc`:
-
-    export PATH=$HOME/.local/bin:$PATH
-
+- [ ] make it workable from two separate screens : it would have been fun to be able to play with our friends or with our AIs
 
 ## Bibliography
 
