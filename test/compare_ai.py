@@ -80,7 +80,7 @@ def affichage_alone (scores, stat, ai): #stat = liste de longueur 5
     
     titre = "Répartition des scores pour: " + ai
     plt.figure()
-    n, bins, patches = plt.hist(scores, 26, alpha=0.5)
+    n, bins, patches = plt.hist(scores, 26, alpha=0.75)
     plt.axvline(x=stat[2], color = 'red', label = "Score moyen")
     plt.plot([0,25],[stat[3], stat[3]], color = 'yellow', label = "Nombre de jeux parfaits")
     plt.plot([0,25],[stat[4], stat[4]], color = 'black', label = "Nombre de défaites")
@@ -103,7 +103,7 @@ def affichage_general (list_of_scores, stats):
 
     couleurs = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
     plt.figure()
-    n, bins, patches = plt.hist(list_of_scores, 25, alpha=0.5)
+    n, bins, patches = plt.hist(list_of_scores, 25, alpha=0.75)
     for i in range(len(stats)):
         plt.axvline(x=stats[i][2], label = "Score moyen", color = couleurs[i])
     plt.xlabel('Score')
