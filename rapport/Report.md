@@ -14,7 +14,7 @@ Ce projet à visée pédagogique avait pour but l'acquisition de compétences en
 
 L'enjeu de ce projet a d'abord été de comprendre comment fonctionne Git, ce qui ne fut pas chose facile. Mais une fois cet outil correctement appréhendé, nous avons pu en découvrir toute la puissance et l'utilité. Il nous a notamment permis de travailler chacune de notre coté sans interférences. Mais surtout, grâce au **fork** nous avons pu bénéficier des changements apportés par les autres groupes sans pour autant perdre nos propres améliorations.
 
-## Méthode de développement par tests et module hanabi
+### Méthode de développement par tests et module hanabi
 
 Nous avons été sensibilisées dans un deuxième temps à l'utilisation de tests pour le debug, notamment en écrivant des tests pour le module deck.
 
