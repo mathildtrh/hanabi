@@ -56,7 +56,7 @@ Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un humain
 
 Nous pouvons résumer ses perfomances par le graphique suivant (comparées avec les performances de l'AI Cheater):
 
-![Image](4_joueurs_Random.png "performances de notre IA Random pour 4 joueurs") ![Image](stats_cheater.png "performances de l'IA Cheater")
+![Image](4_joueurs_Random.png "performances de notre IA Random pour 4 joueurs") ![Image](Comp_Random_Cheater_2joueurs.png "Comparaison avec les performances de l'IA Cheater")
 *Les stats sont données pour 4 joueurs mais ce graphique est similaire pour n'importe quel nombre de joueurs*
 
 Finalement cette IA oscille entre des performances médiocres et honorables, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchit : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal manée.
@@ -130,6 +130,10 @@ Résultats obtenus à la deuxième phase de conception :
 ![Image](3_joueurs_Recom.png "performances de notre IA Recom pour 3 joueurs")
 ![Image](4_joueurs_Recom.png "performances de notre IA Recom pour 4 joueurs")
 ![Image](5_joueurs_Recom.png "performances de notre IA Recom pour 5 joueurs")
+
+Comparaison avec les autres IA que nous avons développé :
+![Image](Comp_Random_Recom_2joueurs.png "Comparaison avec l'IA Random pour 2 joueurs")
+![Image](Comp_Recom_Cheater_2joueurs.png "Comparaison avec l'IA Cheater pour 2 joueurs")
 
 ### Conception d'une IA utilisant la stratégie d'information
 La stratégie utilisée par cette IA est décrite dans le document suivant: [HanSim : the Hat Guessing Strategy](https://sites.google.com/site/rmgpgrwc/research-papers/Hanabi_final.pdf?attredirects=1)
