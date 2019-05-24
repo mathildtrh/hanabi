@@ -44,7 +44,7 @@ Nous avons donc fait évoluer cette IA afin qu'elle joue plutôt comme un humain
 
 Nous pouvons résumer ses perfomances par le graphique suivant:
 
-![Image](stats_random.png "performances de notre IA Random") ![Image](stats_cheater.png "performances de l'IA Cheater")
+![Image](4_joueurs_Random.png "performances de notre IA Random pour 4 joueurs") ![Image](stats_cheater.png "performances de l'IA Cheater")
 
 Finalement cette IA oscille entre des performances médiocres et honorable, un peu comme un humain qui viendrait de découvrir le jeu et qui pourtant réfléchi : finalement l'aléatoire est parfois aussi efficace que la réflexion lorsque celle-ci est mal manée.
 
