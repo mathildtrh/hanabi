@@ -1,7 +1,7 @@
 # Hanabi project
 
 This project is for educational purposes: 
-its current status represents the student's work until May, 24th, 2019.
+its current status should represent the student's starting point.
 
 # Hanabi module
 
@@ -10,12 +10,7 @@ A python3 module that knows Hanabi:
 * card deck and dealer,
 * CLI (command line interface), lets you play and verifies that your moves are allowed (currently limited to 2 players),
 * GUI (to do),
-* AI (currently six different AI, but they do not necesseraly work well).
-  * Cheater, which was already available when we started the project
-  * Random, which plays quite randomly like a human who would discover this game
-  * Human, which doesn't work (should be an improvement of Random)
-  * two different versions of Recom, an IA which uses a recommandation strategy
-  * Strat_info, which doesn't work (should use a information strategy
+* AI (currently only one, and it is cheating).
 
 
 
