@@ -102,9 +102,13 @@ Cependant, même en changeant ce détail, on se rend compte que la fonction play
 
 Comme nous étions limité en temps, au lieu de garder la configuration en mémoire et de recalculer à chaque fois toutes les actions puis faire un modulo, j'ai préféré directement garder en mémoire la liste des indices pour chaque joueur. Certes c'est un peu de la triche, mais c'est uniquement un raccourci en admettant que chaque joueur réussit à calculer son propre indice. Puisque les fonctions de calcul d'action optimale (value_hand) sont les mêmes de toute façon, cela revient au même. 
 
-L'efficacité de la stratégie en elle-même repose plutôt sur l'ordre de priorité des actions. Cependant nous sommes confrontés à d'autres difficultés, notamment dans une partie à deux joueurs  
+L'efficacité de la stratégie en elle-même repose plutôt sur l'ordre de priorité des actions. Cependant nous sommes confrontés à d'autres difficultés, notamment dans une partie à deux joueurs (mais le cas de figure peut également se présenter à plusieurs) : le premier joueur donne un indice avec le dernier jeton bleu, le joueur suivant joue sa carte, il n'y a plus de jetons bleus, donc le joueur 1 se défausse au lieu de donner un indice, le joueur 2 regarde les indices donnés précédemment, sans se rendre compte qu'ils ne sont plus à jour et joue de nouveau, au risque de récolter un jeton rouge. 
+Pour y remédier, nous avons rajouté une condition, qui oblige le joueur 2 à donner un indice au lieu de jouer bêtement (ou à se défausser mais dans ce cas de figure, le joueur 1 ayant discard, on a 1 jeton bleu), la variable GAME_CHANGED était censée remplir cette fonction, (edit : cela a été modifié entre temps, mais on a laissé en commentaire cette boucle).
+Cette configuration peut se trouver à plus de deux joueurs, mais c'est plus rare.
+Même en remarquant ce détail, la stratégie décrite est bien moins efficace à deux joueurs qu'à 3, 4 ou 5 joueurs.
 
 Résultats obtenus à la deuxième phase de conception : 
+![Image](2_joueurs_Recom.png "performances de notre IA Recom pour 2 joueurs")
 ![Image](3_joueurs_Recom.png "performances de notre IA Recom pour 3 joueurs")
 ![Image](4_joueurs_Recom.png "performances de notre IA Recom pour 4 joueurs")
 ![Image](5_joueurs_Recom.png "performances de notre IA Recom pour 5 joueurs")
