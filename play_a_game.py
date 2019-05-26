@@ -43,7 +43,7 @@ if mode == 'T' :
             ai = hanabi.ai_recom.Recom_Strategist_2(game)
             game.ai = ai
     
-    Turn = True 
+    Turn = 'True' 
     
     while Turn == 'True' :
         game.turn(ai)
