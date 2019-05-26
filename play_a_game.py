@@ -45,7 +45,7 @@ if mode == 'T' :
     
     Turn = True 
     
-    while Turn is True :
+    while Turn == 'True' :
         game.turn(ai)
         Turn = input("continuer à jouer [True] ou arrêter et finir la partie [False] ? : ")
     
