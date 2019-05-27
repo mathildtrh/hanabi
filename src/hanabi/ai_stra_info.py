@@ -108,6 +108,7 @@ class Stra_info(AI):
                             t_c += 1
                             possibility_current_c = self.cards_possible(self.p_table[i])
                             if self.if_playable(c, card, possibility_current_c):
+                                # probleme this playable is not right
                                 a_c += 1
                 print(t_c)
                 print(a_c/t_c)
